@@ -1,0 +1,807 @@
+{% stylesheet %}
+
+  .product-bundle-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--gap-lg);
+    align-items: center;
+    
+    @media screen and (width >= 750px) {
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+    }
+  }
+
+  .bundle-image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--bundle-image-aspect-ratio);
+    overflow: hidden;
+    border-radius: var(--style-border-radius-lg);
+  }
+
+  .bundle-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .bundle-pointer {
+    position: absolute;
+    width: var(--bundle-pointer-size);
+    height: var(--bundle-pointer-size);
+    background-color: var(--bundle-pointer-color);
+    border: var(--bundle-pointer-border-width) solid var(--bundle-pointer-border-color);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: calc(var(--bundle-pointer-size) * 0.4);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .bundle-pointer:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .bundle-pointer.active {
+    background-color: var(--color-primary);
+    transform: scale(1.15);
+  }
+
+  .bundle-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+  }
+
+  .bundle-title {
+    font-size: var(--bundle-title-size);
+    font-weight: var(--font-h2--weight);
+    line-height: var(--font-h2--line-height);
+    color: var(--color-foreground);
+    margin: 0;
+  }
+
+  .bundle-description {
+    font-size: var(--bundle-description-size);
+    color: var(--color-foreground);
+    opacity: 0.8;
+    margin: 0;
+  }
+
+  .bundle-products {
+    display: flex;
+    flex-direction: column;
+    gap: var(--bundle-product-card-gap);
+  }
+
+  .bundle-product-item {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm);
+    padding: var(--padding-sm);
+    border-radius: var(--style-border-radius-md);
+    background-color: rgba(from var(--color-foreground) r g b / 3%);
+    transition: background-color 0.3s ease;
+  }
+
+  .bundle-product-item:hover {
+    background-color: rgba(from var(--color-foreground) r g b / 6%);
+  }
+
+  .bundle-product-image {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--style-border-radius-sm);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .bundle-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .bundle-product-details {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .bundle-product-title {
+    font-size: var(--bundle-product-name-size);
+    font-weight: 500;
+    color: var(--color-foreground);
+    margin: 0 0 var(--margin-2xs) 0;
+    line-height: 1.3;
+  }
+
+  .bundle-product-price {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-xs);
+    font-size: var(--bundle-price-size);
+  }
+
+  .bundle-product-price-current {
+    color: var(--color-foreground);
+    font-weight: 600;
+  }
+
+  .bundle-product-price-original {
+    color: var(--color-foreground);
+    opacity: 0.5;
+    text-decoration: line-through;
+  }
+
+  .bundle-total {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+    padding: var(--padding-md);
+    background-color: rgba(from var(--color-primary) r g b / 10%);
+    border-radius: var(--style-border-radius-md);
+    border: 1px solid rgba(from var(--color-primary) r g b / 20%);
+  }
+
+  .bundle-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .bundle-total-label {
+    font-size: var(--font-paragraph--size);
+    color: var(--color-foreground);
+  }
+
+  .bundle-total-price {
+    font-size: var(--bundle-price-size);
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .bundle-savings {
+    font-size: var(--font-size--sm);
+    color: var(--color-success, #22c55e);
+    font-weight: 600;
+  }
+
+  .bundle-add-to-cart {
+    font-family: var(--font-body--family);
+    width: 100%;
+    font-size: var(--bundle-button-size);
+    padding: var(--padding-md) var(--padding-lg);
+    /* Glass-like edge glow effect for The Ceel brand - saturated edges, black center */
+    background: rgba(0, 0, 0, 0.9) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 
+      inset 3px 3px 12px 1px rgba(255, 216, 183, 0.25),
+      inset -3px -3px 12px 1px rgba(244, 194, 255, 0.25),
+      inset 3px -3px 12px 1px rgba(209, 189, 255, 0.25),
+      inset -3px 3px 12px 1px rgba(160, 203, 255, 0.25),
+      0 4px 8px 0 rgba(0, 0, 0, 0.3),
+      0 8px 16px 0 rgba(0, 0, 0, 0.2),
+      0 16px 32px 0 rgba(0, 0, 0, 0.1) !important;
+    color: var(--color-primary-button-text);
+    border-radius: var(--style-border-radius-buttons-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: var(--button-font-weight-primary);
+    text-transform: var(--button-text-case-primary);
+  }
+
+  .bundle-add-to-cart:hover:not(:disabled) {
+    /* Enhanced glass edge glow on hover - more saturated edges */
+    background: rgba(0, 0, 0, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    box-shadow: 
+      inset 4px 4px 16px 2px rgba(255, 216, 183, 0.45),
+      inset -4px -4px 16px 2px rgba(244, 194, 255, 0.45),
+      inset 4px -4px 16px 2px rgba(209, 189, 255, 0.35),
+      inset -4px 4px 16px 2px rgba(160, 203, 255, 0.35),
+      0 6px 12px 0 rgba(0, 0, 0, 0.4),
+      0 12px 24px 0 rgba(0, 0, 0, 0.3),
+      0 24px 48px 0 rgba(0, 0, 0, 0.2) !important;
+    transform: translateY(-1px);
+  }
+
+  .bundle-add-to-cart:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  @media screen and (width < 750px) {
+    .bundle-product-item {
+      padding: var(--padding-xs);
+    }
+    
+    .bundle-product-image {
+      width: 50px;
+      height: 50px;
+    }
+    
+    .bundle-total {
+      padding: var(--padding-sm);
+    }
+  }
+{% endstylesheet %}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div 
+  class="product-bundle-section section section--{{ section.settings.section_width }} spacing-style"
+  style="
+    --bundle-image-aspect-ratio: {{ section.settings.image_aspect_ratio }};
+    --bundle-pointer-size: {{ section.settings.pointer_size }}px;
+    --bundle-pointer-color: {{ section.settings.pointer_color }};
+    --bundle-pointer-border-color: {{ section.settings.pointer_border_color }};
+    --bundle-pointer-border-width: {{ section.settings.pointer_border_width }}px;
+    --bundle-product-card-gap: {{ section.settings.product_card_gap }}px;
+    --bundle-title-size: {{ section.settings.title_font_size }}px;
+    --bundle-description-size: {{ section.settings.description_font_size }}px;
+    --bundle-price-size: {{ section.settings.price_font_size }}px;
+    --bundle-button-size: {{ section.settings.button_font_size }}px;
+    --bundle-product-name-size: {{ section.settings.product_name_font_size }}px;
+  "
+>
+  <div class="section-content-wrapper">
+    <div class="product-bundle-container">
+      <!-- Bundle Image with Pointers -->
+      <div class="bundle-image-container">
+        {% if section.settings.bundle_image %}
+          <img 
+            src="{{ section.settings.bundle_image | image_url: width: 800 }}"
+            alt="{{ section.settings.bundle_image.alt | default: section.settings.bundle_title }}"
+            width="800"
+            height="600"
+            loading="lazy"
+          >
+        {% else %}
+          <div style="background-color: rgba(from var(--color-foreground) r g b / 10%); display: flex; align-items: center; justify-content: center; color: var(--color-foreground); opacity: 0.5;">
+            Dodaj sliku paketa
+          </div>
+        {% endif %}
+
+        <!-- Product Pointers -->
+        {% for block in section.blocks %}
+          {% if block.type == 'product' and block.settings.product != blank %}
+            <div 
+              class="bundle-pointer"
+              style="top: {{ block.settings.pointer_y }}%; left: {{ block.settings.pointer_x }}%;"
+              data-product-id="{{ block.settings.product.id }}"
+              data-block-id="{{ block.id }}"
+              title="{{ block.settings.product.title }}"
+            >
+              {{ forloop.index }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <!-- Bundle Content -->
+      <div class="bundle-content">
+        {% if section.settings.bundle_title != blank %}
+          <h2 class="bundle-title">{{ section.settings.bundle_title }}</h2>
+        {% endif %}
+
+        {% if section.settings.bundle_description != blank %}
+          <p class="bundle-description">{{ section.settings.bundle_description }}</p>
+        {% endif %}
+
+        <!-- Bundle Products List -->
+        <div class="bundle-products">
+          {% assign total_price = 0 %}
+          {% assign total_compare_price = 0 %}
+          {% assign bundle_products = '' %}
+          
+          {% for block in section.blocks %}
+            {% if block.type == 'product' and block.settings.product != blank %}
+              {% assign product = block.settings.product %}
+              {% assign variant = product.selected_or_first_available_variant %}
+              
+              {% comment %} Use custom price if set, otherwise calculate from discount percentage {% endcomment %}
+              {% if block.settings.custom_price > 0 %}
+                {% assign final_price = block.settings.custom_price %}
+              {% else %}
+                {% assign discounted_price = variant.price | times: block.settings.discount_percentage | divided_by: 100 %}
+                {% assign final_price = variant.price | minus: discounted_price %}
+              {% endif %}
+              
+              {% comment %} Use custom before price if set, otherwise use variant compare_at_price or price {% endcomment %}
+              {% if block.settings.custom_before_price > 0 %}
+                {% assign before_price = block.settings.custom_before_price %}
+              {% elsif variant.compare_at_price > variant.price %}
+                {% assign before_price = variant.compare_at_price %}
+              {% else %}
+                {% assign before_price = variant.price %}
+              {% endif %}
+              
+              {% assign total_price = total_price | plus: final_price %}
+              {% assign total_compare_price = total_compare_price | plus: before_price %}
+              
+              {% if bundle_products == '' %}
+                {% assign bundle_products = product.id %}
+              {% else %}
+                {% assign bundle_products = bundle_products | append: ',' | append: product.id %}
+              {% endif %}
+
+              <div class="bundle-product-item" data-product-id="{{ product.id }}">
+                <div class="bundle-product-image">
+                  {% if product.featured_image %}
+                    <img 
+                      src="{{ product.featured_image | image_url: width: 120 }}"
+                      alt="{{ product.featured_image.alt | default: product.title }}"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  {% endif %}
+                </div>
+                <div class="bundle-product-details">
+                  <h4 class="bundle-product-title">
+                    {% if block.settings.custom_product_name != blank %}
+                      {{ block.settings.custom_product_name }}
+                    {% else %}
+                      {{ product.title }}
+                    {% endif %}
+                  </h4>
+                  <div class="bundle-product-price">
+                    <span class="bundle-product-price-current">
+                      {{ final_price | money }}
+                    </span>
+                    {% if before_price > final_price %}
+                      <span class="bundle-product-price-original">
+                        {{ before_price | money }}
+                      </span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <!-- Bundle Total -->
+        <div class="bundle-total">
+          <div class="bundle-total-row">
+            <span class="bundle-total-label">Ukupna cena</span>
+            <span class="bundle-total-price">{{ total_price | money }}</span>
+          </div>
+          {% if total_compare_price > total_price %}
+            <div class="bundle-total-row">
+              <span class="bundle-total-label">Originalna cena</span>
+              <span class="bundle-product-price-original">{{ total_compare_price | money }}</span>
+            </div>
+            {% assign savings = total_compare_price | minus: total_price %}
+            <div class="bundle-total-row">
+              <span class="bundle-savings">Ušteda {{ savings | money }}</span>
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Add to Cart Button -->
+        {% if section.settings.bundle_product != blank %}
+          <button 
+            class="bundle-add-to-cart"
+            data-bundle-product="{{ section.settings.bundle_product.id }}"
+          >
+            Dodaj set u korpu
+          </button>
+        {% else %}
+          <button 
+            class="bundle-add-to-cart"
+            data-bundle-products="{{ bundle_products }}"
+            {% unless bundle_products != blank %}disabled{% endunless %}
+          >
+            Dodaj set u korpu
+          </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const bundleSection = document.querySelector('.product-bundle-section');
+    if (!bundleSection) return;
+
+    const pointers = bundleSection.querySelectorAll('.bundle-pointer');
+    const productItems = bundleSection.querySelectorAll('.bundle-product-item');
+    const addToCartButton = bundleSection.querySelector('.bundle-add-to-cart');
+
+    // Pointer hover effects
+    pointers.forEach((pointer, index) => {
+      const productItem = productItems[index];
+      
+      pointer.addEventListener('mouseenter', () => {
+        pointer.classList.add('active');
+        if (productItem) {
+          productItem.style.backgroundColor = 'rgba(from var(--color-primary) r g b / 10%)';
+        }
+      });
+
+      pointer.addEventListener('mouseleave', () => {
+        pointer.classList.remove('active');
+        if (productItem) {
+          productItem.style.backgroundColor = '';
+        }
+      });
+
+      pointer.addEventListener('click', () => {
+        if (productItem) {
+          productItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    });
+
+    // Add to cart functionality
+    if (addToCartButton) {
+      addToCartButton.addEventListener('click', async function() {
+        const bundleProduct = this.dataset.bundleProduct;
+        const bundleProducts = this.dataset.bundleProducts;
+
+        this.disabled = true;
+        this.textContent = 'Dodavanje...';
+
+        try {
+          let items = [];
+
+          // Check if we have a single bundle product
+          if (bundleProduct) {
+            // Add single bundle product
+            {% if section.settings.bundle_product != blank %}
+              {% assign bundle_variant = section.settings.bundle_product.selected_or_first_available_variant %}
+              items.push({
+                id: {{ bundle_variant.id }},
+                quantity: 1
+              });
+            {% endif %}
+          } else if (bundleProducts) {
+            // Add individual products (legacy method)
+            const productIds = bundleProducts.split(',');
+            
+            // Get product data from the section blocks
+            {% for block in section.blocks %}
+              {% if block.type == 'product' and block.settings.product != blank %}
+                {% assign product = block.settings.product %}
+                {% assign variant = product.selected_or_first_available_variant %}
+                items.push({
+                  id: {{ variant.id }},
+                  quantity: 1
+                });
+              {% endif %}
+            {% endfor %}
+          }
+
+          if (items.length === 0) {
+            throw new Error('No products to add');
+          }
+
+          const response = await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ items: items })
+          });
+
+          if (response.ok) {
+            // Show success message
+            this.textContent = 'Dodato u korpu';
+            
+            // Trigger cart update event
+            document.dispatchEvent(new CustomEvent('cart:updated'));
+            
+            // Reset button after delay
+            setTimeout(() => {
+              this.textContent = 'Dodaj set u korpu';
+              this.disabled = false;
+            }, 2000);
+          } else {
+            throw new Error('Failed to add to cart');
+          }
+        } catch (error) {
+          console.error('Error adding bundle to cart:', error);
+          this.textContent = 'Greška prilikom dodavanja';
+          setTimeout(() => {
+            this.textContent = 'Dodaj set u korpu';
+            this.disabled = false;
+          }, 2000);
+        }
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product Bundle",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Bundle Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "bundle_image",
+      "label": "Bundle Image"
+    },
+    {
+      "type": "text",
+      "id": "bundle_title",
+      "label": "Bundle Title",
+      "default": "Kompletni set"
+    },
+    {
+      "type": "textarea",
+      "id": "bundle_description",
+      "label": "Bundle Description",
+      "default": "Uzmite kompletni set sa posebnim cenama"
+    },
+    {
+      "type": "product",
+      "id": "bundle_product",
+      "label": "Bundle Product",
+      "info": "Select the bundle product to add to cart. If not set, individual products will be added instead."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page Width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full Width"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Image Settings"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image Aspect Ratio",
+      "options": [
+        {
+          "value": "1/1",
+          "label": "Square (1:1)"
+        },
+        {
+          "value": "4/3",
+          "label": "Landscape (4:3)"
+        },
+        {
+          "value": "3/4",
+          "label": "Portrait (3:4)"
+        },
+        {
+          "value": "16/9",
+          "label": "Widescreen (16:9)"
+        }
+      ],
+      "default": "4/3"
+    },
+    {
+      "type": "header",
+      "content": "Pointer Settings"
+    },
+    {
+      "type": "range",
+      "id": "pointer_size",
+      "label": "Pointer Size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "pointer_color",
+      "label": "Pointer Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "pointer_border_color",
+      "label": "Pointer Border Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "pointer_border_width",
+      "label": "Pointer Border Width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Title Font Size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "description_font_size",
+      "label": "Description Font Size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "price_font_size",
+      "label": "Price Font Size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Button Font Size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "product_name_font_size",
+      "label": "Product Name Font Size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "product_card_gap",
+      "label": "Product Card Gap",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "custom_product_name",
+          "label": "Custom Product Name",
+          "info": "Leave blank to use the original product name"
+        },
+        {
+          "type": "header",
+          "content": "Pricing"
+        },
+        {
+          "type": "number",
+          "id": "custom_price",
+          "label": "Custom Price (cents)",
+          "info": "Set a custom price in cents (e.g., 2999 for $29.99). Leave 0 to use discount percentage instead."
+        },
+        {
+          "type": "number",
+          "id": "custom_before_price",
+          "label": "Custom Before Price (cents)",
+          "info": "Set a custom 'before' price in cents for comparison. Leave 0 to use product's compare at price."
+        },
+        {
+          "type": "range",
+          "id": "discount_percentage",
+          "label": "Discount Percentage",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "unit": "%",
+          "default": 20,
+          "info": "Only used if custom price is not set"
+        },
+        {
+          "type": "header",
+          "content": "Pointer Position"
+        },
+        {
+          "type": "range",
+          "id": "pointer_x",
+          "label": "Pointer X Position",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "pointer_y",
+          "label": "Pointer Y Position",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Bundle",
+      "blocks": [
+        {
+          "type": "product"
+        },
+        {
+          "type": "product"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

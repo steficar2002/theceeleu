@@ -1,0 +1,725 @@
+<script
+  type="module"
+  src="{{ 'cart-icon.js' | asset_url }}"
+></script>
+
+{% stylesheet %}
+  .cart-drawer {
+    --cart-drawer-padding: var(--padding-lg) var(--padding-xl);
+    --cart-drawer-padding-desktop: var(--padding-xl) var(--padding-2xl);
+    --cart-font-size--2xs: var(--font-size--2xs);
+    --cart-font-size--xs: var(--font-size--xs);
+    --cart-font-size--sm: var(--font-size--sm);
+    --cart-font-size--md: var(--font-size--md);
+    --cart-font-size--2xl: var(--font-size--2xl);
+  }
+
+  .cart-drawer__dialog {
+    position: fixed;
+    border-radius: 0;
+    width: var(--sidebar-width);
+    max-width: 95vw;
+    height: 100%;
+    margin: 0 0 0 auto;
+    padding: 0;
+    border-left: var(--style-border-drawer);
+    box-shadow: var(--shadow-drawer);
+    background-color: var(--color-background);
+  }
+
+  /* Needed to ensure the drawer is full height */
+  .cart-drawer__dialog:modal {
+    max-height: 100dvh;
+    overflow-y: hidden;
+  }
+
+  .cart-drawer__inner {
+    height: 100%;
+  }
+
+  .cart-drawer__content {
+    padding: 0;
+    background-color: var(--color-background);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+
+  .cart-drawer__heading {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-xs);
+  }
+
+  .cart-drawer__close-button {
+    width: var(--minimum-touch-target);
+    height: var(--minimum-touch-target);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: calc(var(--padding-sm) * -1);
+  }
+
+  .cart-drawer__close-button svg {
+    width: var(--icon-size-xs);
+    height: var(--icon-size-xs);
+  }
+
+  .cart-drawer--empty .cart-drawer__content {
+    text-align: center;
+    min-height: auto;
+  }
+
+  .cart-drawer--empty .cart-drawer__heading {
+    margin-bottom: var(--margin-md);
+  }
+
+  .cart-drawer__items .cart-items__table-row {
+    padding-bottom: var(--gap-xl);
+    border-bottom: var(--style-border-width) solid var(--color-border);
+    margin-bottom: var(--gap-xl);
+  }
+
+  .cart-drawer__items .cart-items__table-row:last-child {
+    border-bottom: none;
+  }
+
+  .cart-drawer__summary {
+    --cart-drawer-summary-padding: var(--padding-lg);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gap-2xl);
+    padding: var(--cart-drawer-summary-padding);
+    margin-top: auto;
+    background-color: var(--color-background);
+    /* stylelint-disable-next-line color-named */
+    mask-image: linear-gradient(to bottom, transparent, black var(--cart-drawer-summary-padding));
+
+    @media screen and (width >= 750px) {
+      --cart-drawer-summary-padding: var(--padding-2xl);
+    }
+  }
+
+  .cart-drawer__summary .cart__summary-totals:not(:has(.cart__original-total-container:empty)) {
+    border-block-start: var(--style-border-width) solid var(--color-border);
+    padding-block-start: var(--padding-2xl);
+  }
+
+  .cart-items__wrapper,
+  .cart-drawer__summary {
+    --cart-primary-font-family: var(--font-body--family);
+    --cart-primary-font-style: var(--font-body--style);
+    --cart-primary-font-weight: var(--font-body--weight);
+  }
+
+  .cart-drawer__summary .cart-note {
+    @media screen and (width >= 750px) {
+      margin-block-start: var(--margin-3xs);
+    }
+  }
+
+  .cart-drawer__heading--empty {
+    display: flex;
+    justify-content: center;
+  }
+
+  .cart-drawer__items {
+    display: flex;
+    flex-direction: column;
+    padding-inline: var(--cart-drawer-padding);
+    overflow-y: auto;
+
+    @media screen and (width >= 750px) {
+      padding-inline: var(--cart-drawer-padding-desktop);
+    }
+  }
+
+  .cart-drawer__items .cart-items__table-row {
+    padding-bottom: var(--gap-xl);
+    border-bottom: var(--style-border-width) solid var(--color-border);
+    margin-bottom: var(--gap-xl);
+  }
+
+  .cart-drawer__items .cart-items__table-row:last-child {
+    border-bottom: none;
+    padding-block-end: 0;
+    margin-block-end: 0;
+  }
+
+  .cart-drawer--empty .cart-drawer__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100dvh;
+    margin-top: 0;
+  }
+
+  .cart-drawer:not(:has(.cart-form)) .cart-drawer__content {
+    justify-content: center;
+  }
+
+  .cart-drawer--empty .cart-drawer__header {
+    justify-content: right;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .cart-drawer--empty .cart-drawer__heading {
+    text-align: center;
+  }
+
+  .cart-drawer:not(:has(.cart-form)) .cart-items__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  header-actions {
+    display: flex;
+    position: relative;
+    align-items: center;
+
+    @media screen and (width < 750px) {
+      justify-self: flex-end;
+    }
+  }
+
+  .header-actions__action {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    width: var(--button-size);
+    height: var(--button-size);
+    min-width: var(--button-size);
+    min-height: var(--button-size);
+
+    --button-color: var(--color-foreground);
+  }
+
+  @media screen and (width >= 750px) {
+    .header-actions__action {
+      margin: 0;
+      padding: 0;
+      width: var(--button-size);
+      height: var(--button-size);
+      min-width: var(--button-size);
+      min-height: var(--button-size);
+    }
+  }
+
+  .header-actions__action .svg-wrapper {
+    height: var(--button-size);
+    width: var(--button-size);
+  }
+
+  .header-actions__action svg {
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
+  }
+
+  .header-actions__cart-icon {
+    position: relative;
+    --cart-bubble-size: 20px;
+    --cart-bubble-top: 4.5px;
+    --cart-bubble-right: 2.5px;
+  }
+  .header-actions__cart-icon .cart-bubble {
+    position: absolute;
+    width: var(--cart-bubble-size, 20px);
+    top: var(--cart-bubble-top);
+    right: var(--cart-bubble-right);
+  }
+
+  .header-actions__cart-icon .cart-bubble__text,
+  .cart-drawer__heading .cart-bubble__text {
+    font-family: var(--font-paragraph--family);
+    font-weight: var(--font-paragraph--weight);
+  }
+
+  .header-actions__cart-icon.header-actions__cart-icon--has-cart svg {
+    /* Create donut mask where the cart bubble sits */
+    mask: radial-gradient(
+      calc(var(--cart-bubble-size) + 2px) at calc(100% - var(--cart-bubble-right)) var(--cart-bubble-top),
+      transparent 45.45%,
+      white 45.45%,
+      white 100%
+    );
+  }
+
+  .cart-drawer__heading .cart-bubble__background {
+    background-color: rgb(from var(--color-foreground) r g b / 10%);
+  }
+
+  .cart-drawer__heading .cart-bubble__text {
+    color: var(--color-foreground);
+    font-size: var(--font-size--xs);
+  }
+
+  .cart-bubble--animating .cart-bubble__background {
+    animation: grow var(--animation-speed) var(--animation-easing);
+  }
+
+  .cart-bubble--animating .cart-bubble__text {
+    animation: cartBubbleSlideIn var(--animation-speed) var(--animation-easing);
+  }
+
+  /* Account button styles - match cart and search icons */
+  .header-actions__action .account-button__avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--button-size);
+    height: var(--button-size);
+    min-width: var(--button-size);
+    min-height: var(--button-size);
+    border-radius: var(--style-border-radius-50);
+    background-color: var(--color-primary-button-background);
+    font-size: var(--font-size--sm);
+    font-weight: 500;
+    color: var(--color-primary-button-text);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .header-actions__action .account-button__icon {
+    color: currentColor;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
+  }
+
+  .header-actions__action .account-button__icon svg {
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
+  }
+
+  /* The shop avatar doesn't bubble the click event up to our button, so we need to prevent that or the button doesn't work */
+  .header-actions__action shop-user-avatar {
+    pointer-events: none;
+  }
+
+  /* Ensure chatbot button has no extra spacing */
+  .header-actions__chatbot-button {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: var(--button-size);
+    height: var(--button-size);
+    min-width: var(--button-size);
+    min-height: var(--button-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Remove all spacing from all action buttons on desktop */
+  @media screen and (width >= 750px) {
+    header-actions {
+      gap: 0 !important;
+    }
+    
+    header-actions .header-actions__action {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  }
+
+  /* Pulsate animation for desktop chatbot icon when toast is active */
+  .header-actions__chatbot-button--pulse {
+    animation: chatbotIconPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes chatbotIconPulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.15);
+      opacity: 0.8;
+    }
+  }
+
+  .header-actions__chatbot-button--pulse svg {
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.3));
+  }
+
+  /* Mobile cart add message styles */
+  .header-actions__cart-message {
+    display: none;
+    white-space: normal;
+    text-align: center;
+    font-size: var(--font-size--sm);
+    color: var(--color-foreground);
+    padding: 0 var(--padding-md);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    line-height: 1.5;
+    font-weight: 500;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media screen and (width < 750px) {
+    .header-actions__cart-message--visible {
+      display: flex !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+
+    /* Hide logo, menu, and search content while showing cart message */
+    #header-component.header--cart-added .header-logo,
+    #header-component.header--cart-added nav[header-menu],
+    #header-component.header--cart-added header-menu,
+    #header-component.header--cart-added .search-action {
+      display: none !important;
+    }
+
+    #header-component.header--cart-added .header__drawer,
+    #header-component.header--cart-added .header__icon,
+    #header-component.header--cart-added .header__icon--menu,
+    #header-component.header--cart-added .header-drawer {
+      display: none !important;
+    }
+
+    #header-component.header--cart-added .header__column:not(:has(header-actions)) {
+      display: none !important;
+    }
+
+    /* Collapse header layout to a single column */
+    #header-component.header--cart-added .header__columns {
+      grid-template-areas: 'actions';
+      grid-template-columns: 1fr;
+    }
+
+    /* Prevent header height change - message is absolutely positioned so it won't affect layout */
+    #header-component.header--cart-added header-actions {
+      grid-area: actions;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: var(--gap-sm);
+      justify-content: flex-end;
+      position: relative;
+    }
+
+    /* Ensure header row maintains its height */
+    #header-component.header--cart-added .header__row--top {
+      box-sizing: border-box;
+    }
+
+    /* Preserve padding and spacing */
+    #header-component.header--cart-added .header__columns {
+      padding-block-start: var(--padding-block-start, var(--header-padding, var(--padding-sm)));
+      padding-block-end: var(--padding-block-end, var(--header-padding, var(--padding-sm)));
+    }
+
+    /* Hide all actions except cart */
+    #header-component.header--cart-added .header-actions__action:not(.action__cart):not(:has(cart-icon)) {
+      display: none !important;
+    }
+
+    #header-component.header--cart-added .header-actions__cart-message {
+      display: flex !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      position: absolute;
+      left: 0;
+      right: var(--button-size);
+      top: 0;
+      bottom: 0;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: left;
+      padding-left: var(--padding-md);
+      padding-right: var(--gap-sm);
+    }
+
+    #header-component.header--cart-added .header-actions__cart-message span {
+      width: 100%;
+    }
+
+    #header-component.header--cart-added header-actions > .action__cart,
+    #header-component.header--cart-added header-actions > .header-actions__action:has(cart-icon),
+    #header-component.header--cart-added header-actions > button:has(cart-icon) {
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+  }
+
+{% endstylesheet %}
+
+<header-actions
+  {{- block.shopify_attributes -}}
+>
+  {% if shop.customer_accounts_enabled %}
+    {% comment %} Desktop: render account button directly linking to login {% endcomment %}
+    <a
+      href="{% if request.design_mode %}{{ routes.account_url }}{% else %}{{ routes.storefront_login_url }}{% endif %}"
+      class="header-actions__action mobile:hidden"
+      aria-label="{{ 'accessibility.account' | t }}"
+    >
+      <span class="visually-hidden">
+        {{ 'accessibility.account' | t }}
+      </span>
+      {%- if customer.has_avatar? -%}
+        {{ customer | avatar }}
+      {%- elsif customer.first_name or customer.email -%}
+        {%- liquid
+          assign initial = customer.email | first
+
+          if customer.first_name != blank
+            assign initial = customer.first_name | first
+          endif
+        -%}
+        <span
+          class="account-button__avatar"
+          aria-hidden="true"
+        >
+          {{- initial -}}
+        </span>
+      {%- else -%}
+        <span
+          class="account-button__icon"
+          aria-hidden="true"
+        >
+          {{- 'icon-account.svg' | inline_asset_content -}}
+        </span>
+      {%- endif -%}
+    </a>
+    
+    {% comment %} Mobile: use account drawer {% endcomment %}
+    {% render 'account-drawer' %}
+  {% endif %}
+
+  {%- comment -%} Desktop Chatbot Button {%- endcomment -%}
+  <button
+    class="button button-unstyled header-actions__action header-actions__chatbot-button mobile:hidden"
+    aria-label="Otvori AI asistenta"
+    name="Chatbot"
+  >
+    <span
+      aria-hidden="true"
+      class="svg-wrapper"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="var(--icon-stroke-width)" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16.25 4.75H3.75a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h9.75l3 3v-3h1.75a1.5 1.5 0 0 0 1.5-1.5v-7.5a1.5 1.5 0 0 0-1.5-1.5z"/>
+      </svg>
+    </span>
+    <span class="visually-hidden">AI Asistent</span>
+  </button>
+
+  {% if settings.cart_type == 'drawer' and template.name != 'cart' %}
+    {% render 'cart-drawer' %}
+  {% else %}
+    <a
+      href="{{ routes.cart_url }}"
+      class="header-actions__action action__cart"
+      aria-label="{{ 'accessibility.cart' | t }}"
+    >
+      {% render 'cart-icon-component' %}
+    </a>
+  {% endif %}
+
+  <span class="header-actions__cart-message" id="headerCartMessage">
+    Dodato u korpu. Pritisnite dugme za korpu da završite kupovinu
+  </span>
+</header-actions>
+
+<script type="module">
+  import { ThemeEvents } from '@theme/events';
+
+  function initMobileCartMessage() {
+    // Only run on mobile
+    if (window.innerWidth >= 750) {
+      return;
+    }
+
+    const headerActions = document.querySelector('header-actions');
+    const cartMessage = document.getElementById('headerCartMessage');
+    
+    if (!headerActions || !cartMessage) {
+      return;
+    }
+
+    let cartAddTimeout = null;
+    let previousCartCount = 0;
+
+    // Get initial cart count
+    fetch('/cart.js')
+      .then(response => response.json())
+      .then(cart => {
+        previousCartCount = cart.item_count || 0;
+      })
+      .catch(() => {
+        previousCartCount = 0;
+      });
+
+    const headerComponent = document.querySelector('#header-component');
+    const headerRow = headerComponent?.querySelector('.header__row--top');
+    let originalHeaderHeight = null;
+
+    // Function to show cart message
+    function showCartMessage() {
+      // Store original height BEFORE any changes
+      if (headerRow && !originalHeaderHeight) {
+        originalHeaderHeight = headerRow.offsetHeight + 'px';
+      }
+
+      // Apply the height immediately to prevent any change
+      if (headerRow && originalHeaderHeight) {
+        headerRow.style.height = originalHeaderHeight;
+        headerRow.style.minHeight = originalHeaderHeight;
+      }
+
+      // Now make the layout changes
+      headerComponent?.classList.add('header--cart-added');
+      headerActions.classList.add('header-actions--cart-added');
+      
+      // Re-apply height after layout changes to ensure it's maintained
+      requestAnimationFrame(() => {
+        if (headerRow && originalHeaderHeight) {
+          headerRow.style.height = originalHeaderHeight;
+          headerRow.style.minHeight = originalHeaderHeight;
+        }
+      });
+      
+      cartMessage.classList.add('header-actions__cart-message--visible');
+      cartMessage.style.display = 'flex';
+      cartMessage.style.opacity = '1';
+      cartMessage.style.visibility = 'visible';
+
+      // Hide message after 5 seconds
+      if (cartAddTimeout) {
+        clearTimeout(cartAddTimeout);
+      }
+      
+      cartAddTimeout = setTimeout(() => {
+        hideCartMessage();
+      }, 5000);
+    }
+
+    // Function to hide cart message
+    function hideCartMessage() {
+      headerComponent?.classList.remove('header--cart-added');
+      headerActions.classList.remove('header-actions--cart-added');
+      cartMessage.classList.remove('header-actions__cart-message--visible');
+      cartMessage.style.display = 'none';
+      cartMessage.style.opacity = '0';
+      cartMessage.style.visibility = 'hidden';
+
+      // Restore original height
+      if (headerRow) {
+        headerRow.style.height = '';
+        headerRow.style.minHeight = '';
+        // Reset stored height after a brief delay to allow natural recalculation
+        setTimeout(() => {
+          originalHeaderHeight = null;
+        }, 100);
+      }
+
+      if (cartAddTimeout) {
+        clearTimeout(cartAddTimeout);
+        cartAddTimeout = null;
+      }
+    }
+
+    // Listen for cart update events
+    document.addEventListener(ThemeEvents.cartUpdate, (event) => {
+      // Check if this is a cart add (not just an update)
+      const itemCount = event.detail?.data?.itemCount ?? 0;
+      const source = event.detail?.data?.source;
+
+      // If coming from product form or itemCount increased, it's an add
+      if (source === 'product-form-component' || itemCount > 0) {
+        // Get current cart count
+        fetch('/cart.js')
+          .then(response => response.json())
+          .then(cart => {
+            const currentCartCount = cart.item_count || 0;
+            
+            // Only show message if cart count increased (item was added)
+            if (currentCartCount > previousCartCount) {
+              showCartMessage();
+            }
+
+            previousCartCount = currentCartCount;
+          })
+          .catch(() => {
+            // If cart fetch fails, still show message if source indicates add
+            if (source === 'product-form-component') {
+              showCartMessage();
+            }
+          });
+      }
+    });
+
+    // Hide message when cart icon/button is clicked
+    const cartButton = headerActions.querySelector('button:has(cart-icon), .action__cart, button[aria-label*="cart" i], a[aria-label*="cart" i]');
+    if (cartButton) {
+      cartButton.addEventListener('click', () => {
+        hideCartMessage();
+      });
+    }
+
+    // Also listen for clicks on cart-icon element itself
+    const cartIconElement = headerActions.querySelector('cart-icon');
+    if (cartIconElement) {
+      cartIconElement.addEventListener('click', () => {
+        hideCartMessage();
+      });
+    }
+
+    // Hide message when cart drawer opens
+    const cartDrawerElement = document.querySelector('cart-drawer');
+    if (cartDrawerElement) {
+      const drawerDialog = cartDrawerElement.querySelector('dialog');
+      if (drawerDialog) {
+        const drawerObserver = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'open') {
+              if (drawerDialog.hasAttribute('open')) {
+                hideCartMessage();
+              }
+            }
+          });
+        });
+        drawerObserver.observe(drawerDialog, { attributes: true });
+      }
+    }
+  }
+
+  // Initialize on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileCartMessage);
+  } else {
+    initMobileCartMessage();
+  }
+
+  // Re-initialize on resize (in case user switches between mobile/desktop)
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      if (window.innerWidth >= 750) {
+        hideCartMessage();
+      }
+    }, 250);
+  });
+</script>

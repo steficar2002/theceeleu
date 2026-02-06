@@ -1,0 +1,420 @@
+{%- comment -%}
+  Mobile Floating Support Bar
+  Displays above the mobile header with support icons and rotating questions
+{%- endcomment -%}
+
+{%- liquid
+  assign support_icon_1 = section.settings.chatbot_support_icon_1 | default: blank
+  assign support_icon_2 = section.settings.chatbot_support_icon_2 | default: blank
+  assign support_icon_3 = section.settings.chatbot_support_icon_3 | default: blank
+-%}
+
+<div class="chatbot-support-bar" id="chatbotSupportBar">
+  <div class="chatbot-support-bar__content" id="chatbotSupportBarContent">
+    <div class="chatbot-support-bar__icons">
+      {%- if support_icon_1 != blank -%}
+        <div class="chatbot-support-bar__icon">
+          <img src="{{ support_icon_1 | image_url: width: 40 }}" alt="Support" width="40" height="40" class="chatbot-support-bar__icon-img">
+        </div>
+      {%- else -%}
+        <div class="chatbot-support-bar__icon chatbot-support-bar__icon--placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+      {%- endif -%}
+      
+      {%- if support_icon_2 != blank -%}
+        <div class="chatbot-support-bar__icon">
+          <img src="{{ support_icon_2 | image_url: width: 40 }}" alt="Support" width="40" height="40" class="chatbot-support-bar__icon-img">
+        </div>
+      {%- else -%}
+        <div class="chatbot-support-bar__icon chatbot-support-bar__icon--placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+      {%- endif -%}
+      
+      {%- if support_icon_3 != blank -%}
+        <div class="chatbot-support-bar__icon">
+          <img src="{{ support_icon_3 | image_url: width: 40 }}" alt="Support" width="40" height="40" class="chatbot-support-bar__icon-img">
+        </div>
+      {%- else -%}
+        <div class="chatbot-support-bar__icon chatbot-support-bar__icon--placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+      {%- endif -%}
+    </div>
+    
+    <div class="chatbot-support-bar__question" id="chatbotSupportQuestion">
+      <span class="chatbot-support-bar__question-text"></span>
+    </div>
+    
+    <button class="chatbot-support-bar__chat-button" id="chatbotSupportChatButton" aria-label="Otvori AI asistenta">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      </svg>
+    </button>
+  </div>
+</div>
+
+{% stylesheet %}
+  .chatbot-support-bar {
+    display: block;
+    position: fixed;
+    bottom: calc(var(--header-height) + 30px);
+    left: 20px;
+    right: 20px;
+    z-index: 1005;
+    background: linear-gradient(135deg, 
+      rgba(255, 250, 250, 0.85) 0%,
+      rgba(255, 252, 250, 0.85) 50%,
+      rgba(250, 250, 255, 0.85) 100%
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    padding: 0.75rem 1rem;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    cursor: pointer;
+  }
+
+  .chatbot-support-bar:hover {
+    box-shadow: 0 6px 28px rgba(0, 0, 0, 0.12);
+  }
+
+  @media screen and (width < 750px) {
+    .chatbot-support-bar:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  @media screen and (width >= 750px) {
+    .chatbot-support-bar:hover {
+      transform: translateX(-50%) translateY(-2px);
+    }
+  }
+
+  /* Rotating gradient glow animation when toast is active */
+  .chatbot-support-bar--glow {
+    animation: chatbotSupportBarGlow 3s ease-in-out infinite;
+  }
+
+  @keyframes chatbotSupportBarGlow {
+    0% {
+      outline: 2px solid rgba(255, 200, 150, 0.6);
+      outline-offset: 2px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1),
+                  0 0 20px rgba(255, 200, 150, 0.4),
+                  0 0 40px rgba(200, 150, 255, 0.3);
+    }
+    33% {
+      outline: 2px solid rgba(200, 150, 255, 0.6);
+      outline-offset: 2px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1),
+                  0 0 30px rgba(200, 150, 255, 0.5),
+                  0 0 60px rgba(150, 200, 255, 0.4);
+    }
+    66% {
+      outline: 2px solid rgba(150, 200, 255, 0.6);
+      outline-offset: 2px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1),
+                  0 0 30px rgba(150, 200, 255, 0.5),
+                  0 0 60px rgba(200, 150, 255, 0.4);
+    }
+    100% {
+      outline: 2px solid rgba(255, 200, 150, 0.6);
+      outline-offset: 2px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1),
+                  0 0 20px rgba(255, 200, 150, 0.4),
+                  0 0 40px rgba(200, 150, 255, 0.3);
+    }
+  }
+
+  /* Pulsate chat icon when support bar has glow */
+  .chatbot-support-bar--glow .chatbot-support-bar__chat-button {
+    animation: chatbotChatIconPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes chatbotChatIconPulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.9;
+    }
+  }
+
+  .chatbot-support-bar--glow .chatbot-support-bar__chat-button svg {
+    filter: drop-shadow(0 0 8px rgba(255, 200, 150, 0.6));
+    animation: chatbotChatIconGlow 3s ease-in-out infinite;
+  }
+
+  @keyframes chatbotChatIconGlow {
+    0%, 100% {
+      filter: drop-shadow(0 0 8px rgba(255, 200, 150, 0.6));
+    }
+    33% {
+      filter: drop-shadow(0 0 12px rgba(200, 150, 255, 0.7));
+    }
+    66% {
+      filter: drop-shadow(0 0 12px rgba(150, 200, 255, 0.7));
+    }
+  }
+
+  @media screen and (width >= 750px) {
+    .chatbot-support-bar {
+      bottom: 20px;
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 1200px;
+      padding: 0.875rem 1.5rem;
+      border-radius: 12px;
+      z-index: 1007;
+    }
+  }
+
+  .chatbot-support-bar__content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .chatbot-support-bar__icons {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .chatbot-support-bar__icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    position: relative;
+    z-index: 1;
+  }
+
+  @media screen and (width >= 750px) {
+    .chatbot-support-bar__icon {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .chatbot-support-bar__icon:nth-child(2) {
+    margin-left: -8px;
+    z-index: 2;
+  }
+
+  .chatbot-support-bar__icon:nth-child(3) {
+    margin-left: -8px;
+    z-index: 3;
+  }
+
+  .chatbot-support-bar__icon img,
+  .chatbot-support-bar__icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .chatbot-support-bar__icon--placeholder {
+    padding: 6px;
+  }
+
+  .chatbot-support-bar__icon--placeholder svg {
+    width: 100%;
+    height: 100%;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .chatbot-support-bar__question {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .chatbot-support-bar__question-text {
+    display: inline-block;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: rgba(0, 0, 0, 0.9);
+    white-space: nowrap;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  @media screen and (width >= 750px) {
+    .chatbot-support-bar__question-text {
+      font-size: 1rem;
+    }
+  }
+
+  .chatbot-support-bar__question-text.scrolling {
+    animation: scrollText var(--scroll-duration, 15s) linear infinite;
+    padding-right: 2rem;
+  }
+
+  .chatbot-support-bar__question-text.scrolling:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes scrollText {
+    0%, 15% {
+      transform: translateX(0);
+    }
+    85%, 100% {
+      transform: translateX(var(--scroll-distance, -100px));
+    }
+  }
+
+  .chatbot-support-bar__question-text.fade-out {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  .chatbot-support-bar__question-text.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .chatbot-support-bar__chat-button {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  @media screen and (width >= 750px) {
+    .chatbot-support-bar__chat-button {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .chatbot-support-bar__chat-button:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.05);
+  }
+
+  .chatbot-support-bar__chat-button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media screen and (width >= 750px) {
+    .chatbot-support-bar__chat-button svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (function() {
+    'use strict';
+    
+    // Only run on desktop homepage
+    function isHomepage() {
+      return window.location.pathname === '/' || window.location.pathname === '/index';
+    }
+    
+    function isDesktop() {
+      return window.innerWidth >= 750;
+    }
+    
+    function updateSupportBarVisibility() {
+      const supportBar = document.getElementById('chatbotSupportBar');
+      if (!supportBar) return;
+      
+      // If not desktop or not homepage, always show support bar
+      if (!isDesktop() || !isHomepage()) {
+        supportBar.style.display = 'block';
+        return;
+      }
+      
+      // On desktop homepage, check scroll position relative to ceel-hero-slideshow
+      const heroSlideshow = document.querySelector('.ceel-hero-slideshow');
+      const heroContent = document.querySelector('.ceel-hero-slideshow__content');
+      if (!heroSlideshow || !heroContent) {
+        // No hero section found, show support bar
+        supportBar.style.display = 'block';
+        return;
+      }
+      
+      // Get hero slideshow container dimensions (it's 100vh)
+      const heroRect = heroSlideshow.getBoundingClientRect();
+      const heroHeight = heroRect.height;
+      const heroTop = heroSlideshow.offsetTop;
+      const scrollPosition = window.scrollY || window.pageYOffset;
+      
+      // Calculate how much we've scrolled past the top of hero section
+      const scrollPastHero = Math.max(0, scrollPosition - heroTop);
+      
+      // Calculate scroll percentage (30% of hero height)
+      const threshold = heroHeight * 0.3;
+      
+      // Show support bar if scrolled at least 30% of hero height past hero section
+      if (scrollPastHero >= threshold) {
+        supportBar.style.display = 'block';
+      } else {
+        supportBar.style.display = 'none';
+      }
+    }
+    
+    // Initial check
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(updateSupportBarVisibility, 100);
+      });
+    } else {
+      setTimeout(updateSupportBarVisibility, 100);
+    }
+    
+    // Update on scroll (throttled)
+    let scrollTimeout;
+    window.addEventListener('scroll', function() {
+      if (scrollTimeout) {
+        cancelAnimationFrame(scrollTimeout);
+      }
+      scrollTimeout = requestAnimationFrame(updateSupportBarVisibility);
+    }, { passive: true });
+    
+    // Update on resize
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+      }
+      resizeTimeout = setTimeout(updateSupportBarVisibility, 150);
+    });
+  })();
+{% endjavascript %}
+

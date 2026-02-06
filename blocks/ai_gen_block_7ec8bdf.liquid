@@ -1,0 +1,746 @@
+{% doc %}
+  @prompt
+    Create a social proof section with infinitely scrolling images in 9:16 portrait format. The section should display customer photos in a continuous horizontal scroll that loops infinitely, showcasing user-generated content or testimonials., I want two titles, one will be for digits and I want a nice glowing effect, then the second title should be smaller.
+, Let's add a second title and make both of these titles have selectable sizes from the typography presets
+, I also want to be able to change the fonts
+, The font selections are being overridden by the font settings, instead of selecting the font use typography settings similar to the other sections
+
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-social-proof-{{ ai_gen_id }} {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    padding: {{ block.settings.padding_vertical }}px 0;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-social-proof-titles-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 40px;
+    max-width: {{ block.settings.text_max_width }}px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .ai-social-proof-main-title-{{ ai_gen_id }} {
+    color: {{ block.settings.title_color }};
+    margin: {{ block.settings.main_title_margin_top }}px {{ block.settings.main_title_margin_horizontal }}px {{ block.settings.main_title_margin_bottom }}px;
+    line-height: 1.2;
+    font-family: {{ block.settings.title_font }} !important;
+  }
+
+  .ai-social-proof-main-title-{{ ai_gen_id }} .digit {
+    color: #000000;
+    text-shadow: 
+      /* Gradient-like effect using text-shadow */
+      0 0 1px rgba(0, 0, 0, 0.8),
+      0 0 2px rgba(0, 0, 0, 0.8),
+      0 0 3px rgba(0, 0, 0, 0.8),
+      /* Primary 3D effect - closer to text */
+      -1px -1px 0 rgba(255, 255, 255, 0.8),
+      1px -1px 0 rgba(255, 255, 255, 0.8),
+      -1px 1px 0 rgba(255, 255, 255, 0.8),
+      1px 1px 0 rgba(255, 255, 255, 0.8),
+      /* Secondary 3D effect - middle distance */
+      -2px -2px 0 rgba(255, 255, 255, 0.6),
+      2px -2px 0 rgba(255, 255, 255, 0.6),
+      -2px 2px 0 rgba(255, 255, 255, 0.6),
+      2px 2px 0 rgba(255, 255, 255, 0.6),
+      /* Tertiary 3D effect - further out */
+      -3px -3px 0 rgba(255, 255, 255, 0.4),
+      3px -3px 0 rgba(255, 255, 255, 0.4),
+      -3px 3px 0 rgba(255, 255, 255, 0.4),
+      3px 3px 0 rgba(255, 255, 255, 0.4),
+      /* Glow effect */
+      0 0 8px rgba(255, 216, 183, 0.3),
+      0 0 16px rgba(244, 194, 255, 0.3),
+      0 0 24px rgba(209, 189, 255, 0.3),
+      0 0 32px rgba(160, 203, 255, 0.3);
+    font-weight: bold;
+    font-family: {{ block.settings.title_font }} !important;
+    animation: glow-rotate-{{ ai_gen_id }} {{ block.settings.glow_animation_speed }}s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+  }
+
+  @keyframes glow-rotate-{{ ai_gen_id }} {
+    0% {
+      text-shadow: 
+        /* Primary 3D effect - closer to text */
+        -1px -1px 0 rgba(255, 255, 255, 0.8),
+        1px -1px 0 rgba(255, 255, 255, 0.8),
+        -1px 1px 0 rgba(255, 255, 255, 0.8),
+        1px 1px 0 rgba(255, 255, 255, 0.8),
+        /* Secondary 3D effect - middle distance */
+        -2px -2px 0 rgba(255, 255, 255, 0.6),
+        2px -2px 0 rgba(255, 255, 255, 0.6),
+        -2px 2px 0 rgba(255, 255, 255, 0.6),
+        2px 2px 0 rgba(255, 255, 255, 0.6),
+        /* Tertiary 3D effect - further out */
+        -3px -3px 0 rgba(255, 255, 255, 0.4),
+        3px -3px 0 rgba(255, 255, 255, 0.4),
+        -3px 3px 0 rgba(255, 255, 255, 0.4),
+        3px 3px 0 rgba(255, 255, 255, 0.4),
+        /* Glow effect */
+        0 0 8px rgba(255, 216, 183, 0.3),
+        0 0 16px rgba(244, 194, 255, 0.3),
+        0 0 24px rgba(209, 189, 255, 0.3),
+        0 0 32px rgba(160, 203, 255, 0.3);
+    }
+    25% {
+      text-shadow: 
+        /* Primary 3D effect - closer to text */
+        -1px -1px 0 rgba(255, 255, 255, 0.8),
+        1px -1px 0 rgba(255, 255, 255, 0.8),
+        -1px 1px 0 rgba(255, 255, 255, 0.8),
+        1px 1px 0 rgba(255, 255, 255, 0.8),
+        /* Secondary 3D effect - middle distance */
+        -2px -2px 0 rgba(255, 255, 255, 0.6),
+        2px -2px 0 rgba(255, 255, 255, 0.6),
+        -2px 2px 0 rgba(255, 255, 255, 0.6),
+        2px 2px 0 rgba(255, 255, 255, 0.6),
+        /* Tertiary 3D effect - further out */
+        -3px -3px 0 rgba(255, 255, 255, 0.4),
+        3px -3px 0 rgba(255, 255, 255, 0.4),
+        -3px 3px 0 rgba(255, 255, 255, 0.4),
+        3px 3px 0 rgba(255, 255, 255, 0.4),
+        /* Glow effect */
+        0 0 8px rgba(244, 194, 255, 0.3),
+        0 0 16px rgba(209, 189, 255, 0.3),
+        0 0 24px rgba(160, 203, 255, 0.3),
+        0 0 32px rgba(255, 216, 183, 0.3);
+    }
+    50% {
+      text-shadow: 
+        /* Primary 3D effect - closer to text */
+        -1px -1px 0 rgba(255, 255, 255, 0.8),
+        1px -1px 0 rgba(255, 255, 255, 0.8),
+        -1px 1px 0 rgba(255, 255, 255, 0.8),
+        1px 1px 0 rgba(255, 255, 255, 0.8),
+        /* Secondary 3D effect - middle distance */
+        -2px -2px 0 rgba(255, 255, 255, 0.6),
+        2px -2px 0 rgba(255, 255, 255, 0.6),
+        -2px 2px 0 rgba(255, 255, 255, 0.6),
+        2px 2px 0 rgba(255, 255, 255, 0.6),
+        /* Tertiary 3D effect - further out */
+        -3px -3px 0 rgba(255, 255, 255, 0.4),
+        3px -3px 0 rgba(255, 255, 255, 0.4),
+        -3px 3px 0 rgba(255, 255, 255, 0.4),
+        3px 3px 0 rgba(255, 255, 255, 0.4),
+        /* Glow effect */
+        0 0 8px rgba(209, 189, 255, 0.3),
+        0 0 16px rgba(160, 203, 255, 0.3),
+        0 0 24px rgba(255, 216, 183, 0.3),
+        0 0 32px rgba(244, 194, 255, 0.3);
+    }
+    75% {
+      text-shadow: 
+        /* Primary 3D effect - closer to text */
+        -1px -1px 0 rgba(255, 255, 255, 0.8),
+        1px -1px 0 rgba(255, 255, 255, 0.8),
+        -1px 1px 0 rgba(255, 255, 255, 0.8),
+        1px 1px 0 rgba(255, 255, 255, 0.8),
+        /* Secondary 3D effect - middle distance */
+        -2px -2px 0 rgba(255, 255, 255, 0.6),
+        2px -2px 0 rgba(255, 255, 255, 0.6),
+        -2px 2px 0 rgba(255, 255, 255, 0.6),
+        2px 2px 0 rgba(255, 255, 255, 0.6),
+        /* Tertiary 3D effect - further out */
+        -3px -3px 0 rgba(255, 255, 255, 0.4),
+        3px -3px 0 rgba(255, 255, 255, 0.4),
+        -3px 3px 0 rgba(255, 255, 255, 0.4),
+        3px 3px 0 rgba(255, 255, 255, 0.4),
+        /* Glow effect */
+        0 0 8px rgba(160, 203, 255, 0.3),
+        0 0 16px rgba(255, 216, 183, 0.3),
+        0 0 24px rgba(244, 194, 255, 0.3),
+        0 0 32px rgba(209, 189, 255, 0.3);
+    }
+    100% {
+      text-shadow: 
+        /* Primary 3D effect - closer to text */
+        -1px -1px 0 rgba(255, 255, 255, 0.8),
+        1px -1px 0 rgba(255, 255, 255, 0.8),
+        -1px 1px 0 rgba(255, 255, 255, 0.8),
+        1px 1px 0 rgba(255, 255, 255, 0.8),
+        /* Secondary 3D effect - middle distance */
+        -2px -2px 0 rgba(255, 255, 255, 0.6),
+        2px -2px 0 rgba(255, 255, 255, 0.6),
+        -2px 2px 0 rgba(255, 255, 255, 0.6),
+        2px 2px 0 rgba(255, 255, 255, 0.6),
+        /* Tertiary 3D effect - further out */
+        -3px -3px 0 rgba(255, 255, 255, 0.4),
+        3px -3px 0 rgba(255, 255, 255, 0.4),
+        -3px 3px 0 rgba(255, 255, 255, 0.4),
+        3px 3px 0 rgba(255, 255, 255, 0.4),
+        /* Glow effect */
+        0 0 8px rgba(255, 216, 183, 0.3),
+        0 0 16px rgba(244, 194, 255, 0.3),
+        0 0 24px rgba(209, 189, 255, 0.3),
+        0 0 32px rgba(160, 203, 255, 0.3);
+    }
+  }
+
+  .ai-social-proof-second-title-{{ ai_gen_id }} {
+    color: {{ block.settings.second_title_color }};
+    margin: {{ block.settings.second_title_margin_top }}px {{ block.settings.second_title_margin_horizontal }}px {{ block.settings.second_title_margin_bottom }}px;
+    line-height: 1.2;
+    font-family: {{ block.settings.second_title_font }} !important;
+  }
+
+  .ai-social-proof-subtitle-{{ ai_gen_id }} {
+    color: {{ block.settings.subtitle_color }};
+    margin: {{ block.settings.subtitle_margin_top }}px {{ block.settings.subtitle_margin_horizontal }}px {{ block.settings.subtitle_margin_bottom }}px;
+    line-height: 1.2;
+  }
+
+  .ai-social-proof-track-{{ ai_gen_id }} {
+    display: flex;
+    width: max-content;
+  }
+
+  .ai-social-proof-images-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.gap }}px;
+    animation: scroll-{{ ai_gen_id }} linear infinite;
+    animation-duration: {{ block.settings.scroll_speed }}s;
+  }
+
+  .ai-social-proof-images-{{ ai_gen_id }}:hover {
+    animation-play-state: paused;
+  }
+
+  .ai-social-proof-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: {{ block.settings.image_width }}px;
+    height: calc({{ block.settings.image_width }}px * 16 / 9);
+    flex-shrink: 0;
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-social-proof-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-social-proof-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-social-proof-placeholder-{{ ai_gen_id }} svg {
+    width: 50%;
+    height: 50%;
+    opacity: 0.5;
+  }
+
+  @keyframes scroll-{{ ai_gen_id }} {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-social-proof-image-wrapper-{{ ai_gen_id }} {
+      width: {{ block.settings.image_width_mobile }}px;
+      height: calc({{ block.settings.image_width_mobile }}px * 16 / 9);
+    }
+  }
+{% endstyle %}
+
+<div class="ai-social-proof-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-social-proof-titles-{{ ai_gen_id }}">
+    {% if block.settings.title != blank %}
+      <div class="ai-social-proof-main-title-{{ ai_gen_id }} {{ block.settings.title_typography }}">
+        {% assign title_parts = block.settings.title | split: ' ' %}
+        {% for part in title_parts %}
+          {% if part contains '#' %}
+            {% assign clean_part = part | remove: '#' %}
+            <span class="digit">{{ clean_part }}</span>
+          {% else %}
+            {{ part }}
+          {% endif %}
+          {% unless forloop.last %} {% endunless %}
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% if block.settings.second_title != blank %}
+      <div class="ai-social-proof-second-title-{{ ai_gen_id }} {{ block.settings.second_title_typography }}">
+        {{ block.settings.second_title }}
+      </div>
+    {% endif %}
+    
+    {% if block.settings.subtitle != blank %}
+      <div class="ai-social-proof-subtitle-{{ ai_gen_id }} {{ block.settings.subtitle_typography }}">{{ block.settings.subtitle }}</div>
+    {% endif %}
+  </div>
+  
+  <div class="ai-social-proof-track-{{ ai_gen_id }}">
+    <div class="ai-social-proof-images-{{ ai_gen_id }}">
+      {% for i in (1..block.settings.image_count) %}
+        {% assign image_key = 'image_' | append: i %}
+        <div class="ai-social-proof-image-wrapper-{{ ai_gen_id }}">
+          {% if block.settings[image_key] %}
+            <img 
+              src="{{ block.settings[image_key] | image_url: width: 400 }}"
+              alt="{{ block.settings[image_key].alt | escape }}"
+              loading="lazy"
+              class="ai-social-proof-image-{{ ai_gen_id }}"
+              width="{{ block.settings.image_width }}"
+              height="{{ block.settings.image_width | times: 16 | divided_by: 9 }}"
+            >
+          {% else %}
+            <div class="ai-social-proof-placeholder-{{ ai_gen_id }}">
+              {{ 'image' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      
+      {% comment %} Duplicate images for infinite scroll effect {% endcomment %}
+      {% for i in (1..block.settings.image_count) %}
+        {% assign image_key = 'image_' | append: i %}
+        <div class="ai-social-proof-image-wrapper-{{ ai_gen_id }}">
+          {% if block.settings[image_key] %}
+            <img 
+              src="{{ block.settings[image_key] | image_url: width: 400 }}"
+              alt="{{ block.settings[image_key].alt | escape }}"
+              loading="lazy"
+              class="ai-social-proof-image-{{ ai_gen_id }}"
+              width="{{ block.settings.image_width }}"
+              height="{{ block.settings.image_width | times: 16 | divided_by: 9 }}"
+            >
+          {% else %}
+            <div class="ai-social-proof-placeholder-{{ ai_gen_id }}">
+              {{ 'image' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Social Proof Scroll",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Titles"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Main title",
+      "info": "Use # before numbers to add glow effect (e.g. '#10K+ Happy Customers')",
+      "default": "#10K+ Happy Customers"
+    },
+    {
+      "type": "select",
+      "id": "title_font",
+      "label": "Main title font",
+      "options": [
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "Subheading"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading"
+        },
+        {
+          "value": "var(--font-accent--family)",
+          "label": "Accent"
+        }
+      ],
+      "default": "var(--font-heading--family)"
+    },
+    {
+      "type": "select",
+      "id": "title_typography",
+      "label": "Main title typography",
+      "options": [
+        {"value": "h1", "label": "Heading 1"},
+        {"value": "h2", "label": "Heading 2"},
+        {"value": "h3", "label": "Heading 3"},
+        {"value": "h4", "label": "Heading 4"},
+        {"value": "h5", "label": "Heading 5"},
+        {"value": "h6", "label": "Heading 6"}
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "text",
+      "id": "second_title",
+      "label": "Second title",
+      "default": "From our community"
+    },
+    {
+      "type": "select",
+      "id": "second_title_font",
+      "label": "Second title font",
+      "options": [
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "Subheading"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading"
+        },
+        {
+          "value": "var(--font-accent--family)",
+          "label": "Accent"
+        }
+      ],
+      "default": "var(--font-subheading--family)"
+    },
+    {
+      "type": "select",
+      "id": "second_title_typography",
+      "label": "Second title typography",
+      "options": [
+        {"value": "h2", "label": "Heading 2"},
+        {"value": "h3", "label": "Heading 3"},
+        {"value": "h4", "label": "Heading 4"},
+        {"value": "h5", "label": "Heading 5"},
+        {"value": "h6", "label": "Heading 6"}
+      ],
+      "default": "h3"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "See how our customers are using our products"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_typography",
+      "label": "Subtitle typography",
+      "options": [
+        {"value": "h4", "label": "Heading 4"},
+        {"value": "h5", "label": "Heading 5"},
+        {"value": "h6", "label": "Heading 6"},
+        {"value": "body", "label": "Body"}
+      ],
+      "default": "body"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Main title color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "second_title_color",
+      "label": "Second title color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "digit_color",
+      "label": "Digit color",
+      "default": "#000F9F"
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "range",
+      "id": "image_count",
+      "min": 5,
+      "max": 20,
+      "step": 1,
+      "label": "Number of images",
+      "default": 10
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Image 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_5",
+      "label": "Image 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_6",
+      "label": "Image 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_7",
+      "label": "Image 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_8",
+      "label": "Image 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_9",
+      "label": "Image 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_10",
+      "label": "Image 10"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 150,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "label": "Image width",
+      "default": 250
+    },
+    {
+      "type": "range",
+      "id": "image_width_mobile",
+      "min": 100,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Image width on mobile",
+      "default": 180
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Gap between images",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "min": 20,
+      "max": 120,
+      "step": 5,
+      "unit": "s",
+      "label": "Scroll speed (seconds)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "glow_animation_speed",
+      "min": 1,
+      "max": 10,
+      "step": 0.5,
+      "unit": "s",
+      "label": "Glow animation speed",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "header",
+      "content": "Text Spacing"
+    },
+    {
+      "type": "range",
+      "id": "text_max_width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Text maximum width",
+      "default": 800
+    },
+    {
+      "type": "header",
+      "content": "Main Title Spacing"
+    },
+    {
+      "type": "range",
+      "id": "main_title_margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "main_title_margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "main_title_margin_horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Horizontal margin",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Second Title Spacing"
+    },
+    {
+      "type": "range",
+      "id": "second_title_margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "second_title_margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "second_title_margin_horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Horizontal margin",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Subtitle Spacing"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "subtitle_margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "subtitle_margin_horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Horizontal margin",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Social Proof Scroll"
+    }
+  ]
+}
+{% endschema %}

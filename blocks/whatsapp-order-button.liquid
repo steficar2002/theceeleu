@@ -1,0 +1,192 @@
+{% liquid
+  assign product = block.settings.product
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+
+  assign whatsapp_number = block.settings.whatsapp_number | default: '381612427171'
+  assign product_title = product.title | default: 'Proizvod'
+  assign default_message = 'Pozdrav, zanima me proizvod: ' | append: product_title
+  assign encoded_message = default_message | url_encode
+  assign whatsapp_url = 'https://wa.me/' | append: whatsapp_number | append: '?text=' | append: encoded_message
+%}
+
+{% stylesheet %}
+  .whatsapp-order-button-block {
+    width: 100%;
+    /* Match the gap between Add to Cart and Buy Now buttons */
+    margin-top: calc(var(--gap-sm) / 16);
+
+    @media screen and (width >= 750px) {
+      margin-top: calc(var(--gap-sm) / 6);
+    }
+  }
+
+  .whatsapp-order-button {
+    width: 100%;
+    padding-inline: var(--padding-4xl);
+    padding-block: var(--padding-lg);
+    height: var(--height-buy-buttons);
+    text-transform: var(--button-text-case-primary);
+    /* Match Buy Now button styling - pastel green gradient */
+    background: linear-gradient(180deg, 
+      rgba(250, 255, 250, 0.92) 0%,
+      rgba(245, 255, 245, 0.92) 50%,
+      rgba(220, 255, 220, 0.92) 100%
+    ) !important;
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(200, 230, 200, 0.9) !important;
+    color: rgba(0, 0, 0, 1) !important;
+    box-shadow: 
+      inset 3px 3px 12px 1px rgba(200, 255, 200, 0.1),
+      inset -3px -3px 12px 1px rgba(180, 240, 180, 0.1),
+      0 4px 8px 0 rgba(0, 0, 0, 0.05),
+      0 8px 16px 0 rgba(0, 0, 0, 0.04),
+      0 16px 32px 0 rgba(0, 0, 0, 0.02) !important;
+  }
+
+  .whatsapp-order-button:hover {
+    /* Subtle pastel green on hover with greener gradient at bottom */
+    background: linear-gradient(180deg, 
+      rgba(245, 255, 245, 0.95) 0%,
+      rgba(240, 255, 240, 0.95) 50%,
+      rgba(210, 255, 210, 0.95) 100%
+    ) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(180, 220, 180, 0.9) !important;
+    color: rgba(0, 0, 0, 1) !important;
+    box-shadow: 
+      inset 4px 4px 16px 2px rgba(200, 255, 200, 0.15),
+      inset -4px -4px 16px 2px rgba(180, 240, 180, 0.15),
+      0 6px 12px 0 rgba(0, 0, 0, 0.08),
+      0 12px 24px 0 rgba(0, 0, 0, 0.06),
+      0 24px 48px 0 rgba(0, 0, 0, 0.04) !important;
+    transform: translateY(-1px);
+  }
+
+  .whatsapp-order-button-content {
+    display: flex;
+    gap: var(--gap-2xs);
+    align-items: center;
+    justify-content: center;
+  }
+{% endstylesheet %}
+
+<span
+  class="whatsapp-order-button-block whatsapp-order-button-block--{{ block.id }}"
+  {{ block.shopify_attributes }}
+  style="{% render 'spacing-style', settings: block.settings %}"
+>
+  {%- if product != blank -%}
+    <a
+      href="{{ whatsapp_url }}"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="button whatsapp-order-button"
+    >
+      <span class="whatsapp-order-button-content">
+        <span class="svg-wrapper">
+          {{- 'icon-whatsapp.svg' | inline_asset_content -}}
+        </span>
+        <span>{{ block.settings.button_text | default: 'Naruči preko WhatsApp-a' }}</span>
+      </span>
+    </a>
+  {%- else -%}
+    <button
+      type="button"
+      class="button whatsapp-order-button"
+      disabled
+    >
+      <span class="whatsapp-order-button-content">
+        <span class="svg-wrapper">
+          {{- 'icon-whatsapp.svg' | inline_asset_content -}}
+        </span>
+        <span>{{ block.settings.button_text | default: 'Naruči preko WhatsApp-a' }}</span>
+      </span>
+    </button>
+  {%- endif -%}
+</span>
+
+{% schema %}
+{
+  "name": "WhatsApp Order Button",
+  "tag": null,
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:settings.product"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_number",
+      "label": "WhatsApp Number",
+      "info": "Enter the WhatsApp number without + sign (e.g., 381612427171)",
+      "default": "381612427171"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Naruči preko WhatsApp-a",
+      "info": "Text to display on the button (Serbian Latin)"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "WhatsApp Order Button",
+      "category": "t:categories.product",
+      "settings": {
+        "product": "{{ closest.product }}",
+        "whatsapp_number": "381612427171",
+        "button_text": "Naruči preko WhatsApp-a"
+      }
+    }
+  ]
+}
+{% endschema %}
+

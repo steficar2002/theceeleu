@@ -1,0 +1,277 @@
+{% doc %}
+  @prompt
+    I want a discount badge showing the percentage
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .discount-badge-{{ ai_gen_id }} {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: {{ block.settings.badge_color }};
+    color: {{ block.settings.text_color }};
+    border-radius: {{ block.settings.badge_shape }};
+    font-weight: {{ block.settings.font_weight }};
+    font-size: {{ block.settings.font_size }}px;
+    padding: {{ block.settings.padding }}px;
+    min-width: {{ block.settings.badge_size }}px;
+    min-height: {{ block.settings.badge_size }}px;
+    box-shadow: {% if block.settings.show_shadow %}0 2px 5px rgba(0, 0, 0, 0.2){% else %}none{% endif %};
+    transform: rotate({{ block.settings.rotation }}deg);
+    text-align: center;
+    line-height: 1;
+    
+    {% case block.settings.badge_position %}
+      {% when 'top-left' %}
+        top: {{ block.settings.position_offset }}px;
+        left: {{ block.settings.position_offset }}px;
+      {% when 'top-right' %}
+        top: {{ block.settings.position_offset }}px;
+        right: {{ block.settings.position_offset }}px;
+      {% when 'bottom-left' %}
+        bottom: {{ block.settings.position_offset }}px;
+        left: {{ block.settings.position_offset }}px;
+      {% when 'bottom-right' %}
+        bottom: {{ block.settings.position_offset }}px;
+        right: {{ block.settings.position_offset }}px;
+    {% endcase %}
+  }
+
+  .discount-badge-{{ ai_gen_id }} span {
+    {% if block.settings.text_transform == 'uppercase' %}
+      text-transform: uppercase;
+    {% endif %}
+  }
+
+  @media screen and (max-width: 749px) {
+    .discount-badge-{{ ai_gen_id }} {
+      font-size: {{ block.settings.font_size | times: 0.8 }}px;
+      min-width: {{ block.settings.badge_size | times: 0.8 }}px;
+      min-height: {{ block.settings.badge_size | times: 0.8 }}px;
+      padding: {{ block.settings.padding | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+{% if product.compare_at_price > product.price %}
+  {% assign discount_amount = product.compare_at_price | minus: product.price %}
+  {% assign discount_percentage = discount_amount | times: 100 | divided_by: product.compare_at_price | round %}
+  
+  {% if discount_percentage >= block.settings.min_discount %}
+    <div class="discount-badge-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+      <span>
+        {% if block.settings.show_minus %}
+          -
+        {% endif %}
+        {{ discount_percentage }}{{ block.settings.percentage_symbol }}
+      </span>
+    </div>
+  {% endif %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Discount Badge",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Badge Content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_minus",
+      "label": "Show minus symbol",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "percentage_symbol",
+      "label": "Percentage symbol",
+      "default": "%"
+    },
+    {
+      "type": "range",
+      "id": "min_discount",
+      "min": 1,
+      "max": 99,
+      "step": 1,
+      "label": "Minimum discount to display",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Badge Style"
+    },
+    {
+      "type": "select",
+      "id": "badge_position",
+      "label": "Position",
+      "options": [
+        {
+          "value": "top-left",
+          "label": "Top left"
+        },
+        {
+          "value": "top-right",
+          "label": "Top right"
+        },
+        {
+          "value": "bottom-left",
+          "label": "Bottom left"
+        },
+        {
+          "value": "bottom-right",
+          "label": "Bottom right"
+        }
+      ],
+      "default": "top-right"
+    },
+    {
+      "type": "range",
+      "id": "position_offset",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Position offset",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "badge_size",
+      "min": 30,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Badge size",
+      "default": 50
+    },
+    {
+      "type": "select",
+      "id": "badge_shape",
+      "label": "Badge shape",
+      "options": [
+        {
+          "value": "50%",
+          "label": "Circle"
+        },
+        {
+          "value": "0",
+          "label": "Square"
+        },
+        {
+          "value": "8px",
+          "label": "Rounded square"
+        }
+      ],
+      "default": "50%"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "rotation",
+      "min": -15,
+      "max": 15,
+      "step": 1,
+      "unit": "°",
+      "label": "Rotation",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shadow",
+      "label": "Show shadow",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Text Style"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text case",
+      "options": [
+        {
+          "value": "none",
+          "label": "Normal"
+        },
+        {
+          "value": "uppercase",
+          "label": "UPPERCASE"
+        }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Badge color",
+      "default": "#e32c2c"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Discount Badge"
+    }
+  ]
+}
+{% endschema %}

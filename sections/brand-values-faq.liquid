@@ -1,0 +1,641 @@
+{% stylesheet %}
+  .brand-values-faq {
+    --faq-gap: 2rem;
+  }
+
+  .brand-values-faq__container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--faq-gap);
+    align-items: start;
+  }
+
+  @media screen and (width >= 750px) {
+    .brand-values-faq__container {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .brand-values-faq__questions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .brand-values-faq__question-item {
+    background: var(--color-background);
+    border: 1px solid rgba(from var(--color-foreground) r g b / 0.1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .brand-values-faq__question-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-color: rgba(from var(--color-foreground) r g b / 0.2);
+  }
+
+  .brand-values-faq__question-item.active {
+    border-color: var(--color-accent, rgba(from var(--color-foreground) r g b / 0.3));
+    background: rgba(from var(--color-accent, var(--color-foreground)) r g b / 0.03);
+  }
+
+  .brand-values-faq__question-title {
+    margin-bottom: 0.75rem;
+    color: var(--color-foreground);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand-values-faq__question-indicator {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(from var(--color-foreground) r g b / 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .brand-values-faq__question-item.active .brand-values-faq__question-indicator {
+    background: var(--color-accent, rgba(from var(--color-foreground) r g b / 0.2));
+    transform: rotate(180deg);
+  }
+
+  .brand-values-faq__question-description {
+    color: rgba(from var(--color-foreground) r g b / 0.7);
+    line-height: 1.6;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+  }
+
+  .brand-values-faq__question-description > div {
+    overflow: hidden;
+    padding-top: 0.5rem;
+  }
+
+  .brand-values-faq__question-item.active .brand-values-faq__question-description {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .brand-values-faq__images {
+    position: sticky;
+    top: 2rem;
+    display: none;
+    align-self: start;
+  }
+
+  @media screen and (width >= 750px) {
+    .brand-values-faq__images {
+      display: block;
+    }
+  }
+
+  .brand-values-faq__image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(from var(--color-foreground) r g b / 0.05);
+  }
+
+  .brand-values-faq__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .brand-values-faq__image.active {
+    opacity: 1;
+  }
+
+  .brand-values-faq__header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .brand-values-faq__title {
+    margin-bottom: 1rem;
+    color: var(--color-foreground);
+  }
+
+  .brand-values-faq__subtitle {
+    color: rgba(from var(--color-foreground) r g b / 0.7);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+{% endstylesheet %}
+
+<script src="{{ 'brand-values-faq.js' | asset_url }}" defer="defer"></script>
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    brand-values-faq
+    spacing-style
+  "
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    --faq-gap: {{ section.settings.faq_gap }}px;
+  "
+>
+  {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+    <div class="brand-values-faq__header">
+      {%- if section.settings.title != blank -%}
+        <h2 class="brand-values-faq__title" style="
+          font-family: {{ section.settings.title_font }};
+          font-size: {{ section.settings.title_font_size }}px;
+          font-weight: {{ section.settings.title_font_weight }};
+          color: {{ section.settings.title_color }};
+        ">{{ section.settings.title }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subtitle != blank -%}
+        <p class="brand-values-faq__subtitle" style="
+          font-family: {{ section.settings.subtitle_font }};
+          font-size: {{ section.settings.subtitle_font_size }}px;
+          font-weight: {{ section.settings.subtitle_font_weight }};
+          color: {{ section.settings.subtitle_color }};
+        ">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <div data-brand-values-faq id="brand-values-faq-{{ section.id }}">
+    <div class="brand-values-faq__container">
+      <div class="brand-values-faq__questions">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'value' -%}
+              <div class="brand-values-faq__question-item{% if forloop.first %} active{% endif %}" {{ block.shopify_attributes }} data-index="{{ forloop.index0 }}">
+                <div class="brand-values-faq__question-title" style="
+                  font-family: {{ section.settings.question_title_font }};
+                  font-size: {{ section.settings.question_title_font_size }}px;
+                  font-weight: {{ section.settings.question_title_font_weight }};
+                  color: {{ section.settings.question_title_color }};
+                ">
+                  <span>{{ block.settings.title }}</span>
+                  <span class="brand-values-faq__question-indicator">▼</span>
+                </div>
+                {%- if block.settings.description != blank -%}
+                  <div class="brand-values-faq__question-description">
+                    <div style="
+                      font-family: {{ section.settings.description_font }};
+                      font-size: {{ section.settings.description_font_size }}px;
+                      font-weight: {{ section.settings.description_font_weight }};
+                      color: {{ section.settings.description_color }};
+                    ">
+                      {{ block.settings.description }}
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+
+      <div class="brand-values-faq__images">
+        <div class="brand-values-faq__image-wrapper">
+          {%- for block in section.blocks -%}
+            {%- if block.settings.image != blank -%}
+              {%- assign image_class = 'brand-values-faq__image' -%}
+              {%- if forloop.first -%}
+                {%- assign image_class = image_class | append: ' active' -%}
+              {%- endif -%}
+              {{
+                block.settings.image
+                | image_url: width: 800
+                | image_tag:
+                  class: image_class,
+                  loading: 'lazy',
+                  alt: block.settings.title
+              }}
+            {%- else -%}
+              {%- assign placeholder_class = 'brand-values-faq__image' -%}
+              {%- if forloop.first -%}
+                {%- assign placeholder_class = placeholder_class | append: ' active' -%}
+              {%- endif -%}
+              <div class="{{ placeholder_class }}" style="background: linear-gradient(135deg, rgba(from var(--color-foreground) r g b / 0.05) 0%, rgba(from var(--color-foreground) r g b / 0.1) 100%);"></div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Brand Values FAQ",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Naše Vrednosti"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": "Saznajte više o tome kako brinemo o prirodi i vašoj koži"
+    },
+    {
+      "type": "header",
+      "content": "Typography - Section Header"
+    },
+    {
+      "type": "select",
+      "id": "title_font",
+      "label": "Title Font",
+      "options": [
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body Font"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading Font"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "Subheading Font"
+        }
+      ],
+      "default": "var(--font-heading--family)"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Title Font Size",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Title Font Weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_font",
+      "label": "Subtitle Font",
+      "options": [
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body Font"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading Font"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "Subheading Font"
+        }
+      ],
+      "default": "var(--font-body--family)"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_font_size",
+      "label": "Subtitle Font Size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "subtitle_font_weight",
+      "label": "Subtitle Font Weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "header",
+      "content": "Typography - Questions"
+    },
+    {
+      "type": "select",
+      "id": "question_title_font",
+      "label": "Question Title Font",
+      "options": [
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body Font"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading Font"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "Subheading Font"
+        }
+      ],
+      "default": "var(--font-subheading--family)"
+    },
+    {
+      "type": "range",
+      "id": "question_title_font_size",
+      "label": "Question Title Font Size",
+      "min": 14,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "question_title_font_weight",
+      "label": "Question Title Font Weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "question_title_color",
+      "label": "Question Title Color",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "select",
+      "id": "description_font",
+      "label": "Description Font",
+      "options": [
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body Font"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading Font"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "Subheading Font"
+        }
+      ],
+      "default": "var(--font-body--family)"
+    },
+    {
+      "type": "range",
+      "id": "description_font_size",
+      "label": "Description Font Size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "description_font_weight",
+      "label": "Description Font Weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "faq_gap",
+      "label": "Gap between questions and images",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page Width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full Width"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top Padding",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom Padding",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Brand Value",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Naša Vrednost"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Opis naše vrednosti i kako se brinem o prirodi."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "This image will display in the right column when this value is selected. Hidden on mobile."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Values FAQ",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "value",
+          "settings": {
+            "title": "Čista Brend",
+            "description": "Dok razvijamo naše proizvode, zamislili smo i proizveli brend koji je pun poštovanja prema prirodi, nije testiran na životinjama, ne sadrži životinjski sadržaj; Kažemo Ne!, ne sadrži Paraben, Alkohol, Esenciju, Boju <3"
+          }
+        },
+        {
+          "type": "value",
+          "settings": {
+            "title": "Mali ali Sažet Sadržaj",
+            "description": "Kombinovali smo naše formulacije sa jednostavnim, razumljivim i rezultat-orijentisanim aktivnim sastojcima koji neće izazvati zabunu u vašoj rutini nege kože."
+          }
+        },
+        {
+          "type": "value",
+          "settings": {
+            "title": "Efikasna Formulacija",
+            "description": "Ne dajemo vam obećanja, proizvodimo rezultat-orijentisane formulacije. Jako dobro znamo da je efikasna formulacija vrednija od sadržaja! Formulišemo prave aktivne sastojke sa odgovarajućim pH i stabilnošću i predstavljamo ih vama."
+          }
+        },
+        {
+          "type": "value",
+          "settings": {
+            "title": "Mi Delimo!",
+            "description": "Volimo da delimo, činimo vas delom našeg deljenja sa važnim dečjim i humanitarnim organizacijama za životinje sa svakim proizvodom koji kupite!"
+          }
+        },
+        {
+          "type": "value",
+          "settings": {
+            "title": "Stručnjak za Negu Kože",
+            "description": "Želimo da postanete stručnjak za sopstvenu kožu nakon informacija na našem sajtu, našoj Instagram stranici i vaših sastanaka sa našim stručnjacima, i radimo na tome."
+          }
+        }
+      ],
+      "settings": {
+        "title": "Naše Vrednosti",
+        "subtitle": "Saznajte više o tome kako brinemo o prirodi i vašoj koži",
+        "title_font": "var(--font-heading--family)",
+        "title_font_size": 40,
+        "title_font_weight": "700",
+        "title_color": "rgba(0,0,0,0)",
+        "subtitle_font": "var(--font-body--family)",
+        "subtitle_font_size": 16,
+        "subtitle_font_weight": "400",
+        "subtitle_color": "rgba(0,0,0,0)",
+        "question_title_font": "var(--font-subheading--family)",
+        "question_title_font_size": 20,
+        "question_title_font_weight": "700",
+        "question_title_color": "rgba(0,0,0,0)",
+        "description_font": "var(--font-body--family)",
+        "description_font_size": 15,
+        "description_font_weight": "400",
+        "description_color": "rgba(0,0,0,0)",
+        "faq_gap": 40,
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 60,
+        "padding-block-end": 60
+      }
+    }
+  ]
+}
+{% endschema %}

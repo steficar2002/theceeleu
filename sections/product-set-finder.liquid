@@ -1,0 +1,508 @@
+{% comment %}
+  Shopify Liquid sekcija koja radi dve stvari:
+  1. Ako je trenutni proizvod DEO nekog seta, prikazuje najskuplji set i njegove komponente.
+     - Potrebno metapolje: custom.containing_bundles (List of products)
+  2. Ako je trenutni proizvod SET, prikazuje sve proizvode koji ga čine.
+     - Potrebno metapolje: custom.bundle_components (List of products)
+{% endcomment %}
+
+{% comment %} DEBUG INFO {% endcomment %}
+
+{% comment %} Check if product is a bundle (has bundle_components) {% endcomment %}
+{% assign is_a_bundle = false %}
+{% assign is_part_of_bundle = false %}
+{% assign components_to_display = '' %}
+{% assign most_expensive_bundle = '' %}
+{% assign components_count = 0 %}
+
+{% comment %} Check if current product is a bundle {% endcomment %}
+{% assign bundle_components_metafield = product.metafields.custom.bundle_components.value %}
+{% if bundle_components_metafield != blank %}
+  {% for component in bundle_components_metafield %}
+    {% assign components_count = components_count | plus: 1 %}
+  {% endfor %}
+  {% if components_count > 0 %}
+    {% assign is_a_bundle = true %}
+    {% assign components_to_display = bundle_components_metafield %}
+  {% endif %}
+{% endif %}
+
+{% comment %} Check if current product is part of a bundle {% endcomment %}
+{% assign bundles_metafield = product.metafields.custom.containing_bundles.value %}
+{% if bundles_metafield != blank and is_a_bundle == false %}
+  {% assign is_part_of_bundle = true %}
+  {% assign max_price = 0 %}
+  {% assign bundle_count = 0 %}
+  
+  {% for bundle in bundles_metafield %}
+    {% assign bundle_count = bundle_count | plus: 1 %}
+    {% if bundle.price > max_price %}
+      {% assign max_price = bundle.price %}
+      {% assign most_expensive_bundle = bundle %}
+    {% endif %}
+  {% endfor %}
+  
+  {% if most_expensive_bundle != blank and bundle_count > 0 %}
+    {% assign components_to_display = most_expensive_bundle.metafields.custom.bundle_components.value %}
+    {% assign components_count = 0 %}
+    {% if components_to_display != blank %}
+      {% for component in components_to_display %}
+        {% assign components_count = components_count | plus: 1 %}
+      {% endfor %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+{% if components_to_display and components_count > 0 %}
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+  
+      .bundle-section-wrapper {
+        font-family: 'Poppins', sans-serif;
+        background-color: {{ section.settings.background_color }};
+        padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px 0;
+      }
+      .bundle-section__container {
+        max-width: auto;
+        margin: 0 auto;
+        padding: 0 20px;
+        text-align: center;
+      }
+      .bundle-section__heading {
+        font-size: {{ section.settings.heading_font_size }}px;
+        font-weight: {{ section.settings.heading_font_weight }};
+        color: {{ section.settings.heading_color }};
+        margin: 0;
+      }
+      .bundle-section__subheading {
+        font-size: {{ section.settings.subheading_font_size }}px;
+        font-weight: 400;
+        color: {{ section.settings.subheading_color }};
+        margin-top: 8px;
+        margin-bottom: 40px;
+      }
+      .bundle-section__products {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 20px;
+        flex-wrap: wrap;
+        overflow-x: auto;
+        padding: 0 20px;
+      }
+      .bundle-section__product-item {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-shrink: 0;
+      }
+      .bundle-section__product-card {
+        text-align: center;
+        width: 240px;
+        min-width: 240px;
+        max-width: 240px;
+        height: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: stretch;
+      }
+      .bundle-section__image-wrapper {
+        background-color: #ffffff;
+        border: 1px solid {{ section.settings.border_color }};
+        border-radius: {{ section.settings.border_radius }}px;
+        padding: 15px;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .bundle-section__image-wrapper img {
+        max-width: calc(100% - 30px);
+        max-height: calc(100% - 30px);
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        border-radius: 8px;
+        display: block;
+        margin: 0 auto;
+        box-sizing: border-box;
+      }
+      .bundle-section__product-label {
+        font-size: 10px;
+        color: {{ section.settings.subheading_color }};
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+        min-height: 12px;
+      }
+      .bundle-section__product-title {
+        font-size: {{ section.settings.product_title_font_size }}px;
+        font-weight: 500;
+        color: {{ section.settings.product_title_color }};
+        text-decoration: none;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 8px;
+      }
+      .bundle-section__plus-icon {
+        font-size: 24px;
+        font-weight: 300;
+        color: {{ section.settings.subheading_color }};
+        align-self: center;
+        margin-top: -60px; /* Vertically align with cards */
+      }
+      
+      .bundle-section__cta-button {
+        background-color: {{ section.settings.heading_color }};
+        color: white;
+        padding: 12px 24px;
+        border-radius: {{ section.settings.border_radius }}px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+        display: inline-block;
+        margin-top: 20px;
+        transition: opacity 0.3s ease;
+      }
+      
+      .bundle-section__cta-button:hover {
+        opacity: 0.8;
+      }
+      
+      .bundle-section__scroll-indicator {
+        display: none;
+        text-align: center;
+        margin-top: 10px;
+        color: {{ section.settings.subheading_color }};
+        font-size: 12px;
+      }
+      
+      .bundle-section__scroll-indicator::after {
+        content: "← Povucite da vidite više →";
+        display: block;
+        margin-top: 5px;
+      }
+      
+      /* Mobile styles */
+      @media (max-width: 768px) {
+        .bundle-section__products {
+          flex-wrap: nowrap;
+          justify-content: flex-start;
+          padding: 0 10px;
+          gap: 15px;
+        }
+        .bundle-section__product-card {
+          width: 200px;
+          min-width: 200px;
+          max-width: 200px;
+          height: 300px;
+          display: flex;
+          flex-direction: column;
+          justify-content: stretch;
+        }
+        .bundle-section__image-wrapper {
+          padding: 12px;
+          flex: 1;
+          background-color: #ffffff;
+        }
+        .bundle-section__image-wrapper img {
+          max-width: calc(100% - 24px);
+          max-height: calc(100% - 24px);
+          width: auto;
+          height: auto;
+          object-fit: contain;
+          display: block;
+          margin: 0 auto;
+          box-sizing: border-box;
+        }
+        .bundle-section__product-title {
+          font-size: 13px;
+          height: 48px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0 8px;
+        }
+        .bundle-section__plus-icon {
+          font-size: 20px;
+          margin-top: -50px;
+        }
+        .bundle-section__scroll-indicator {
+          display: block;
+        }
+      }
+    </style>
+  
+    <div class="bundle-section-wrapper">
+      <div class="bundle-section__container">
+        {% if is_a_bundle %}
+          <h2 class="bundle-section__heading">Proizvodi u ovom setu</h2>
+          <p class="bundle-section__subheading">Svi proizvodi koji su uključeni u ovaj set</p>
+        {% elsif is_part_of_bundle %}
+          <h2 class="bundle-section__heading">{{ section.settings.component_view_heading | escape }}</h2>
+          {% if section.settings.component_view_subheading != blank and most_expensive_bundle %}
+            <p class="bundle-section__subheading">
+              {{ section.settings.component_view_subheading | replace: '[set_title]', most_expensive_bundle.title }}
+            </p>
+          {% endif %}
+        {% endif %}
+  
+        {% if components_to_display and components_count > 0 %}
+          <div class="bundle-section__products">
+            {% comment %} First, show the current product {% endcomment %}
+            {% for component in components_to_display %}
+              {% if component.id == product.id %}
+                <div class="bundle-section__product-item">
+                  <div class="bundle-section__product-card">
+                    <div class="bundle-section__image-wrapper">
+                      <a href="{{ component.url }}">
+                        <img
+                          src="{{ component.featured_image | image_url: width: 300 }}"
+                          alt="{{ component.featured_image.alt | escape }}"
+                          width="150"
+                          height="{{ 150 | divided_by: component.featured_image.aspect_ratio | round }}"
+                          loading="lazy">
+                      </a>
+                    </div>
+                    <a href="{{ component.url }}" class="bundle-section__product-title">
+                      {{ component.title }}
+                    </a>
+                  </div>
+                  <div class="bundle-section__plus-icon">+</div>
+                </div>
+              {% endif %}
+            {% endfor %}
+            
+            {% comment %} Then, show the other products {% endcomment %}
+            {% assign other_products_count = 0 %}
+            {% for component in components_to_display %}
+              {% unless component.id == product.id %}
+                {% assign other_products_count = other_products_count | plus: 1 %}
+              {% endunless %}
+            {% endfor %}
+            
+            {% assign current_index = 0 %}
+            {% for component in components_to_display %}
+              {% unless component.id == product.id %}
+                {% assign current_index = current_index | plus: 1 %}
+                <div class="bundle-section__product-item">
+                  <div class="bundle-section__product-card">
+                    <div class="bundle-section__image-wrapper">
+                      <a href="{{ component.url }}">
+                        <img
+                          src="{{ component.featured_image | image_url: width: 300 }}"
+                          alt="{{ component.featured_image.alt | escape }}"
+                          width="150"
+                          height="{{ 150 | divided_by: component.featured_image.aspect_ratio | round }}"
+                          loading="lazy">
+                      </a>
+                    </div>
+                    <a href="{{ component.url }}" class="bundle-section__product-title">
+                      {{ component.title }}
+                    </a>
+                  </div>
+                  {% unless current_index == other_products_count %}
+                    <div class="bundle-section__plus-icon">+</div>
+                  {% endunless %}
+                </div>
+              {% endunless %}
+            {% endfor %}
+          </div>
+          
+          {% if is_part_of_bundle and most_expensive_bundle and is_a_bundle == false %}
+            <div class="bundle-section__cta-button-wrapper" style="text-align: center; margin-top: 30px;">
+              <a href="{{ most_expensive_bundle.url }}" class="bundle-section__cta-button">
+                Pogledaj ceo set
+              </a>
+            </div>
+          {% endif %}
+          
+          <div class="bundle-section__scroll-indicator"></div>
+        {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  
+  {% schema %}
+  {
+    "name": "Prikaz Seta (Bundle)",
+    "tag": "section",
+    "class": "product-bundle-display",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Prikaz kad je proizvod DEO SETA"
+      },
+      {
+        "type": "text",
+        "id": "component_view_heading",
+        "label": "Glavni naslov",
+        "default": "Ovo je dostupno u setu"
+      },
+      {
+        "type": "text",
+        "id": "component_view_subheading",
+        "label": "Podnaslov",
+        "default": "Ovaj proizvod možete pronaći u \"[set_title]\"",
+        "info": "Koristite [set_title] da biste prikazali ime seta."
+      },
+      {
+        "type": "text",
+        "id": "current_product_label",
+        "label": "Oznaka za trenutni proizvod",
+        "default": "Trenutni proizvod"
+      },
+      {
+        "type": "header",
+        "content": "Prikaz kad je proizvod SET"
+      },
+      {
+        "type": "text",
+        "id": "bundle_view_heading",
+        "label": "Glavni naslov",
+        "default": "Ovaj set sadrži"
+      },
+      {
+        "type": "text",
+        "id": "bundle_view_subheading",
+        "label": "Podnaslov",
+        "default": "Sledeći proizvodi se nalaze u ovom setu"
+      },
+      {
+        "type": "header",
+        "content": "Opšti stil i boje"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Boja pozadine sekcije",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "heading_color",
+        "label": "Boja glavnog naslova",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "subheading_color",
+        "label": "Boja podnaslova i ikona",
+        "default": "#555555"
+      },
+      {
+        "type": "color",
+        "id": "product_card_bg",
+        "label": "Boja pozadine kartice proizvoda",
+        "default": "#FAFAFA"
+      },
+      {
+        "type": "color",
+        "id": "border_color",
+        "label": "Boja okvira kartice",
+        "default": "#EEEEEE"
+      },
+      {
+        "type": "color",
+        "id": "product_title_color",
+        "label": "Boja naslova proizvoda",
+        "default": "#000000"
+      },
+      {
+        "type": "header",
+        "content": "Fontovi i veličine"
+      },
+      {
+        "type": "range",
+        "id": "heading_font_size",
+        "min": 20,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Veličina glavnog naslova",
+        "default": 36
+      },
+      {
+        "type": "select",
+        "id": "heading_font_weight",
+        "label": "Debljina fonta glavnog naslova",
+        "options": [
+          { "value": "400", "label": "Normal" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "SemiBold" },
+          { "value": "700", "label": "Bold" }
+        ],
+        "default": "600"
+      },
+      {
+        "type": "range",
+        "id": "subheading_font_size",
+        "min": 12,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "label": "Veličina podnaslova",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "product_title_font_size",
+        "min": 12,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "label": "Veličina naslova proizvoda",
+        "default": 14
+      },
+      {
+        "type": "header",
+        "content": "Izgled"
+      },
+      {
+        "type": "range",
+        "id": "border_radius",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "label": "Zaobljenost ivica (Border Radius)",
+        "default": 8
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Gornji razmak",
+        "default": 50
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Donji razmak",
+        "default": 50
+      }
+    ],
+    "presets": [
+      {
+        "name": "Prikaz Seta (Bundle)"
+      }
+    ]
+  }
+  {% endschema %}

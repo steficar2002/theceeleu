@@ -1,0 +1,574 @@
+{% doc %}
+  @prompt
+    I need a 3 block icon list with words underneath which clarifies that our products are Alcohol Free, Paraben free and Perfume free, 1. Let me change the font 2. let me hcange the icons. Make it more modern by having the 3 divs be in 3 cards with rounded corners
+, I need to be able to change the svgs
+
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-product-features-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: {{ block.settings.gap }}px;
+    padding: {{ block.settings.padding }}px;
+    margin: {{ block.settings.margin }}px 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-product-features-{{ ai_gen_id }} {
+      flex-direction: {{ block.settings.mobile_layout }};
+      gap: {{ block.settings.gap | divided_by: 2 }}px;
+    }
+  }
+
+  .ai-product-feature-item-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    padding: {{ block.settings.card_padding }}px {{ block.settings.card_horizontal_padding }}px;
+    background-color: {{ block.settings.card_background_color }};
+    opacity: {{ block.settings.card_background_opacity | divided_by: 100.0 }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    border: 1px solid rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0 {{ block.settings.card_shadow_size }}px {{ block.settings.card_shadow_size | times: 2 }}px rgba(0, 0, 0, {{ block.settings.card_shadow_opacity | divided_by: 100.0 }});
+    transition: transform 0.2s ease-in-out;
+  }
+
+  {% if block.settings.card_hover_effect %}
+  .ai-product-feature-item-{{ ai_gen_id }}:hover {
+    transform: translateY(-5px);
+  }
+  {% endif %}
+
+  .ai-product-feature-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    color: {{ block.settings.icon_color }};
+    opacity: {{ block.settings.icon_color_opacity | divided_by: 100.0 }};
+    background-color: {{ block.settings.icon_background_color }};
+    opacity: {{ block.settings.icon_background_opacity | divided_by: 100.0 }};
+    border-radius: {{ block.settings.icon_border_radius }}px;
+    padding: {{ block.settings.icon_padding }}px;
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    box-shadow: 
+      inset 3px 3px 12px 1px rgba(255, 216, 183, 0.25),
+      inset -3px -3px 12px 1px rgba(244, 194, 255, 0.25),
+      inset 3px -3px 12px 1px rgba(209, 189, 255, 0.25),
+      inset -3px 3px 12px 1px rgba(160, 203, 255, 0.25),
+      0 4px 8px 0 rgba(0, 0, 0, 0.08),
+      0 8px 16px 0 rgba(0, 0, 0, 0.04),
+      0 16px 32px 0 rgba(0, 0, 0, 0.02) !important;
+  }
+
+  .ai-product-feature-icon-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    fill: #000000 !important;
+    stroke: #000000 !important;
+    color: #000000 !important;
+  }
+
+  .ai-product-feature-icon-{{ ai_gen_id }} svg * {
+    fill: #000000 !important;
+    stroke: #000000 !important;
+    color: #000000 !important;
+  }
+
+  .ai-product-feature-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: {{ block.settings.title_weight }};
+    margin-bottom: 8px;
+    color: {{ block.settings.text_color }};
+    opacity: {{ block.settings.text_color_opacity | divided_by: 100.0 }};
+    font-family: {{ block.settings.font_family }};
+    padding: 0 {{ block.settings.text_horizontal_padding }}px;
+    {% if block.settings.title_transform != 'none' %}
+    text-transform: {{ block.settings.title_transform }};
+    {% endif %}
+  }
+
+  .ai-product-feature-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_size }}px;
+    line-height: 1.5;
+    color: {{ block.settings.description_color }};
+    opacity: {{ block.settings.description_color_opacity | divided_by: 100.0 }};
+    font-family: {{ block.settings.font_family }};
+    padding: 0 {{ block.settings.text_horizontal_padding }}px;
+  }
+{% endstyle %}
+
+<div class="ai-product-features-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-product-feature-item-{{ ai_gen_id }}">
+    <div class="ai-product-feature-icon-{{ ai_gen_id }}">
+      {% if block.settings.icon_1 != blank %}
+        {{ block.settings.icon_1 }}
+      {% else %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="{{ block.settings.icon_size }}" height="{{ block.settings.icon_size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 12H5a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2h-4"></path>
+          <rect x="9" y="3" width="6" height="9" rx="1"></rect>
+          <path d="M10 12v3"></path>
+          <path d="M14 12v3"></path>
+          <circle cx="12" cy="7" r="1"></circle>
+        </svg>
+      {% endif %}
+    </div>
+    <h3 class="ai-product-feature-title-{{ ai_gen_id }}">{{ block.settings.feature_1_title }}</h3>
+    <div class="ai-product-feature-description-{{ ai_gen_id }}">{{ block.settings.feature_1_description }}</div>
+  </div>
+
+  <div class="ai-product-feature-item-{{ ai_gen_id }}">
+    <div class="ai-product-feature-icon-{{ ai_gen_id }}">
+      {% if block.settings.icon_2 != blank %}
+        {{ block.settings.icon_2 }}
+      {% else %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="{{ block.settings.icon_size }}" height="{{ block.settings.icon_size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8.4 10.6a2.1 2.1 0 1 1 0 4.2 2.1 2.1 0 0 1 0-4.2"></path>
+          <path d="M9.5 7.5V4a2 2 0 0 1 2-2h.5a2 2 0 0 1 2 2v3.5"></path>
+          <path d="M14.5 7.5V4a2 2 0 0 1 2-2h.5a2 2 0 0 1 2 2v3.5"></path>
+          <path d="M14.5 16.5V20a2 2 0 0 1-2 2h-.5a2 2 0 0 1-2-2v-3.5"></path>
+          <path d="M14.5 16.5V20a2 2 0 0 0 2 2h.5a2 2 0 0 0 2-2v-3.5"></path>
+          <path d="M3 8a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3z"></path>
+        </svg>
+      {% endif %}
+    </div>
+    <h3 class="ai-product-feature-title-{{ ai_gen_id }}">{{ block.settings.feature_2_title }}</h3>
+    <div class="ai-product-feature-description-{{ ai_gen_id }}">{{ block.settings.feature_2_description }}</div>
+  </div>
+
+  <div class="ai-product-feature-item-{{ ai_gen_id }}">
+    <div class="ai-product-feature-icon-{{ ai_gen_id }}">
+      {% if block.settings.icon_3 != blank %}
+        {{ block.settings.icon_3 }}
+      {% else %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="{{ block.settings.icon_size }}" height="{{ block.settings.icon_size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21V10a5 5 0 0 1 5-5h.02M9 17h6m-6-4h6"></path>
+          <path d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20z"></path>
+          <path d="m15 9-3-3-3 3"></path>
+        </svg>
+      {% endif %}
+    </div>
+    <h3 class="ai-product-feature-title-{{ ai_gen_id }}">{{ block.settings.feature_3_title }}</h3>
+    <div class="ai-product-feature-description-{{ ai_gen_id }}">{{ block.settings.feature_3_description }}</div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product Features Cards",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Feature 1"
+    },
+    {
+      "type": "text",
+      "id": "feature_1_title",
+      "label": "Title",
+      "default": "Alcohol Free"
+    },
+    {
+      "type": "text",
+      "id": "feature_1_description",
+      "label": "Description",
+      "default": "Our products contain no alcohol, making them gentle on sensitive skin."
+    },
+    {
+      "type": "liquid",
+      "id": "icon_1",
+      "label": "Custom Icon SVG",
+      "info": "Paste SVG code here. Default icon will be used if empty."
+    },
+    {
+      "type": "header",
+      "content": "Feature 2"
+    },
+    {
+      "type": "text",
+      "id": "feature_2_title",
+      "label": "Title",
+      "default": "Paraben Free"
+    },
+    {
+      "type": "text",
+      "id": "feature_2_description",
+      "label": "Description",
+      "default": "We never use parabens or other harmful preservatives in our formulations."
+    },
+    {
+      "type": "liquid",
+      "id": "icon_2",
+      "label": "Custom Icon SVG",
+      "info": "Paste SVG code here. Default icon will be used if empty."
+    },
+    {
+      "type": "header",
+      "content": "Feature 3"
+    },
+    {
+      "type": "text",
+      "id": "feature_3_title",
+      "label": "Title",
+      "default": "Perfume Free"
+    },
+    {
+      "type": "text",
+      "id": "feature_3_description",
+      "label": "Description",
+      "default": "Our products are fragrance-free, perfect for those with sensitivities."
+    },
+    {
+      "type": "liquid",
+      "id": "icon_3",
+      "label": "Custom Icon SVG",
+      "info": "Paste SVG code here. Default icon will be used if empty."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile layout",
+      "options": [
+        {
+          "value": "row",
+          "label": "Horizontal"
+        },
+        {
+          "value": "column",
+          "label": "Vertical"
+        }
+      ],
+      "default": "column"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Space between cards",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Section padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "margin",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Vertical margin",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Card Style"
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 15,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Card vertical padding",
+      "default": 25
+    },
+    {
+      "type": "range",
+      "id": "card_horizontal_padding",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Card horizontal padding",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_background_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Card background opacity",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "card_shadow_size",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Card shadow size",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "card_shadow_opacity",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "label": "Card shadow opacity",
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "card_hover_effect",
+      "label": "Enable hover effect",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Icons"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "icon_padding",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Icon padding",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "icon_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "label": "Icon border radius",
+      "default": 50
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "icon_color_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Icon color opacity",
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "icon_background_color",
+      "label": "Icon background color",
+      "default": "#000f9f"
+    },
+    {
+      "type": "range",
+      "id": "icon_background_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Icon background opacity",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "font_family",
+      "label": "Font family",
+      "options": [
+        {
+          "value": "var(--type-body-font)",
+          "label": "Body font"
+        },
+        {
+          "value": "var(--type-heading-font)",
+          "label": "Heading font"
+        },
+        {
+          "value": "var(--type-accent-font)",
+          "label": "Accent font"
+        }
+      ],
+      "default": "var(--type-body-font)"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Title size",
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Title weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "select",
+      "id": "title_transform",
+      "label": "Title text case",
+      "options": [
+        {
+          "value": "none",
+          "label": "Normal"
+        },
+        {
+          "value": "uppercase",
+          "label": "UPPERCASE"
+        },
+        {
+          "value": "lowercase",
+          "label": "lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Description size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "text_horizontal_padding",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Text horizontal padding",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Title color",
+      "default": "#333333"
+    },
+    {
+      "type": "range",
+      "id": "text_color_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Title color opacity",
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "description_color_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Description color opacity",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Features Cards"
+    }
+  ]
+}
+{% endschema %}

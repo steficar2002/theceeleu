@@ -1,0 +1,531 @@
+{% stylesheet %}
+  .shop-by-concern {
+    --concern-gap: var(--gap);
+    --concern-columns: 2;
+    --concern-columns-desktop: 3;
+  }
+
+  .shop-by-concern__grid {
+    display: grid;
+    gap: var(--concern-gap);
+    grid-template-columns: repeat(var(--concern-columns), 1fr);
+  }
+
+  @media screen and (width >= 750px) {
+    .shop-by-concern__grid {
+      grid-template-columns: repeat(var(--concern-columns-desktop), 1fr);
+    }
+  }
+
+  .concern-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1rem;
+    border-radius: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: var(--color-background);
+    border: 1px solid rgba(from var(--color-border) r g b / 0.1);
+    height: 100%;
+    min-height: 280px;
+  }
+
+  .concern-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .concern-card__icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .concern-card__icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .concern-card__title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-foreground);
+    flex-shrink: 0;
+  }
+
+  .concern-card__description {
+    color: rgba(from var(--color-foreground) r g b / 0.7);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  .concern-card__button {
+    color: var(--color-foreground);
+    text-decoration: underline;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    text-align: center;
+    display: inline-block;
+  }
+
+  .concern-card__button:hover {
+    color: var(--color-accent);
+    background: rgba(from var(--color-accent) r g b / 0.05);
+  }
+
+  @media screen and (max-width: 749px) {
+    .concern-card__button {
+      text-decoration: underline;
+      border: 1px solid rgba(from var(--color-foreground) r g b / 0.2);
+    }
+    
+    .concern-card__button:hover {
+      border-color: var(--color-accent);
+    }
+  }
+
+  .shop-by-concern__header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .shop-by-concern__title {
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    color: var(--color-foreground);
+  }
+{% endstylesheet %}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    shop-by-concern
+    spacing-style
+    gap-style
+  "
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    {% render 'gap-style', value: section.settings.gap %}
+    --concern-gap: {{ section.settings.concern_gap }}px;
+    --concern-columns: {{ section.settings.mobile_columns }};
+    --concern-columns-desktop: {{ section.settings.desktop_columns }};
+  "
+>
+  {%- if section.settings.title != blank -%}
+    <div class="shop-by-concern__header">
+      <h2 class="shop-by-concern__title" style="
+        font-family: {{ section.settings.title_font }};
+        font-size: {{ section.settings.title_font_size }}px;
+      ">{{ section.settings.title }}</h2>
+    </div>
+  {%- endif -%}
+
+  <div class="shop-by-concern__grid">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'concern' -%}
+          <div class="concern-card" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              <div class="concern-card__icon">
+                {{
+                  block.settings.icon
+                  | image_url: width: 120
+                  | image_tag:
+                    width: 60,
+                    height: 60,
+                    alt: block.settings.title,
+                    loading: 'lazy'
+                }}
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.title != blank -%}
+              <h3 class="concern-card__title" style="
+                font-family: {{ section.settings.concern_title_font }};
+                font-size: {{ section.settings.concern_title_font_size }}px;
+              ">{{ block.settings.title }}</h3>
+            {%- endif -%}
+
+            {%- if block.settings.description != blank -%}
+              <p class="concern-card__description" style="
+                font-family: {{ section.settings.description_font }};
+                font-size: {{ section.settings.description_font_size }}px;
+              ">{{ block.settings.description }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.button_text != blank and block.settings.button_link != blank -%}
+              <a href="{{ block.settings.button_link }}" class="concern-card__button" style="
+                font-family: {{ section.settings.button_font }};
+                font-size: {{ section.settings.button_font_size }}px;
+              ">
+                {{ block.settings.button_text }}
+              </a>
+            {%- endif -%}
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Shop by Concern",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Shop By Concern"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "title_font",
+      "label": "Section Title Font",
+      "options": [
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body Font"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading Font"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "Subheading Font"
+        }
+      ],
+      "default": "var(--font-heading--family)"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Section Title Font Size",
+      "min": 16,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "select",
+      "id": "concern_title_font",
+      "label": "Concern Title Font",
+      "options": [
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body Font"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading Font"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "Subheading Font"
+        }
+      ],
+      "default": "var(--font-subheading--family)"
+    },
+    {
+      "type": "range",
+      "id": "concern_title_font_size",
+      "label": "Concern Title Font Size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "description_font",
+      "label": "Description Font",
+      "options": [
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body Font"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading Font"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "Subheading Font"
+        }
+      ],
+      "default": "var(--font-body--family)"
+    },
+    {
+      "type": "range",
+      "id": "description_font_size",
+      "label": "Description Font Size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "button_font",
+      "label": "Button Font",
+      "options": [
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body Font"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading Font"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "Subheading Font"
+        }
+      ],
+      "default": "var(--font-body--family)"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Button Font Size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_columns",
+      "label": "Desktop Columns",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "mobile_columns",
+      "label": "Mobile Columns",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "concern_gap",
+      "label": "Gap between concerns",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Section Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page Width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full Width"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Section Gap",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top Padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom Padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "concern",
+      "name": "Concern",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Concern Name"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Brief description of the concern"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "View Collections"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by Concern",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "concern",
+          "settings": {
+            "title": "Skin Texture & Dullness",
+            "description": "For Uneven skin tone, dullness & rough texture",
+            "button_text": "View Collections"
+          }
+        },
+        {
+          "type": "concern",
+          "settings": {
+            "title": "Pigmentation & Dark Spots",
+            "description": "For Hyperpigmentation, blemishes & uneven tone",
+            "button_text": "View Collections"
+          }
+        },
+        {
+          "type": "concern",
+          "settings": {
+            "title": "Aging & Fine Lines",
+            "description": "For Wrinkles, fine lines & sagging skin",
+            "button_text": "View Collections"
+          }
+        },
+        {
+          "type": "concern",
+          "settings": {
+            "title": "Dryness & Dehydration",
+            "description": "For Dry, Flaky & Dull Skin",
+            "button_text": "View Collections"
+          }
+        },
+        {
+          "type": "concern",
+          "settings": {
+            "title": "Hair Fall & Thinning",
+            "description": "For Hair loss, thinning hair & weak roots",
+            "button_text": "View Collections"
+          }
+        },
+        {
+          "type": "concern",
+          "settings": {
+            "title": "Oral Care",
+            "description": "For Stained teeth, bad breath & yellowing",
+            "button_text": "View Collections"
+          }
+        }
+      ],
+      "settings": {
+        "title": "Shop By Concern",
+        "title_font": "var(--font-heading--family)",
+        "title_font_size": 32,
+        "concern_title_font": "var(--font-subheading--family)",
+        "concern_title_font_size": 18,
+        "description_font": "var(--font-body--family)",
+        "description_font_size": 14,
+        "button_font": "var(--font-body--family)",
+        "button_font_size": 14,
+        "desktop_columns": 3,
+        "mobile_columns": 2,
+        "concern_gap": 20,
+        "section_width": "page-width",
+        "gap": 12,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
+    }
+  ]
+}
+{% endschema %}

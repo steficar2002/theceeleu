@@ -1,0 +1,750 @@
+{% doc %}
+  Quantity Discount Block - Shows quantity discount options with metafield-based discount percentage
+  Displays "Kupi 1 - Ustedi 0%" and "2+1 Gratis - Ustedi X%" options
+{% enddoc %}
+
+{% comment %} Check if metafield exists - only show block if it does {% endcomment %}
+{% assign discount_percentage = product.metafields.custom.quantity_discount_percentage %}
+{% if discount_percentage == blank or discount_percentage == null %}
+  {% comment %} Hide block if no metafield {% endcomment %}
+{% else %}
+  {% assign discount_block_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .quantity-discount-{{ discount_block_id }} {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: {{ block.settings.gap }}px;
+    padding: {{ block.settings.padding }}px;
+    margin: {{ block.settings.margin }}px 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .quantity-discount-{{ discount_block_id }} {
+      flex-direction: row;
+      gap: {{ block.settings.gap | divided_by: 2 }}px;
+    }
+  }
+
+  .quantity-discount-option-{{ discount_block_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    padding: {{ block.settings.card_padding }}px {{ block.settings.card_horizontal_padding }}px;
+    background-color: {{ block.settings.card_background_color }};
+    opacity: {{ block.settings.card_background_opacity | divided_by: 100.0 }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    border: none !important;
+    box-shadow: 0 {{ block.settings.card_shadow_size }}px {{ block.settings.card_shadow_size | times: 2 }}px rgba(0, 0, 0, {{ block.settings.card_shadow_opacity | divided_by: 100.0 }});
+    transition: transform 0.2s ease-in-out, border 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quantity-discount-option-{{ discount_block_id }}.active {
+    border: 1px solid {{ block.settings.active_border_color }} !important;
+    box-shadow: 
+      0 0 0 1px {{ block.settings.active_border_color }},
+      0 4px 12px 0 rgba(0, 0, 0, 0.15),
+      0 8px 24px 0 rgba(0, 0, 0, 0.1) !important;
+    transform: scale(1.02);
+  }
+
+  .quantity-discount-option-{{ discount_block_id }}[data-quantity="1"].active {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 1px solid rgba(0, 0, 0, 0.4) !important;
+    box-shadow: 
+      0 0 0 1px rgba(0, 0, 0, 0.8),
+      inset 4px 4px 16px 2px rgba(255, 216, 183, 0.15),
+      inset -4px -4px 16px 2px rgba(244, 194, 255, 0.15),
+      0 6px 16px 0 rgba(0, 0, 0, 0.15),
+      0 12px 32px 0 rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .quantity-discount-option-{{ discount_block_id }}[data-quantity="3"].active {
+    /* Bright, saturated orange gradient for active bundle option */
+    background: linear-gradient(180deg, 
+      rgba(255, 230, 200, 1) 0%,
+      rgba(255, 220, 180, 1) 50%,
+      rgba(255, 210, 170, 1) 100%
+    ) !important;
+    border: 1px solid rgba(255, 160, 100, 0.9) !important;
+    box-shadow: 
+      0 0 0 2px rgba(255, 160, 100, 1),
+      inset 4px 4px 16px 2px rgba(255, 240, 220, 0.4),
+      inset -4px -4px 16px 2px rgba(255, 230, 200, 0.4),
+      0 6px 16px 0 rgba(255, 160, 100, 0.35),
+      0 12px 32px 0 rgba(255, 160, 100, 0.2) !important;
+  }
+
+  /* Option 1 (Single) - White/glassmorphism style (default) */
+  .quantity-discount-option-{{ discount_block_id }}[data-quantity="1"]:not(.active) {
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(0, 0, 0, 0.2) !important;
+    color: rgba(0, 0, 0, 1) !important;
+    box-shadow: 
+      inset 3px 3px 12px 1px rgba(255, 216, 183, 0.05),
+      inset -3px -3px 12px 1px rgba(244, 194, 255, 0.05),
+      inset 3px -3px 12px 1px rgba(209, 189, 255, 0.05),
+      inset -3px 3px 12px 1px rgba(160, 203, 255, 0.05),
+      0 4px 8px 0 rgba(0, 0, 0, 0.05),
+      0 8px 16px 0 rgba(0, 0, 0, 0.04),
+      0 16px 32px 0 rgba(0, 0, 0, 0.02) !important;
+  }
+
+
+  /* Option 2 (Bundle) - Orange gradient style (inactive - more saturated) */
+  .quantity-discount-option-{{ discount_block_id }}[data-quantity="3"]:not(.active) {
+    background: linear-gradient(180deg, 
+      rgba(255, 230, 210, 1) 0%,
+      rgba(255, 220, 195, 1) 50%,
+      rgba(255, 200, 170, 1) 100%
+    ) !important;
+    border: 1px solid rgba(255, 160, 120, 0.2) !important;
+    color: rgba(0, 0, 0, 1) !important;
+    box-shadow: 
+      inset 4px 4px 16px 2px rgba(255, 210, 180, 0.25),
+      inset -4px -4px 16px 2px rgba(255, 190, 160, 0.25),
+      0 4px 8px 0 rgba(255, 160, 120, 0.15),
+      0 8px 16px 0 rgba(255, 160, 120, 0.08) !important;
+  }
+
+
+  .quantity-discount-title-{{ discount_block_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: {{ block.settings.title_weight }};
+    margin-bottom: 8px;
+    color: {{ block.settings.text_color }};
+    opacity: {{ block.settings.text_color_opacity | divided_by: 100.0 }};
+    font-family: {{ block.settings.font_family }};
+    padding: 0 {{ block.settings.text_horizontal_padding }}px;
+    {% if block.settings.title_transform != 'none' %}
+    text-transform: {{ block.settings.title_transform }};
+    {% endif %}
+  }
+
+  .quantity-discount-savings-{{ discount_block_id }} {
+    font-size: {{ block.settings.savings_size }}px;
+    line-height: 1.5;
+    color: {{ block.settings.savings_color }};
+    opacity: {{ block.settings.savings_color_opacity | divided_by: 100.0 }};
+    font-family: {{ block.settings.font_family }};
+    padding: 0 {{ block.settings.text_horizontal_padding }}px;
+    font-weight: {{ block.settings.savings_weight }};
+  }
+
+  .quantity-discount-badge-{{ discount_block_id }} {
+    position: absolute;
+    top: {{ block.settings.badge_offset }}px;
+    right: {{ block.settings.badge_offset }}px;
+    background-color: {{ block.settings.badge_background_color }};
+    color: {{ block.settings.badge_text_color }};
+    padding: {{ block.settings.badge_padding }}px {{ block.settings.badge_padding | times: 1.5 }}px;
+    border-radius: {{ block.settings.badge_border_radius }}px;
+    font-size: {{ block.settings.badge_font_size }}px;
+    font-weight: {{ block.settings.badge_font_weight }};
+    font-family: {{ block.settings.font_family }};
+    {% if block.settings.show_badge == false %}
+    display: none;
+    {% endif %}
+  }
+{% endstyle %}
+
+<div class="quantity-discount-{{ discount_block_id }}" {{ block.shopify_attributes }}>
+  <div 
+    class="quantity-discount-option-{{ discount_block_id }}"
+    data-quantity="1"
+    onclick="selectQuantityOption(this, 1)"
+    role="button"
+    tabindex="0"
+    onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); selectQuantityOption(this, 1); }"
+  >
+    {% if block.settings.show_badge %}
+      <div class="quantity-discount-badge-{{ discount_block_id }}" style="display: none;">{{ block.settings.badge_text }}</div>
+    {% endif %}
+    <h3 class="quantity-discount-title-{{ discount_block_id }}">{{ block.settings.option_1_title | default: 'Kupi 1' }}</h3>
+    <div class="quantity-discount-savings-{{ discount_block_id }}">{{ block.settings.option_1_savings | default: 'Ustedi 0%' }}</div>
+  </div>
+
+  <div 
+    class="quantity-discount-option-{{ discount_block_id }}"
+    data-quantity="3"
+    onclick="selectQuantityOption(this, 3)"
+    role="button"
+    tabindex="0"
+    onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); selectQuantityOption(this, 3); }"
+  >
+    {% if block.settings.show_badge %}
+      <div class="quantity-discount-badge-{{ discount_block_id }}" style="display: none;">{{ block.settings.badge_text }}</div>
+    {% endif %}
+    <h3 class="quantity-discount-title-{{ discount_block_id }}">{{ block.settings.option_2_title | default: '2+1 Gratis' }}</h3>
+    <div class="quantity-discount-savings-{{ discount_block_id }}">{{ block.settings.option_2_savings_prefix | default: 'Ustedi' }} {{ discount_percentage | round }}%</div>
+  </div>
+</div>
+
+<script>
+  function updateActiveState(container, quantity) {
+    if (!container) return;
+    
+    const allOptions = container.querySelectorAll('[class*="quantity-discount-option-"]');
+    
+    // Remove active class and badge from all options
+    allOptions.forEach(option => {
+      option.classList.remove('active');
+      const badge = option.querySelector('[class*="quantity-discount-badge-"]');
+      if (badge) {
+        badge.style.display = 'none';
+      }
+    });
+    
+    // Determine which option should be active based on quantity
+    let activeOption = null;
+    if (quantity === 1) {
+      activeOption = container.querySelector('[data-quantity="1"]');
+    } else if (quantity === 3) {
+      activeOption = container.querySelector('[data-quantity="3"]');
+    }
+    
+    // Add active class to the appropriate option
+    if (activeOption) {
+      activeOption.classList.add('active');
+      const badge = activeOption.querySelector('[class*="quantity-discount-badge-"]');
+      if (badge) {
+        badge.style.display = 'block';
+      }
+    }
+  }
+
+  function selectQuantityOption(element, quantity) {
+    // Find the container and all options
+    const container = element.closest('[class*="quantity-discount-"]');
+    if (!container) return;
+    
+    // Update active state
+    updateActiveState(container, quantity);
+    
+    // Update quantity selector if it exists
+    const quantityInput = document.querySelector('input[name="quantity"], input[data-quantity-input], .quantity-selector input[type="number"]');
+    if (quantityInput) {
+      quantityInput.value = quantity;
+      quantityInput.dispatchEvent(new Event('change', { bubbles: true }));
+      quantityInput.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+    
+    // Trigger custom event for other scripts
+    document.dispatchEvent(new CustomEvent('quantity-discount-selected', { 
+      detail: { quantity: quantity } 
+    }));
+  }
+
+  function syncWithQuantityPicker() {
+    const container = document.querySelector('[class*="quantity-discount-"]');
+    if (!container) return;
+    
+    // Find quantity input
+    const quantityInput = document.querySelector('input[name="quantity"], input[data-quantity-input], .quantity-selector input[type="number"]');
+    if (!quantityInput) return;
+    
+    // Read current quantity and update active state
+    const currentQuantity = parseInt(quantityInput.value) || 1;
+    updateActiveState(container, currentQuantity);
+    
+    // Listen for changes in quantity picker
+    quantityInput.addEventListener('change', function() {
+      const quantity = parseInt(this.value) || 1;
+      updateActiveState(container, quantity);
+    });
+    
+    quantityInput.addEventListener('input', function() {
+      const quantity = parseInt(this.value) || 1;
+      updateActiveState(container, quantity);
+    });
+  }
+
+  // Initialize on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', syncWithQuantityPicker);
+  } else {
+    syncWithQuantityPicker();
+  }
+
+  // Also sync after a short delay to catch dynamically loaded content
+  setTimeout(syncWithQuantityPicker, 500);
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Quantity Discount",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Option 1 (Single)"
+    },
+    {
+      "type": "text",
+      "id": "option_1_title",
+      "label": "Title",
+      "default": "Kupi 1"
+    },
+    {
+      "type": "text",
+      "id": "option_1_savings",
+      "label": "Savings text",
+      "default": "Ustedi 0%"
+    },
+    {
+      "type": "header",
+      "content": "Option 2 (Bundle)"
+    },
+    {
+      "type": "text",
+      "id": "option_2_title",
+      "label": "Title",
+      "default": "2+1 Gratis"
+    },
+    {
+      "type": "text",
+      "id": "option_2_savings_prefix",
+      "label": "Savings prefix",
+      "default": "Ustedi",
+      "info": "Text before the discount percentage (e.g., 'Ustedi' in 'Ustedi 33%')"
+    },
+    {
+      "type": "range",
+      "id": "default_discount_percentage",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Default discount percentage",
+      "default": 33,
+      "info": "Note: Block only displays if metafield 'custom.quantity_discount_percentage' is set on the product"
+    },
+    {
+      "type": "select",
+      "id": "default_selection",
+      "label": "Default selection",
+      "options": [
+        {
+          "value": "single",
+          "label": "Single (Option 1)"
+        },
+        {
+          "value": "bundle",
+          "label": "Bundle (Option 2)"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "single"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile layout",
+      "options": [
+        {
+          "value": "row",
+          "label": "Horizontal"
+        },
+        {
+          "value": "column",
+          "label": "Vertical"
+        }
+      ],
+      "default": "column"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Space between cards",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Section padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "margin",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Vertical margin",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Card Style"
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 15,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Card vertical padding",
+      "default": 25
+    },
+    {
+      "type": "range",
+      "id": "card_horizontal_padding",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Card horizontal padding",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_background_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Card background opacity",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "card_shadow_size",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Card shadow size",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "card_shadow_opacity",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "label": "Card shadow opacity",
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "card_hover_effect",
+      "label": "Enable hover effect",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "active_background_color",
+      "label": "Active card background color",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "active_border_color",
+      "label": "Active card border color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show badge on active option",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "Izabrano"
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Badge font size",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "badge_font_weight",
+      "label": "Badge font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "badge_background_color",
+      "label": "Badge background color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "badge_padding",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "label": "Badge padding",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "badge_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Badge border radius",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "badge_offset",
+      "min": 5,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Badge offset from corner",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "font_family",
+      "label": "Font family",
+      "options": [
+        {
+          "value": "var(--type-body-font)",
+          "label": "Body font"
+        },
+        {
+          "value": "var(--type-heading-font)",
+          "label": "Heading font"
+        },
+        {
+          "value": "var(--type-accent-font)",
+          "label": "Accent font"
+        }
+      ],
+      "default": "var(--type-body-font)"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Title size",
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Title weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "select",
+      "id": "title_transform",
+      "label": "Title text case",
+      "options": [
+        {
+          "value": "none",
+          "label": "Normal"
+        },
+        {
+          "value": "uppercase",
+          "label": "UPPERCASE"
+        },
+        {
+          "value": "lowercase",
+          "label": "lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "savings_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Savings text size",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "savings_weight",
+      "label": "Savings text weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "range",
+      "id": "text_horizontal_padding",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Text horizontal padding",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Title color",
+      "default": "#333333"
+    },
+    {
+      "type": "range",
+      "id": "text_color_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Title color opacity",
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "savings_color",
+      "label": "Savings text color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "savings_color_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Savings text opacity",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Quantity Discount"
+    }
+  ]
+}
+{% endschema %}
+

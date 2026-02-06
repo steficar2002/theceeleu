@@ -1,0 +1,507 @@
+{% comment %}
+  How It Works Section - Displays product in center with 4 step cards in corners
+  File: sections/how-it-works.liquid
+{% endcomment %}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --how-it-works-bg-color: {{ section.settings.background_color | default: '#ffffff' }};
+    --how-it-works-text-color: {{ section.settings.text_color | default: '#000000' }};
+    --how-it-works-heading-color: {{ section.settings.heading_color | default: '#000000' }};
+    --how-it-works-subheading-color: {{ section.settings.subheading_color | default: '#666666' }};
+    --how-it-works-card-bg: {{ section.settings.card_background_color | default: '#f8f9fa' }};
+    --how-it-works-card-border: {{ section.settings.card_border_color | default: '#e9ecef' }};
+    --how-it-works-card-text: {{ section.settings.card_text_color | default: '#000000' }};
+    --how-it-works-padding: {{ section.settings.section_padding | default: 60 }}px;
+  }
+
+  #shopify-section-{{ section.id }} .how-it-works-section {
+    background-color: var(--how-it-works-bg-color);
+    padding: var(--how-it-works-padding) 0;
+  }
+
+  #shopify-section-{{ section.id }} .how-it-works-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  #shopify-section-{{ section.id }} .how-it-works-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  #shopify-section-{{ section.id }} .how-it-works-heading {
+    color: var(--how-it-works-heading-color);
+    font-size: 2.5rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  #shopify-section-{{ section.id }} .how-it-works-subheading {
+    color: var(--how-it-works-subheading-color);
+    font-size: 1.125rem;
+    font-weight: 400;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  #shopify-section-{{ section.id }} .how-it-works-layout {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+    min-height: auto;
+  }
+
+  #shopify-section-{{ section.id }} .product-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 2;
+  }
+
+  #shopify-section-{{ section.id }} .product-image {
+    width: 280px;
+    height: 280px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    margin-bottom: 0;
+    position: relative;
+  }
+
+  #shopify-section-{{ section.id }} .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #shopify-section-{{ section.id }} .product-title {
+    display: none;
+  }
+
+  #shopify-section-{{ section.id }} .product-description {
+    display: none;
+  }
+
+  #shopify-section-{{ section.id }} .steps-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  #shopify-section-{{ section.id }} .step-card {
+    background-color: var(--how-it-works-card-bg);
+    border: 1px solid var(--how-it-works-card-border);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #shopify-section-{{ section.id }} .step-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+  }
+
+  #shopify-section-{{ section.id }} .step-number {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--how-it-works-bg-color);
+    color: var(--how-it-works-text-color);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: 2px solid var(--how-it-works-card-border);
+  }
+
+  #shopify-section-{{ section.id }} .step-title {
+    color: var(--how-it-works-card-text);
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    line-height: 1.3;
+    padding-top: 8px;
+  }
+
+  #shopify-section-{{ section.id }} .step-description {
+    color: var(--how-it-works-card-text);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    opacity: 0.85;
+  }
+
+  #shopify-section-{{ section.id }} .step-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 16px;
+    background-color: var(--how-it-works-card-bg);
+    border: 1px solid var(--how-it-works-card-border);
+  }
+
+  #shopify-section-{{ section.id }} .step-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  /* Connection lines - removed for new layout */
+
+  /* Tablet Layout */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    #shopify-section-{{ section.id }} .steps-container {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+
+  /* Mobile Layout - Horizontal Steps */
+  @media (max-width: 768px) {
+    #shopify-section-{{ section.id }} .how-it-works-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      min-height: auto;
+    }
+
+    #shopify-section-{{ section.id }} .product-center {
+      order: 1;
+      margin-bottom: 20px;
+    }
+
+    #shopify-section-{{ section.id }} .product-image {
+      width: 180px;
+      height: 180px;
+      margin-bottom: 0;
+    }
+
+    #shopify-section-{{ section.id }} .steps-container {
+      order: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      grid-template-columns: 1fr;
+    }
+
+    #shopify-section-{{ section.id }} .step-card {
+      position: relative;
+      max-width: 100%;
+      padding: 20px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-align: left;
+    }
+
+    #shopify-section-{{ section.id }} .step-card .step-number {
+      position: static;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1rem;
+      flex-shrink: 0;
+      background-color: var(--how-it-works-card-bg);
+      border: 2px solid var(--how-it-works-card-border);
+      color: var(--how-it-works-card-text);
+    }
+
+    #shopify-section-{{ section.id }} .step-card .step-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      margin-bottom: 0;
+    }
+
+    #shopify-section-{{ section.id }} .step-card .step-content {
+      flex: 1;
+    }
+
+    #shopify-section-{{ section.id }} .step-card .step-title {
+      font-size: 1rem;
+      margin-bottom: 6px;
+      padding-top: 0;
+    }
+
+    #shopify-section-{{ section.id }} .step-card .step-description {
+      font-size: 0.875rem;
+      line-height: 1.4;
+      margin: 0;
+    }
+  }
+
+  /* Additional mobile optimizations */
+  @media (max-width: 768px) {
+    #shopify-section-{{ section.id }} .how-it-works-heading {
+      font-size: 2rem;
+    }
+
+    #shopify-section-{{ section.id }} .how-it-works-subheading {
+      font-size: 1rem;
+    }
+
+    #shopify-section-{{ section.id }} .how-it-works-container {
+      padding: 0 16px;
+    }
+  }
+
+  /* Hide section if no steps are available */
+  #shopify-section-{{ section.id }}.how-it-works-hidden {
+    display: none;
+  }
+</style>
+
+{% comment %} Check if we have any steps to display, if not use sample data {% endcomment %}
+{% assign has_steps = false %}
+{% for i in (1..4) %}
+  {% assign step_title_key = 'step_' | append: i | append: '_title' %}
+  {% assign step_description_key = 'step_' | append: i | append: '_description' %}
+  {% assign step_icon_key = 'step_' | append: i | append: '_icon' %}
+  
+  {% if product.metafields.custom[step_title_key] != blank %}
+    {% assign has_steps = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% comment %} Sample data for demonstration {% endcomment %}
+{% assign sample_steps = '' %}
+{% assign sample_steps = sample_steps | split: ',' %}
+
+{% unless has_steps %}
+  {% assign sample_steps = 'Step 1: Choose Your Product,Step 2: Follow Instructions,Step 3: See Results,Step 4: Enjoy Benefits' | split: ',' %}
+  {% assign sample_descriptions = 'Select the perfect product for your needs from our curated collection.,Follow our simple, easy-to-understand instructions for best results.,Experience the benefits within the recommended timeframe.,Enjoy the long-term positive effects of your chosen product.' | split: ',' %}
+{% endunless %}
+
+{% if has_steps or section.settings.show_sample_data %}
+  <div class="how-it-works-section">
+    <div class="how-it-works-container">
+      {% if section.settings.heading != blank %}
+        <div class="how-it-works-header">
+          <h2 class="how-it-works-heading">{{ section.settings.heading }}</h2>
+          {% if section.settings.subheading != blank %}
+            <p class="how-it-works-subheading">{{ section.settings.subheading }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <div class="how-it-works-layout">
+
+        <!-- Product in center -->
+        <div class="product-center">
+          <div class="product-image">
+            {% assign center_image = product.metafields.custom.how_it_works_center_image %}
+            {% if center_image != blank %}
+              <img 
+                src="{{ center_image | image_url: width: 560 }}"
+                srcset="{{ center_image | image_url: width: 560 }} 560w,
+                        {{ center_image | image_url: width: 1120 }} 1120w"
+                sizes="280px"
+                alt="How it works"
+                width="280"
+                height="280"
+                loading="lazy"
+              >
+            {% elsif product.featured_image %}
+              <img 
+                src="{{ product.featured_image | image_url: width: 560 }}"
+                srcset="{{ product.featured_image | image_url: width: 560 }} 560w,
+                        {{ product.featured_image | image_url: width: 1120 }} 1120w"
+                sizes="280px"
+                alt="{{ product.title }}"
+                width="280"
+                height="280"
+                loading="lazy"
+              >
+            {% else %}
+              <div style="background-color: #f0f0f0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #999;">
+                No Image
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Step cards -->
+        <div class="steps-container">
+          {% for i in (1..4) %}
+            {% assign step_title_key = 'step_' | append: i | append: '_title' %}
+            {% assign step_description_key = 'step_' | append: i | append: '_description' %}
+            {% assign step_icon_key = 'step_' | append: i | append: '_icon' %}
+            
+            {% if has_steps %}
+              {% assign step_title = product.metafields.custom[step_title_key] %}
+              {% assign step_description = product.metafields.custom[step_description_key] %}
+              {% assign step_icon = product.metafields.custom[step_icon_key] %}
+            {% else %}
+              {% assign step_title = sample_steps[forloop.index0] %}
+              {% assign step_description = sample_descriptions[forloop.index0] %}
+              {% assign step_icon = blank %}
+            {% endif %}
+            
+            {% if step_title != blank %}
+              <div class="step-card">
+                <div class="step-number">{{ i }}</div>
+                <div class="step-icon">
+                  {% if step_icon != blank %}
+                    <img 
+                      src="{{ step_icon | image_url: width: 96 }}"
+                      srcset="{{ step_icon | image_url: width: 96 }} 96w,
+                              {{ step_icon | image_url: width: 192 }} 192w"
+                      sizes="48px"
+                      alt="{{ step_title }}"
+                      width="48"
+                      height="48"
+                      loading="lazy"
+                    >
+                  {% else %}
+                    <span>{{ i }}</span>
+                  {% endif %}
+                </div>
+                <div class="step-content">
+                  <h3 class="step-title">{{ step_title }}</h3>
+                  {% if step_description != blank %}
+                    <p class="step-description">{{ step_description }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% else %}
+  {% comment %} Hide section if no steps are available {% endcomment %}
+  <style>
+    #shopify-section-{{ section.id }} {
+      display: none;
+    }
+  </style>
+{% endif %}
+
+{% schema %}
+{
+  "name": "How It Works",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "How it works",
+      "info": "Main heading for the how it works section"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Simple steps to get the most out of your product",
+      "info": "Optional subheading text"
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading Color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card Background Color",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card Border Color",
+      "default": "#e9ecef"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 20,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Section Padding",
+      "default": 60
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sample_data",
+      "label": "Show Sample Data",
+      "default": false,
+      "info": "Display sample data when no metafields are configured (useful for preview)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "How It Works"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,1683 @@
+{% comment %}
+  The CEEL — Hero Slideshow (B/W + Trust Badges)
+  
+  Minimal, premium hero using only black & white.
+  2–4 slides, headline-first content, strong CTA(s), optional trust badges.
+  Works in Dawn (or derivative), configurable in Theme Editor.
+  Accessible, mobile-first, performant.
+{% endcomment %}
+
+{%- liquid
+  assign show_controls = false
+  if section.blocks.size > 1
+    assign show_controls = true
+  endif
+  
+  assign autoplay_enabled = section.settings.autoplay
+  if section.blocks.size <= 1
+    assign autoplay_enabled = false
+  endif
+-%}
+
+{% stylesheet %}
+  .hero-full-bleed {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+  }
+
+  .ceel-hero-slideshow {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    background: #000;
+  }
+
+  .ceel-hero-slideshow__slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: scale(1.05);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none;
+  }
+
+  .ceel-hero-slideshow__slide.active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+
+  .ceel-hero-slideshow__slide.slide-out {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  .ceel-hero-slideshow__media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .ceel-hero-slideshow__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+  }
+
+  .ceel-hero-slideshow__overlay--black {
+    background: rgba(0, 0, 0, var(--overlay-opacity, 0.4));
+  }
+
+  .ceel-hero-slideshow__overlay--white {
+    background: rgba(255, 255, 255, var(--overlay-opacity, 0.4));
+  }
+
+  .ceel-hero-slideshow__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: var(--content-align-vertical, center);
+    justify-content: var(--content-align-horizontal, flex-start);
+    z-index: 3;
+    padding: 2rem;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
+  }
+
+  .ceel-hero-slideshow__slide.active .ceel-hero-slideshow__content {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media screen and (min-width: 750px) {
+    .ceel-hero-slideshow__content {
+      padding: 4rem 6rem;
+    }
+  }
+
+  .ceel-hero-slideshow__content-panel {
+    max-width: var(--content-max-width, 680px);
+    width: 100%;
+    color: var(--text-color, #fff);
+  }
+
+  .ceel-hero-slideshow__eyebrow {
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s;
+  }
+
+  .ceel-hero-slideshow__slide.active .ceel-hero-slideshow__eyebrow {
+    opacity: 0.8;
+    transform: translateY(0);
+  }
+
+  .ceel-hero-slideshow__headline {
+    font-size: clamp(1.75rem, 4vw, 3.5rem);
+    font-weight: 500;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: var(--text-color, #fff);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s;
+  }
+
+  .ceel-hero-slideshow__slide.active .ceel-hero-slideshow__headline {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .ceel-hero-slideshow__subheadline {
+    font-size: clamp(1rem, 2vw, 1.375rem);
+    line-height: 1.5;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    color: var(--text-color, #fff);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.25s;
+  }
+
+  .ceel-hero-slideshow__slide.active .ceel-hero-slideshow__subheadline {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+
+  .ceel-hero-slideshow__ctas {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s;
+  }
+
+  .ceel-hero-slideshow__slide.active .ceel-hero-slideshow__ctas {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media screen and (min-width: 750px) {
+    .ceel-hero-slideshow__ctas {
+      flex-direction: row;
+      align-items: center;
+      gap: 1.5rem;
+    }
+  }
+
+  .ceel-hero-slideshow__cta-primary {
+    /* Glass effect for buy buttons only */
+    background: rgba(0, 0, 0, 0.9) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 
+      inset 3px 3px 12px 1px rgba(255, 216, 183, 0.25),
+      inset -3px -3px 12px 1px rgba(244, 194, 255, 0.25),
+      inset 3px -3px 12px 1px rgba(209, 189, 255, 0.25),
+      inset -3px 3px 12px 1px rgba(160, 203, 255, 0.25),
+      0 4px 8px 0 rgba(0, 0, 0, 0.3),
+      0 8px 16px 0 rgba(0, 0, 0, 0.2),
+      0 16px 32px 0 rgba(0, 0, 0, 0.1) !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    min-width: 200px;
+  }
+
+  .ceel-hero-slideshow__cta-primary:hover {
+    /* Enhanced glass edge glow on hover - more saturated edges */
+    background: rgba(0, 0, 0, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    box-shadow: 
+      inset 4px 4px 16px 2px rgba(255, 216, 183, 0.45),
+      inset -4px -4px 16px 2px rgba(244, 194, 255, 0.45),
+      inset 4px -4px 16px 2px rgba(209, 189, 255, 0.35),
+      inset -4px 4px 16px 2px rgba(160, 203, 255, 0.35),
+      0 6px 12px 0 rgba(0, 0, 0, 0.4),
+      0 12px 24px 0 rgba(0, 0, 0, 0.3),
+      0 24px 48px 0 rgba(0, 0, 0, 0.2) !important;
+    transform: translateY(-1px);
+  }
+
+  .ceel-hero-slideshow__cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    color: var(--text-color, #fff);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    min-width: 200px;
+    border-radius: 8px;
+    box-shadow: 
+      inset 2px 2px 8px 1px rgba(255, 255, 255, 0.1),
+      inset -2px -2px 8px 1px rgba(0, 0, 0, 0.1),
+      0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .ceel-hero-slideshow__cta-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 
+      inset 3px 3px 12px 1px rgba(255, 255, 255, 0.15),
+      inset -3px -3px 12px 1px rgba(0, 0, 0, 0.15),
+      0 4px 8px 0 rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+  }
+
+  .ceel-hero-slideshow__cta-disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .ceel-hero-slideshow__cta-disabled:hover {
+    transform: none !important;
+    background: inherit !important;
+    box-shadow: inherit !important;
+  }
+
+  .ceel-hero-slideshow__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.35s;
+  }
+
+  .ceel-hero-slideshow__slide.active .ceel-hero-slideshow__badges {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .ceel-hero-slideshow__badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-color, #fff);
+    opacity: 0.8;
+  }
+
+  .ceel-hero-slideshow__badge-icon {
+    width: 18px;
+    height: 18px;
+    filter: grayscale(100%);
+  }
+
+  .ceel-hero-slideshow__controls {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s;
+  }
+
+  .ceel-hero-slideshow__slide.active ~ .ceel-hero-slideshow__controls,
+  .ceel-hero-slideshow__controls {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .ceel-hero-slideshow__dots {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .ceel-hero-slideshow__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: scale(1);
+  }
+
+  .ceel-hero-slideshow__dot:hover {
+    transform: scale(1.2);
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .ceel-hero-slideshow__dot.active {
+    background: #fff;
+  }
+
+  .ceel-hero-slideshow__arrows {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .ceel-hero-slideshow__arrow {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ceel-hero-slideshow__arrow:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .ceel-hero-slideshow__arrow-icon {
+    width: 16px;
+    height: 16px;
+    filter: invert(1);
+  }
+
+  .ceel-hero-slideshow__arrow--prev .ceel-hero-slideshow__arrow-icon {
+    transform: rotate(180deg);
+  }
+
+  .ceel-hero-slideshow__pause-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .ceel-hero-slideshow__pause-btn.playing {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  .ceel-hero-slideshow__pause-btn.paused {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+  }
+
+  .ceel-hero-slideshow__pause-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .ceel-hero-slideshow__pause-btn:focus {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+
+  .ceel-hero-slideshow__pause-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Mobile adjustments */
+  @media screen and (max-width: 749px) {
+    .ceel-hero-slideshow {
+      height: 100vh;
+      min-height: 500px;
+      touch-action: pan-y; /* Allow vertical scrolling but handle horizontal gestures */
+    }
+
+    .ceel-hero-slideshow__content {
+      padding: 2rem;
+      align-items: flex-end;
+      padding-bottom: 10rem;
+    }
+
+    .ceel-hero-slideshow__content-panel {
+      text-align: center;
+    }
+
+    .ceel-hero-slideshow__ctas {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .ceel-hero-slideshow__cta-primary,
+    .ceel-hero-slideshow__cta-secondary {
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .ceel-hero-slideshow__badges {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .ceel-hero-slideshow__controls {
+      bottom: 1rem;
+    }
+
+    /* Touch feedback for mobile drag */
+    .ceel-hero-slideshow__slide {
+      transition: transform 0.1s ease-out;
+    }
+
+    .ceel-hero-slideshow__slide.dragging {
+      transition: none;
+    }
+
+    /* Optimize animations for mobile */
+    .ceel-hero-slideshow__slide {
+      will-change: transform, opacity;
+    }
+
+    .ceel-hero-slideshow__content,
+    .ceel-hero-slideshow__eyebrow,
+    .ceel-hero-slideshow__headline,
+    .ceel-hero-slideshow__subheadline,
+    .ceel-hero-slideshow__ctas,
+    .ceel-hero-slideshow__badges {
+      will-change: transform, opacity;
+    }
+  }
+
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .ceel-hero-slideshow__slide,
+    .ceel-hero-slideshow__content,
+    .ceel-hero-slideshow__eyebrow,
+    .ceel-hero-slideshow__headline,
+    .ceel-hero-slideshow__subheadline,
+    .ceel-hero-slideshow__ctas,
+    .ceel-hero-slideshow__badges,
+    .ceel-hero-slideshow__controls {
+      transition: none !important;
+      transform: none !important;
+    }
+    
+    .ceel-hero-slideshow__cta-primary,
+    .ceel-hero-slideshow__cta-secondary,
+    .ceel-hero-slideshow__dot,
+    .ceel-hero-slideshow__arrow,
+    .ceel-hero-slideshow__pause-btn {
+      transition: none;
+    }
+  }
+
+  /* Focus styles */
+  .ceel-hero-slideshow__cta-primary:focus,
+  .ceel-hero-slideshow__cta-secondary:focus,
+  .ceel-hero-slideshow__dot:focus,
+  .ceel-hero-slideshow__arrow:focus {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+{% endstylesheet %}
+
+<div class="hero-full-bleed">
+  <div class="section-background color-{{ section.settings.color_scheme | default: 'scheme-1' }}"></div>
+  <div
+    class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme | default: 'scheme-1' }} disable-section-top-offset"
+    style="{% render 'spacing-padding', settings: section.settings %}"
+  >
+    <ceel-hero-slideshow
+      class="ceel-hero-slideshow"
+      aria-label="Hero slideshow"
+      role="region"
+      aria-roledescription="carousel"
+      aria-live="polite"
+      data-autoplay="{{ autoplay_enabled }}"
+      data-autoplay-speed="{{ section.settings.autoplay_speed }}"
+      data-show-arrows="{{ section.settings.show_arrows }}"
+      data-show-dots="{{ section.settings.show_dots }}"
+      data-enable-touch-drag="{{ section.settings.enable_touch_drag }}"
+    >
+    {% for block in section.blocks %}
+      {%- liquid
+        assign slide_index = forloop.index0
+        assign is_first_slide = forloop.first
+        assign slide_class = 'ceel-hero-slideshow__slide'
+        if is_first_slide
+          assign slide_class = slide_class | append: ' active'
+        endif
+        
+        assign overlay_color = block.settings.overlay_color | default: section.settings.overlay_default
+        assign overlay_opacity = block.settings.overlay_opacity | default: section.settings.overlay_opacity_default
+        assign overlay_class = 'ceel-hero-slideshow__overlay--' | append: overlay_color
+        
+        assign content_align_horizontal = block.settings.content_align_horizontal | default: section.settings.content_align_horizontal
+        assign content_align_vertical = block.settings.content_align_vertical | default: section.settings.content_align_vertical
+        
+        assign text_color = '#fff'
+        assign bg_color = '#000'
+        if overlay_color == 'white'
+          assign text_color = '#000'
+          assign bg_color = '#fff'
+        endif
+      -%}
+
+      <div 
+        class="{{ slide_class }}"
+        role="group"
+        aria-label="Slajd {{ forloop.index }} od {{ section.blocks.size }}: {{ block.settings.headline | escape }}"
+        aria-hidden="{% if is_first_slide %}false{% else %}true{% endif %}"
+        data-slide-index="{{ slide_index }}"
+        {{ block.shopify_attributes }}
+      >
+        <!-- Media -->
+        <div class="ceel-hero-slideshow__media-container">
+          {% if block.settings.media_type == 'image' %}
+            {% if block.settings.image_desktop %}
+              {%- liquid
+                assign image = block.settings.image_desktop
+                assign mobile_image = block.settings.image_mobile | default: image
+                assign alt_text = block.settings.image_alt | default: block.settings.headline
+                assign loading = 'eager'
+                if slide_index > 0
+                  assign loading = 'lazy'
+                endif
+              -%}
+              
+              <picture>
+                <source 
+                  media="(max-width: 749px)" 
+                  srcset="{{ mobile_image | image_url: width: 750 }} 750w,
+                          {{ mobile_image | image_url: width: 1500 }} 1500w"
+                  sizes="100vw"
+                >
+                <img 
+                  src="{{ image | image_url: width: 1920 }}"
+                  srcset="{{ image | image_url: width: 750 }} 750w,
+                          {{ image | image_url: width: 1500 }} 1500w,
+                          {{ image | image_url: width: 1920 }} 1920w,
+                          {{ image | image_url: width: 2560 }} 2560w"
+                  sizes="100vw"
+                  alt="{{ alt_text | escape }}"
+                  class="ceel-hero-slideshow__media"
+                  loading="{{ loading }}"
+                  width="1920"
+                  height="1080"
+                  {% if is_first_slide %}fetchpriority="high"{% endif %}
+                >
+              </picture>
+            {% endif %}
+          {% elsif block.settings.media_type == 'video' %}
+            {% if block.settings.video_url_mp4 != blank or block.settings.video_url_webm != blank %}
+              <video 
+                class="ceel-hero-slideshow__media"
+                {% if is_first_slide %}autoplay{% endif %}
+                muted
+                loop
+                playsinline
+                preload="auto"
+                {% if is_first_slide %}fetchpriority="high"{% endif %}
+                {% if block.settings.video_poster %}poster="{{ block.settings.video_poster | image_url: width: 1920 }}"{% endif %}
+              >
+                {% if block.settings.video_url_mp4 != blank %}
+                  <source src="{{ block.settings.video_url_mp4 }}" type="video/mp4">
+                {% endif %}
+                {% if block.settings.video_url_webm != blank %}
+                  <source src="{{ block.settings.video_url_webm }}" type="video/webm">
+                {% endif %}
+                Your browser does not support the video tag.
+              </video>
+            {% endif %}
+          {% endif %}
+        </div>
+
+        <!-- Overlay -->
+        <div 
+          class="ceel-hero-slideshow__overlay {{ overlay_class }}"
+          style="--overlay-opacity: {{ overlay_opacity | divided_by: 100.0 }}"
+        ></div>
+
+        <!-- Content -->
+        <div 
+          class="ceel-hero-slideshow__content"
+          style="--content-align-horizontal: {{ content_align_horizontal }};
+                 --content-align-vertical: {{ content_align_vertical }};
+                 --content-max-width: {{ section.settings.content_max_width }}px;
+                 --text-color: {{ text_color }};
+                 --bg-color: {{ bg_color }};"
+        >
+          <div class="ceel-hero-slideshow__content-panel">
+            {% if block.settings.eyebrow != blank %}
+              <div class="ceel-hero-slideshow__eyebrow">
+                {{ block.settings.eyebrow }}
+              </div>
+            {% endif %}
+
+            {% if block.settings.headline != blank %}
+              <h1 class="ceel-hero-slideshow__headline">
+                {{ block.settings.headline }}
+              </h1>
+            {% endif %}
+
+            {% if block.settings.subheadline != blank %}
+              <div class="ceel-hero-slideshow__subheadline">
+                {{ block.settings.subheadline }}
+              </div>
+            {% endif %}
+
+            <!-- CTAs -->
+            {%- liquid
+              assign show_primary = false
+              assign show_secondary = false
+              
+              if block.settings.primary_label != blank and block.settings.disable_primary_button == false
+                assign show_primary = true
+              endif
+              
+              if block.settings.secondary_label != blank and block.settings.disable_secondary_button == false
+                assign show_secondary = true
+              endif
+            -%}
+            
+            {% if show_primary or show_secondary %}
+              <div class="ceel-hero-slideshow__ctas">
+                {% if show_primary %}
+                  {%- liquid
+                    assign primary_url = block.settings.primary_url
+                    if primary_url == blank
+                      assign primary_url = '#'
+                    endif
+                  -%}
+                  {% if primary_url != '#' %}
+                    <a 
+                      href="{{ primary_url }}"
+                      class="ceel-hero-slideshow__cta-primary"
+                      {% if primary_url contains 'http' %}target="_blank" rel="noopener noreferrer"{% endif %}
+                    >
+                      {{ block.settings.primary_label }}
+                    </a>
+                  {% else %}
+                    <span class="ceel-hero-slideshow__cta-primary ceel-hero-slideshow__cta-disabled">
+                      {{ block.settings.primary_label }}
+                    </span>
+                  {% endif %}
+                {% endif %}
+
+                {% if show_secondary %}
+                  {%- liquid
+                    assign secondary_url = block.settings.secondary_url
+                    if secondary_url == blank
+                      assign secondary_url = '#'
+                    endif
+                  -%}
+                  {% if secondary_url != '#' %}
+                    <a 
+                      href="{{ secondary_url }}"
+                      class="ceel-hero-slideshow__cta-secondary"
+                      {% if secondary_url contains 'http' %}target="_blank" rel="noopener noreferrer"{% endif %}
+                    >
+                      {{ block.settings.secondary_label }}
+                    </a>
+                  {% else %}
+                    <span class="ceel-hero-slideshow__cta-secondary ceel-hero-slideshow__cta-disabled">
+                      {{ block.settings.secondary_label }}
+                    </span>
+                  {% endif %}
+                {% endif %}
+              </div>
+            {% endif %}
+
+            <!-- Trust Badges -->
+            {% if section.settings.badges_enable_global %}
+              <div class="ceel-hero-slideshow__badges">
+                {% if section.settings.badge_1_label != blank %}
+                  <div class="ceel-hero-slideshow__badge">
+                    {% if section.settings.badge_1_icon != blank %}
+                      <img 
+                        src="{{ section.settings.badge_1_icon | image_url: width: 36 }}"
+                        alt="{{ section.settings.badge_1_label | escape }}"
+                        class="ceel-hero-slideshow__badge-icon"
+                        loading="lazy"
+                        width="18"
+                        height="18"
+                      >
+                    {% endif %}
+                    <span>{{ section.settings.badge_1_label }}</span>
+                  </div>
+                {% endif %}
+                {% if section.settings.badge_2_label != blank %}
+                  <div class="ceel-hero-slideshow__badge">
+                    {% if section.settings.badge_2_icon != blank %}
+                      <img 
+                        src="{{ section.settings.badge_2_icon | image_url: width: 36 }}"
+                        alt="{{ section.settings.badge_2_label | escape }}"
+                        class="ceel-hero-slideshow__badge-icon"
+                        loading="lazy"
+                        width="18"
+                        height="18"
+                      >
+                    {% endif %}
+                    <span>{{ section.settings.badge_2_label }}</span>
+                  </div>
+                {% endif %}
+                {% if section.settings.badge_3_label != blank %}
+                  <div class="ceel-hero-slideshow__badge">
+                    {% if section.settings.badge_3_icon != blank %}
+                      <img 
+                        src="{{ section.settings.badge_3_icon | image_url: width: 36 }}"
+                        alt="{{ section.settings.badge_3_label | escape }}"
+                        class="ceel-hero-slideshow__badge-icon"
+                        loading="lazy"
+                        width="18"
+                        height="18"
+                      >
+                    {% endif %}
+                    <span>{{ section.settings.badge_3_label }}</span>
+                  </div>
+                {% endif %}
+                {% if section.settings.badge_4_label != blank %}
+                  <div class="ceel-hero-slideshow__badge">
+                    {% if section.settings.badge_4_icon != blank %}
+                      <img 
+                        src="{{ section.settings.badge_4_icon | image_url: width: 36 }}"
+                        alt="{{ section.settings.badge_4_label | escape }}"
+                        class="ceel-hero-slideshow__badge-icon"
+                        loading="lazy"
+                        width="18"
+                        height="18"
+                      >
+                    {% endif %}
+                    <span>{{ section.settings.badge_4_label }}</span>
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+    <!-- Controls -->
+    {% if show_controls %}
+      <div class="ceel-hero-slideshow__controls">
+        {% if section.settings.show_dots %}
+          <div class="ceel-hero-slideshow__dots">
+            {% for block in section.blocks %}
+              <button 
+                class="ceel-hero-slideshow__dot{% if forloop.first %} active{% endif %}"
+                data-slide-index="{{ forloop.index0 }}"
+                aria-label="Idi na slajd {{ forloop.index }}"
+              ></button>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.show_arrows %}
+          <div class="ceel-hero-slideshow__arrows">
+            <button 
+              class="ceel-hero-slideshow__arrow ceel-hero-slideshow__arrow--prev"
+              aria-label="Prethodni slajd"
+            >
+              {{ 'icon-caret.svg' | asset_url | image_tag: class: 'ceel-hero-slideshow__arrow-icon', alt: 'Prethodni slajd' }}
+            </button>
+            <button 
+              class="ceel-hero-slideshow__arrow ceel-hero-slideshow__arrow--next"
+              aria-label="Sledeći slajd"
+            >
+              {{ 'icon-caret.svg' | asset_url | image_tag: class: 'ceel-hero-slideshow__arrow-icon', alt: 'Sledeći slajd' }}
+            </button>
+          </div>
+        {% endif %}
+
+        {% if section.settings.show_pause_button and autoplay_enabled %}
+          <button 
+            class="ceel-hero-slideshow__pause-btn"
+            aria-label="Pause slideshow"
+          >
+            <span class="ceel-hero-slideshow__pause-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="4" y="2" width="3" height="12"/><rect x="9" y="2" width="3" height="12"/></svg>
+            </span>
+          </button>
+        {% endif %}
+      </div>
+    {% endif %}
+    </ceel-hero-slideshow>
+  </div>
+</div>
+
+<script>
+  class CeelHeroSlideshow extends HTMLElement {
+    constructor() {
+      super();
+      this.currentSlide = 0;
+      this.slides = [];
+      this.autoplayInterval = null;
+      this.isPaused = false;
+      this.autoplaySpeed = parseInt(this.dataset.autoplaySpeed) || 5;
+      this.showArrows = this.dataset.showArrows === 'true';
+      this.showDots = this.dataset.showDots === 'true';
+      this.autoplayEnabled = this.dataset.autoplay === 'true';
+      this.enableTouchDrag = this.dataset.enableTouchDrag === 'true';
+      
+      // Touch/drag properties
+      this.touchStartX = 0;
+      this.touchStartY = 0;
+      this.touchEndX = 0;
+      this.touchEndY = 0;
+      this.isDragging = false;
+      this.dragThreshold = 50; // Minimum drag distance to trigger slide change
+    }
+
+    connectedCallback() {
+      this.slides = Array.from(this.querySelectorAll('.ceel-hero-slideshow__slide'));
+      this.initEventListeners();
+      this.startAutoplay();
+      this.updateSlideAccessibility();
+      this.updatePauseButton();
+    }
+
+    disconnectedCallback() {
+      this.stopAutoplay();
+      this.removeEventListeners();
+    }
+
+    initEventListeners() {
+      // Arrow controls
+      if (this.showArrows) {
+        const prevBtn = this.querySelector('.ceel-hero-slideshow__arrow--prev');
+        const nextBtn = this.querySelector('.ceel-hero-slideshow__arrow--next');
+        
+        if (prevBtn) prevBtn.addEventListener('click', () => this.previousSlide());
+        if (nextBtn) nextBtn.addEventListener('click', () => this.nextSlide());
+      }
+
+      // Dot controls
+      if (this.showDots) {
+        const dots = this.querySelectorAll('.ceel-hero-slideshow__dot');
+        dots.forEach((dot, index) => {
+          dot.addEventListener('click', () => this.goToSlide(index));
+        });
+      }
+
+      // Pause button
+      const pauseBtn = this.querySelector('.ceel-hero-slideshow__pause-btn');
+      if (pauseBtn) {
+        pauseBtn.addEventListener('click', () => this.togglePause());
+      }
+
+      // Touch/drag events for mobile
+      if (this.enableTouchDrag) {
+        this.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: true });
+        this.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: true });
+        this.addEventListener('touchend', this.handleTouchEnd.bind(this), { passive: true });
+      }
+
+      // Keyboard navigation
+      this.addEventListener('keydown', this.handleKeydown.bind(this));
+      
+      // Pause on hover/focus
+      this.addEventListener('mouseenter', this.pauseAutoplay.bind(this));
+      this.addEventListener('mouseleave', this.resumeAutoplay.bind(this));
+      this.addEventListener('focusin', this.pauseAutoplay.bind(this));
+      this.addEventListener('focusout', this.resumeAutoplay.bind(this));
+
+      // Respect reduced motion preference
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        this.stopAutoplay();
+      }
+
+    }
+
+    removeEventListeners() {
+      // Clean up event listeners
+      this.removeEventListener('keydown', this.handleKeydown.bind(this));
+    }
+
+    handleKeydown(event) {
+      switch(event.key) {
+        case 'ArrowLeft':
+          event.preventDefault();
+          this.previousSlide();
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          this.nextSlide();
+          break;
+        case ' ':
+        case 'Space':
+          event.preventDefault();
+          this.togglePause();
+          break;
+      }
+    }
+
+    goToSlide(index) {
+      if (index < 0 || index >= this.slides.length) return;
+      
+      const previousSlide = this.currentSlide;
+      this.currentSlide = index;
+      
+      this.updateSlides();
+      this.updateControls();
+      this.updateSlideAccessibility();
+      this.dispatchSlideChangeEvent(previousSlide, index);
+    }
+
+    nextSlide() {
+      const nextIndex = (this.currentSlide + 1) % this.slides.length;
+      this.goToSlide(nextIndex);
+    }
+
+    previousSlide() {
+      const prevIndex = this.currentSlide === 0 ? this.slides.length - 1 : this.currentSlide - 1;
+      this.goToSlide(prevIndex);
+    }
+
+    updateSlides() {
+      this.slides.forEach((slide, index) => {
+        const isActive = index === this.currentSlide;
+        slide.classList.toggle('active', isActive);
+        slide.setAttribute('aria-hidden', (!isActive).toString());
+        
+        // Handle video playback
+        const video = slide.querySelector('video');
+        if (video) {
+          if (isActive) {
+            video.play().catch(e => console.log('Video autoplay failed:', e));
+          } else {
+            video.pause();
+          }
+        }
+      });
+    }
+
+    updateControls() {
+      // Update dots
+      if (this.showDots) {
+        const dots = this.querySelectorAll('.ceel-hero-slideshow__dot');
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === this.currentSlide);
+        });
+      }
+    }
+
+    updateSlideAccessibility() {
+      // Update aria-live region for screen readers
+      const currentSlide = this.slides[this.currentSlide];
+      if (currentSlide) {
+        const slideLabel = currentSlide.getAttribute('aria-label');
+        this.setAttribute('aria-label', `Hero slideshow - ${slideLabel}`);
+      }
+    }
+
+    startAutoplay() {
+      if (!this.autoplayEnabled || this.slides.length <= 1) return;
+      
+      // Clear any existing interval first
+      this.stopAutoplay();
+      
+      this.autoplayInterval = setInterval(() => {
+        if (!this.isPaused) {
+          this.nextSlide();
+        }
+      }, this.autoplaySpeed * 1000);
+    }
+
+    stopAutoplay() {
+      if (this.autoplayInterval) {
+        clearInterval(this.autoplayInterval);
+        this.autoplayInterval = null;
+      }
+    }
+
+    pauseAutoplay() {
+      this.isPaused = true;
+    }
+
+    resumeAutoplay() {
+      this.isPaused = false;
+    }
+
+    dispatchSlideChangeEvent(previousIndex, currentIndex) {
+      const event = new CustomEvent('ceel:slidechange', {
+        detail: {
+          previousIndex,
+          currentIndex,
+          currentSlide: this.slides[currentIndex]
+        }
+      });
+      this.dispatchEvent(event);
+    }
+
+    // Touch/drag event handlers
+    handleTouchStart(event) {
+      if (this.slides.length <= 1) return;
+      
+      this.touchStartX = event.touches[0].clientX;
+      this.touchStartY = event.touches[0].clientY;
+      this.isDragging = false;
+    }
+
+    handleTouchMove(event) {
+      if (this.slides.length <= 1) return;
+      
+      this.touchEndX = event.touches[0].clientX;
+      this.touchEndY = event.touches[0].clientY;
+      
+      const deltaX = Math.abs(this.touchEndX - this.touchStartX);
+      const deltaY = Math.abs(this.touchEndY - this.touchStartY);
+      
+      // Only consider it a drag if horizontal movement is greater than vertical
+      if (deltaX > deltaY && deltaX > 10) {
+        this.isDragging = true;
+      }
+    }
+
+    handleTouchEnd(event) {
+      if (this.slides.length <= 1 || !this.isDragging) return;
+      
+      const deltaX = this.touchEndX - this.touchStartX;
+      
+      if (Math.abs(deltaX) > this.dragThreshold) {
+        if (deltaX > 0) {
+          // Swipe right - go to previous slide
+          this.previousSlide();
+        } else {
+          // Swipe left - go to next slide
+          this.nextSlide();
+        }
+      }
+      
+      this.isDragging = false;
+    }
+
+    // Method to enable/disable controls
+    enableControls() {
+      this.showArrows = true;
+      this.showDots = true;
+      this.updateControlsVisibility();
+    }
+
+    disableControls() {
+      this.showArrows = false;
+      this.showDots = false;
+      this.updateControlsVisibility();
+    }
+
+    updateControlsVisibility() {
+      const controls = this.querySelector('.ceel-hero-slideshow__controls');
+      if (controls) {
+        const hasControls = this.showArrows || this.showDots;
+        const pauseBtn = this.querySelector('.ceel-hero-slideshow__pause-btn');
+        const hasPauseBtn = pauseBtn && this.autoplayEnabled;
+        controls.style.display = (hasControls || hasPauseBtn) ? 'flex' : 'none';
+      }
+    }
+
+    // Public API methods for external control
+    toggleControls() {
+      if (this.showArrows || this.showDots) {
+        this.disableControls();
+      } else {
+        this.enableControls();
+      }
+    }
+
+    toggleTouchDrag() {
+      this.enableTouchDrag = !this.enableTouchDrag;
+      if (this.enableTouchDrag) {
+        this.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: true });
+        this.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: true });
+        this.addEventListener('touchend', this.handleTouchEnd.bind(this), { passive: true });
+      } else {
+        this.removeEventListener('touchstart', this.handleTouchStart.bind(this));
+        this.removeEventListener('touchmove', this.handleTouchMove.bind(this));
+        this.removeEventListener('touchend', this.handleTouchEnd.bind(this));
+      }
+    }
+
+    // Pause/Resume methods
+    pauseSlideshow() {
+      this.isPaused = true;
+      this.stopAutoplay();
+      this.updatePauseButton();
+    }
+
+    resumeSlideshow() {
+      this.isPaused = false;
+      this.startAutoplay();
+      this.updatePauseButton();
+    }
+
+    togglePause() {
+      if (this.isPaused) {
+        this.resumeSlideshow();
+      } else {
+        this.pauseSlideshow();
+      }
+    }
+
+    updatePauseButton() {
+      const pauseBtn = this.querySelector('.ceel-hero-slideshow__pause-btn');
+      if (pauseBtn) {
+        const icon = pauseBtn.querySelector('.ceel-hero-slideshow__pause-icon');
+        
+        // Remove existing state classes
+        pauseBtn.classList.remove('playing', 'paused');
+        
+        if (this.isPaused) {
+          // When paused, show play icon (to resume)
+          pauseBtn.setAttribute('aria-label', 'Resume slideshow');
+          pauseBtn.classList.add('paused');
+          if (icon) {
+            icon.innerHTML = this.getPlayIcon();
+          }
+        } else {
+          // When playing, show pause icon (to pause)
+          pauseBtn.setAttribute('aria-label', 'Pause slideshow');
+          pauseBtn.classList.add('playing');
+          if (icon) {
+            icon.innerHTML = this.getPauseIcon();
+          }
+        }
+      }
+    }
+
+    getPauseIcon() {
+      return '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="4" y="2" width="3" height="12"/><rect x="9" y="2" width="3" height="12"/></svg>';
+    }
+
+    getPlayIcon() {
+      return '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2l10 6-10 6V2z"/></svg>';
+    }
+  }
+
+  customElements.define('ceel-hero-slideshow', CeelHeroSlideshow);
+</script>
+
+{% schema %}
+{
+  "name": "CEEL Hero Slideshow",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Autoplay Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Enable autoplay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Autoplay speed",
+      "min": 3,
+      "max": 15,
+      "step": 1,
+      "unit": "s",
+      "default": 12,
+      "info": "Only works if autoplay is enabled"
+    },
+    {
+      "type": "header",
+      "content": "Controls"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show navigation arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show pagination dots",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_touch_drag",
+      "label": "Enable touch drag on mobile",
+      "default": true,
+      "info": "Allow users to swipe left/right to navigate slides on mobile devices"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pause_button",
+      "label": "Show pause/resume button",
+      "default": true,
+      "info": "Only shows when autoplay is enabled"
+    },
+    {
+      "type": "header",
+      "content": "Section Layout"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "header",
+      "content": "Content Layout"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 480,
+      "max": 720,
+      "step": 20,
+      "unit": "px",
+      "default": 680
+    },
+    {
+      "type": "select",
+      "id": "content_align_horizontal",
+      "label": "Horizontal alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "select",
+      "id": "content_align_vertical",
+      "label": "Vertical alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Middle"
+        },
+        {
+          "value": "flex-end",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Default Overlay"
+    },
+    {
+      "type": "select",
+      "id": "overlay_default",
+      "label": "Overlay color",
+      "options": [
+        {
+          "value": "black",
+          "label": "Black"
+        },
+        {
+          "value": "white",
+          "label": "White"
+        }
+      ],
+      "default": "black"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity_default",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Global Trust Badges"
+    },
+    {
+      "type": "checkbox",
+      "id": "badges_enable_global",
+      "label": "Enable global trust badges",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badges_heading",
+      "label": "Badges heading",
+      "default": "Trust badges"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_1_icon",
+      "label": "Badge 1 icon"
+    },
+    {
+      "type": "text",
+      "id": "badge_1_label",
+      "label": "Badge 1 label",
+      "default": "Bez alkohola"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_2_icon",
+      "label": "Badge 2 icon"
+    },
+    {
+      "type": "text",
+      "id": "badge_2_label",
+      "label": "Badge 2 label",
+      "default": "Bez parabena"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_3_icon",
+      "label": "Badge 3 icon"
+    },
+    {
+      "type": "text",
+      "id": "badge_3_label",
+      "label": "Badge 3 label",
+      "default": "Bez veštačkih mirisa"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_4_icon",
+      "label": "Badge 4 icon"
+    },
+    {
+      "type": "text",
+      "id": "badge_4_label",
+      "label": "Badge 4 label",
+      "default": "Cruelty-free"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Media"
+        },
+        {
+          "type": "select",
+          "id": "media_type",
+          "label": "Media type",
+          "options": [
+            {
+              "value": "image",
+              "label": "Image"
+            },
+            {
+              "value": "video",
+              "label": "Video"
+            }
+          ],
+          "default": "image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_desktop",
+          "label": "Desktop image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile image (optional)"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text"
+        },
+        {
+          "type": "text",
+          "id": "video_url_mp4",
+          "label": "MP4 Video URL",
+          "info": "Upload video in Content > Files, then paste the full URL here."
+        },
+        {
+          "type": "text",
+          "id": "video_url_webm",
+          "label": "WebM Video URL (optional)",
+          "info": "For better performance and browser support."
+        },
+        {
+          "type": "image_picker",
+          "id": "video_poster",
+          "label": "Video poster image",
+          "info": "Shows while the video is loading."
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow text (optional)"
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "Headline",
+          "default": "Prirodna nega koja donosi rezultate"
+        },
+        {
+          "type": "textarea",
+          "id": "subheadline",
+          "label": "Subheadline",
+          "default": "Ruzmarin, kofein i pantenol — jačaju koren, stimulišu rast i vraćaju sjaj tvojoj kosi."
+        },
+        {
+          "type": "header",
+          "content": "Call to Action"
+        },
+        {
+          "type": "text",
+          "id": "primary_label",
+          "label": "Primary CTA label",
+          "default": "Pogledaj set"
+        },
+        {
+          "type": "url",
+          "id": "primary_url",
+          "label": "Primary CTA URL"
+        },
+        {
+          "type": "text",
+          "id": "secondary_label",
+          "label": "Secondary CTA label",
+          "default": "Saznaj kako deluje"
+        },
+        {
+          "type": "url",
+          "id": "secondary_url",
+          "label": "Secondary CTA URL"
+        },
+        {
+          "type": "header",
+          "content": "Button Controls"
+        },
+        {
+          "type": "checkbox",
+          "id": "disable_primary_button",
+          "label": "Disable primary button",
+          "default": false,
+          "info": "Hide the primary CTA button for this slide"
+        },
+        {
+          "type": "checkbox",
+          "id": "disable_secondary_button",
+          "label": "Disable secondary button",
+          "default": false,
+          "info": "Hide the secondary CTA button for this slide"
+        },
+        {
+          "type": "header",
+          "content": "Overlay Override"
+        },
+        {
+          "type": "select",
+          "id": "overlay_color",
+          "label": "Overlay color",
+          "options": [
+            {
+              "value": "",
+              "label": "Use default"
+            },
+            {
+              "value": "black",
+              "label": "Black"
+            },
+            {
+              "value": "white",
+              "label": "White"
+            }
+          ],
+          "default": ""
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Overlay opacity",
+          "min": 0,
+          "max": 90,
+          "step": 5,
+          "unit": "%",
+          "default": 40
+        },
+        {
+          "type": "header",
+          "content": "Alignment Override"
+        },
+        {
+          "type": "select",
+          "id": "content_align_horizontal",
+          "label": "Horizontal alignment",
+          "options": [
+            {
+              "value": "",
+              "label": "Use default"
+            },
+            {
+              "value": "flex-start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "flex-end",
+              "label": "Right"
+            }
+          ],
+          "default": ""
+        },
+        {
+          "type": "select",
+          "id": "content_align_vertical",
+          "label": "Vertical alignment",
+          "options": [
+            {
+              "value": "",
+              "label": "Use default"
+            },
+            {
+              "value": "flex-start",
+              "label": "Top"
+            },
+            {
+              "value": "center",
+              "label": "Middle"
+            },
+            {
+              "value": "flex-end",
+              "label": "Bottom"
+            }
+          ],
+          "default": ""
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "CEEL Hero Slideshow",
+      "category": "Hero",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

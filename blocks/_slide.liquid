@@ -1,0 +1,1419 @@
+
+
+  {%- assign block_index = section.blocks | find_index: 'id', block.id -%}
+
+  {% stylesheet %}
+    .slide__content {
+      height: 100%;
+      position: relative;
+      z-index: var(--layer-flat);
+    }
+
+    .slide__content > * {
+      margin: auto;
+    }
+
+    .slide__content.background-transparent {
+      background-color: transparent;
+    }
+
+    slideshow-slide > .slide__image-container {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: absolute;
+    }
+
+    .slide__image-container > placeholder-image,
+    .slide__image-container > placeholder-image > img {
+      width: 100%;
+    }
+
+    .slide__image-container > .slide__image,
+    .slide__image-container > .slide__video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+
+    /* Hero-focused floating product styles */
+    .slide-with-floating-product {
+      position: relative;
+      min-height: 70vh;
+    }
+
+    .slide-with-floating-product .slide__image-container > .slide__image,
+    .slide-with-floating-product .slide__image-container > .slide__video {
+      opacity: 0.3;
+      filter: blur(2px);
+      transition: all 0.5s ease;
+    }
+
+    .slide-with-floating-product:hover .slide__image-container > .slide__image,
+    .slide-with-floating-product:hover .slide__image-container > .slide__video {
+      opacity: 0.5;
+      filter: blur(1px);
+    }
+
+    /* Hero floating product - main focus */
+    .slide__floating-product {
+      position: absolute;
+      z-index: 10;
+      transform: translate(-50%, -50%);
+      transition: all 0.5s ease;
+      filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.15));
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Override positioning for overlay layout */
+    .slide-with-floating-product:not(.slide-with-floating-product--two-column) .slide__floating-product {
+      top: var(--floating-y, 50%);
+      left: var(--floating-x, 50%);
+    }
+
+    .slide__floating-product img {
+      width: auto !important;
+      height: auto;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      object-fit: contain !important;
+      transition: transform 0.3s ease;
+      display: block;
+    }
+
+    .slide__floating-product:hover img {
+      transform: none;
+    }
+
+    /* Hero spotlight effect */
+    .slide-with-floating-product::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 50%, transparent 30%, rgba(0, 0, 0, 0.15) 80%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Disable all floating product animations */
+    .slide__floating-product--float,
+    .slide__floating-product--bounce,
+    .slide__floating-product--pulse,
+    .slide__floating-product--rotate,
+    .slide__floating-product--swing,
+    .slide__floating-product--fade,
+    .slide__floating-product--orbit,
+    .slide__floating-product--glow {
+      animation: none !important;
+    }
+
+    /* Enhanced hero keyframe animations */
+    @keyframes heroFloatAnimation {
+      0%, 100% { 
+        transform: translate(-50%, -50%) translateY(0px) scale(1); 
+        filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.15));
+      }
+      50% { 
+        transform: translate(-50%, -50%) translateY(-30px) scale(1.02); 
+        filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.2));
+      }
+    }
+
+    @keyframes heroBounceAnimation {
+      0%, 20%, 50%, 80%, 100% { 
+        transform: translate(-50%, -50%) translateY(0px) scale(1); 
+      }
+      40% { 
+        transform: translate(-50%, -50%) translateY(-25px) scale(1.03); 
+      }
+      60% { 
+        transform: translate(-50%, -50%) translateY(-12px) scale(1.01); 
+      }
+    }
+
+    @keyframes heroPulseAnimation {
+      0%, 100% { 
+        transform: translate(-50%, -50%) scale(1); 
+        filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.15));
+      }
+      50% { 
+        transform: translate(-50%, -50%) scale(1.15); 
+        filter: drop-shadow(0 12px 25px rgba(0, 0, 0, 0.2));
+      }
+    }
+
+    @keyframes heroRotateAnimation {
+      0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+      25% { transform: translate(-50%, -50%) rotate(90deg) scale(1.05); }
+      50% { transform: translate(-50%, -50%) rotate(180deg) scale(1); }
+      75% { transform: translate(-50%, -50%) rotate(270deg) scale(1.05); }
+      100% { transform: translate(-50%, -50%) rotate(360deg) scale(1); }
+    }
+
+    @keyframes heroSwingAnimation {
+      0%, 100% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+      25% { transform: translate(-50%, -50%) rotate(8deg) scale(1.02); }
+      75% { transform: translate(-50%, -50%) rotate(-8deg) scale(1.02); }
+    }
+
+    @keyframes heroFadeAnimation {
+      0%, 100% { 
+        opacity: 1; 
+        transform: translate(-50%, -50%) scale(1);
+      }
+      50% { 
+        opacity: 0.6; 
+        transform: translate(-50%, -50%) scale(1.1);
+      }
+    }
+
+    @keyframes heroOrbitAnimation {
+      0% { transform: translate(-50%, -50%) translateX(0px) translateY(0px) rotate(0deg); }
+      25% { transform: translate(-50%, -50%) translateX(20px) translateY(-20px) rotate(90deg); }
+      50% { transform: translate(-50%, -50%) translateX(0px) translateY(-40px) rotate(180deg); }
+      75% { transform: translate(-50%, -50%) translateX(-20px) translateY(-20px) rotate(270deg); }
+      100% { transform: translate(-50%, -50%) translateX(0px) translateY(0px) rotate(360deg); }
+    }
+
+    @keyframes heroGlowAnimation {
+      0%, 100% { 
+        filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.15)) brightness(1);
+      }
+      50% { 
+        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.6)) brightness(1.15);
+      }
+    }
+
+    /* Mobile hero layout - floating product focused */
+    @media screen and (max-width: 749px) {
+      .slide-with-floating-product {
+        min-height: 80vh;
+        position: relative;
+      }
+
+      .slide-with-floating-product:not(.slide-with-floating-product--two-column) {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 15px;
+        overflow: hidden;
+      }
+
+      .slide-with-floating-product:not(.slide-with-floating-product--two-column) .slide__floating-product {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        width: 100%;
+        max-width: 100%;
+        height: 400px;
+        margin: 20px auto;
+        z-index: 10;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .slide-with-floating-product:not(.slide-with-floating-product--two-column) .slide__floating-product img {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 100% !important;
+        max-height: 350px !important;
+        object-fit: contain !important;
+        display: block;
+      }
+
+      .slide-with-floating-product:not(.slide-with-floating-product--two-column) .group-block-content {
+        padding-top: 0;
+        flex-direction: column !important;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 100%;
+        margin-top: auto;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 20px 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      /* Remove inline padding from text elements on mobile */
+      .slide-with-floating-product:not(.slide-with-floating-product--two-column) .group-block-content * {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+
+      /* Mobile layout for two-column design */
+      .slide-with-floating-product--two-column .slide__content {
+        position: relative;
+        padding: 20px;
+        min-height: auto;
+      }
+
+      .slide-with-floating-product--two-column .slide__two-column-container {
+        display: flex !important;
+        flex-direction: column;
+        position: relative;
+        padding: 20px 5px;
+        gap: 20px;
+        overflow: hidden;
+      }
+
+      .slide-with-floating-product--two-column .slide__image-column {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        width: 100%;
+        height: 400px;
+        z-index: 4;
+        background: none;
+        border: none;
+        box-shadow: none;
+        backdrop-filter: none;
+        border-radius: 0;
+        padding: 20px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+      }
+
+      .slide-with-floating-product--two-column .slide__floating-product {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .slide-with-floating-product--two-column .slide__content-column {
+        width: 100%;
+        padding: 0;
+        background: none;
+        border: none;
+        backdrop-filter: none;
+        margin-top: 0;
+      }
+
+      .slide-with-floating-product--two-column .slide__content-column {
+        flex-direction: column !important;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        padding: 15px 10px;
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        width: 100%;
+      }
+
+      /* Remove inline padding from text elements in two-column mobile */
+      .slide-with-floating-product--two-column .slide__content-column .group-block-content * {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+
+      .slide-with-floating-product--two-column .slide__image-column .slide__floating-product img {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 100% !important;
+        max-height: 350px !important;
+        object-fit: contain !important;
+        display: block;
+      }
+
+      /* Disable mobile animations for floating products */
+      .slide__floating-product--float,
+      .slide__floating-product--bounce,
+      .slide__floating-product--pulse,
+      .slide__floating-product--rotate,
+      .slide__floating-product--swing,
+      .slide__floating-product--fade,
+      .slide__floating-product--orbit,
+      .slide__floating-product--glow {
+        animation: none !important;
+      }
+    }
+
+    /* Mobile-specific animation keyframes */
+    @keyframes slideMobileFloatAnimation {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    @keyframes slideMobileBounceAnimation {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0px); }
+      40% { transform: translateY(-15px); }
+      60% { transform: translateY(-8px); }
+    }
+
+    @keyframes slideMobilePulseAnimation {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    @keyframes slideMobileRotateAnimation {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes slideMobileSwingAnimation {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(5deg); }
+      75% { transform: rotate(-5deg); }
+    }
+
+    @keyframes slideMobileOrbitAnimation {
+      0% { transform: translateX(0px) translateY(0px) rotate(0deg); }
+      25% { transform: translateX(15px) translateY(-15px) rotate(90deg); }
+      50% { transform: translateX(0px) translateY(-30px) rotate(180deg); }
+      75% { transform: translateX(-15px) translateY(-15px) rotate(270deg); }
+      100% { transform: translateX(0px) translateY(0px) rotate(360deg); }
+    }
+
+    @keyframes slideMobileGlowAnimation {
+      0%, 100% { 
+        filter: brightness(1);
+      }
+      50% { 
+        filter: brightness(1.2);
+      }
+    }
+
+    /* Desktop hero layout - floating product as main focus */
+    @media screen and (min-width: 750px) {
+      .slide-with-floating-product:not(.slide-with-floating-product--two-column) {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding-top: 120px;
+      }
+
+      .slide-with-floating-product:not(.slide-with-floating-product--two-column) .slide__floating-product {
+        position: absolute;
+        z-index: 10;
+      }
+
+      .slide-with-floating-product:not(.slide-with-floating-product--two-column) .group-block-content {
+        position: absolute;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(15px);
+        border-radius: 25px;
+        padding: 40px 60px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        max-width: 600px;
+        text-align: center;
+        z-index: 5;
+      }
+
+      /* Two-column layout for desktop */
+      .slide-with-floating-product--two-column .slide__content {
+        padding: 120px 40px 60px 40px;
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .slide-with-floating-product--two-column .slide__two-column-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        max-width: 1400px;
+        width: 100%;
+        margin: 0 auto;
+        padding-top: 120px;
+        padding-bottom: 5vh;
+      }
+
+      /* Left layout: image on left, content on right */
+      .slide-with-floating-product--two-column.slide-with-floating-product--left .slide__two-column-container {
+        flex-direction: row;
+      }
+
+      /* Right layout: content on left, image on right */
+      .slide-with-floating-product--two-column.slide-with-floating-product--right .slide__two-column-container {
+        flex-direction: row-reverse;
+      }
+
+      .slide-with-floating-product--two-column .slide__image-column,
+      .slide-with-floating-product--two-column .slide__content-column {
+        flex: 0 0 45%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 30px;
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.5s ease;
+        aspect-ratio: 1 / 1;
+        height: auto;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .slide-with-floating-product--two-column .slide__image-column::before,
+      .slide-with-floating-product--two-column .slide__content-column::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transform: rotate(45deg);
+        transition: transform 0.6s ease;
+      }
+
+      .slide-with-floating-product--two-column .slide__image-column:hover,
+      .slide-with-floating-product--two-column .slide__content-column:hover {
+        transform: none;
+        box-shadow: none;
+      }
+
+      .slide-with-floating-product--two-column .slide__image-column:hover::before,
+      .slide-with-floating-product--two-column .slide__content-column:hover::before {
+        transform: none;
+      }
+
+      .slide-with-floating-product--two-column .slide__floating-product {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+      }
+
+      .slide-with-floating-product--two-column .slide__floating-product img {
+        width: auto !important;
+        height: min(500px, 50vh) !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        object-fit: contain !important;
+        display: block;
+      }
+
+      .slide-with-floating-product--two-column .slide__image-column:hover .slide__floating-product img {
+        transform: none;
+      }
+
+      .slide-with-floating-product--two-column .slide__content-column {
+        flex: 0 0 45%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        aspect-ratio: 1 / 1;
+        height: auto;
+      }
+
+      .slide-with-floating-product--two-column .slide__content-column .group-block-content {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        width: 100%;
+        max-width: none;
+        padding: 0;
+      }
+
+      .slide-with-floating-product--two-column .slide__content-column h1,
+      .slide-with-floating-product--two-column .slide__content-column h2 {
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        font-weight: 700;
+        line-height: 1.2;
+        margin: 0;
+      }
+
+      .slide-with-floating-product--two-column .slide__content-column p {
+        font-size: clamp(1.1rem, 2vw, 1.3rem);
+        line-height: 1.6;
+        opacity: 0.9;
+      }
+
+      /* Remove inline padding from text elements in two-column desktop layout */
+      .slide-with-floating-product--two-column .slide__content-column .group-block-content * {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+
+      /* Make buttons wider in two-column desktop layout */
+      .slide-with-floating-product--two-column .slide__content-column .group-block-content .button {
+        min-width: 200px;
+        padding-left: 40px !important;
+        padding-right: 40px !important;
+      }
+
+      /* Disable all floating animations on desktop */
+      .slide-with-floating-product--two-column .slide__floating-product--float,
+      .slide-with-floating-product--two-column .slide__floating-product--bounce,
+      .slide-with-floating-product--two-column .slide__floating-product--pulse,
+      .slide-with-floating-product--two-column .slide__floating-product--rotate,
+      .slide-with-floating-product--two-column .slide__floating-product--swing,
+      .slide-with-floating-product--two-column .slide__floating-product--fade,
+      .slide-with-floating-product--two-column .slide__floating-product--orbit,
+      .slide-with-floating-product--two-column .slide__floating-product--glow {
+        animation: none !important;
+      }
+
+      .slide-with-floating-product--two-column .slide__floating-product img {
+        width: auto !important;
+        height: min(500px, 50vh) !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        object-fit: contain !important;
+        display: block;
+      }
+    }
+
+    /* Desktop animation keyframes */
+    @keyframes desktopFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes desktopPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    @keyframes desktopBounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0px); }
+      40% { transform: translateY(-6px); }
+      60% { transform: translateY(-3px); }
+    }
+
+
+
+    /* Disable all animations globally */
+    .slide__floating-product--float,
+    .slide__floating-product--bounce,
+    .slide__floating-product--pulse,
+    .slide__floating-product--rotate,
+    .slide__floating-product--swing,
+    .slide__floating-product--fade,
+    .slide__floating-product--orbit,
+    .slide__floating-product--glow {
+      animation: none !important;
+    }
+
+    /* Specific class for slideshow floating product image */
+    .slideshow-floating-product-image,
+    .slide__floating-product .slideshow-floating-product-image,
+    .slide__image-column .slideshow-floating-product-image,
+    .slide-with-floating-product .slideshow-floating-product-image,
+    .shopify-section-slideshow .slideshow-floating-product-image {
+      width: auto !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      object-fit: contain !important;
+      transition: transform 0.3s ease;
+      display: block;
+    }
+
+    /* Override any base.css img height rules */
+    .shopify-section-slideshow img.slideshow-floating-product-image,
+    .slide-with-floating-product img.slideshow-floating-product-image,
+    .slide__floating-product img.slideshow-floating-product-image {
+      height: var(--floating-product-height, 600px) !important;
+    }
+
+    /* Remove background containers and effects to let the media shine */
+    .slide-with-floating-product .slide__image-container > .slide__image,
+    .slide-with-floating-product .slide__image-container > .slide__video {
+      opacity: 1 !important;
+      filter: none !important;
+    }
+
+    .slide-with-floating-product:hover .slide__image-container > .slide__image,
+    .slide-with-floating-product:hover .slide__image-container > .slide__video {
+      opacity: 1 !important;
+      filter: none !important;
+    }
+
+    /* Overlay content container (mobile and desktop) */
+    .slide-with-floating-product .group-block-content {
+      background: transparent !important;
+      backdrop-filter: none !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+
+    /* Two-column containers: remove glass/background treatments */
+    .slide-with-floating-product--two-column .slide__image-column,
+    .slide-with-floating-product--two-column .slide__content-column {
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+    }
+
+    .slide-with-floating-product--two-column .slide__image-column::before,
+    .slide-with-floating-product--two-column .slide__content-column::before {
+      display: none !important;
+    }
+
+    /* Ensure background media covers fully */
+    .slide__image-container > .slide__image,
+    .slide__image-container > .slide__video {
+      object-fit: cover !important;
+      object-position: center center !important;
+    }
+
+    /* Disable all hover animations and transitions */
+    .slide__floating-product img,
+    .slide__floating-product:hover img,
+    .slide-with-floating-product--two-column .slide__floating-product img,
+    .slide-with-floating-product--two-column .slide__image-column:hover .slide__floating-product img {
+      transition: none !important;
+      transform: none !important;
+    }
+
+    /* Disable hover effects on containers */
+    .slide-with-floating-product--two-column .slide__image-column,
+    .slide-with-floating-product--two-column .slide__content-column {
+      transition: none !important;
+    }
+
+    .slide-with-floating-product--two-column .slide__image-column:hover,
+    .slide-with-floating-product--two-column .slide__content-column:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+  {% endstylesheet %}
+
+  {% capture children %}
+    {% liquid
+      assign preview_image = block.settings.image_1
+      if block.settings.media_type_1 == 'video'
+        assign preview_image = block.settings.video_1.preview_image
+      endif
+    %}
+    {% if section.settings.slide_height == 'adapt_image' and block_index == 1 and preview_image != blank %}
+      {%
+        # Great example of why it can be helpful for a section to be able to read the settings of its direct child blocks.
+        # In this case, we want the section to be able to read the image aspect ratio of the first slide and apply it to the slideshow slides and slides.
+      %}
+      {% style %}
+        .shopify-section-{{ section.id }} slideshow-slides,
+        .shopify-section-{{ section.id }} slideshow-slide {
+          min-height: {{ 1 | divided_by: preview_image.aspect_ratio | times: 100 }}vw;
+        }
+      {% endstyle %}
+    {% endif %}
+
+    {% if block.settings.show_floating_product and block.settings.floating_product_image %}
+      {% style %}
+        @media screen and (max-width: 749px) {
+          .shopify-section-{{ section.id }} [data-block-id="{{ block.id }}"].slide-with-floating-product {
+            min-height: {{ block.settings.mobile_slide_height }}px;
+          }
+          
+          .shopify-section-{{ section.id }} slideshow-slide[data-block-id="{{ block.id }}"] .slide__floating-product img,
+          .shopify-section-{{ section.id }} slideshow-slide[data-block-id="{{ block.id }}"] .slide__image-column .slide__floating-product img {
+            --floating-product-height: {{ block.settings.floating_product_image_size_mobile }}px;
+            height: {{ block.settings.floating_product_image_size_mobile }}px !important;
+            width: auto !important;
+            max-height: {{ block.settings.floating_product_image_size_mobile }}px !important;
+            max-width: 100% !important;
+            object-fit: contain !important;
+          }
+        }
+        
+        @media screen and (min-width: 750px) {
+          .shopify-section-{{ section.id }} slideshow-slide[data-block-id="{{ block.id }}"] .slide__floating-product img,
+          .shopify-section-{{ section.id }} slideshow-slide[data-block-id="{{ block.id }}"] .slide__image-column .slide__floating-product img {
+            --floating-product-height: {{ block.settings.floating_product_image_size_desktop }}px;
+            height: {{ block.settings.floating_product_image_size_desktop }}px !important;
+            width: auto !important;
+            max-height: {{ block.settings.floating_product_image_size_desktop }}px !important;
+            max-width: 100% !important;
+            object-fit: contain !important;
+          }
+        }
+      {% endstyle %}
+    {% endif %}
+
+    <div class="slide__image-container">
+      {%- if block.settings.toggle_overlay -%}
+        {% render 'overlay', settings: block.settings %}
+      {%- endif -%}
+      {%- if preview_image -%}
+        {%- liquid
+          assign height = preview_image.width | divided_by: preview_image.aspect_ratio | round
+          assign media_width_desktop = '100vw'
+          assign media_width_mobile = '100vw'
+          assign sizes = '(min-width: 750px) ' | append: media_width_desktop | append: ', ' | append: media_width_mobile
+          assign lazy_sizes = 'auto, ' | append: sizes
+          assign widths = '300, 525, 750, 900, 1024, 1280, 1440, 1700, 1920, 2048, 2304, 2560, 2880, 3072, 3840'
+        %}
+
+        {%- if block.settings.media_type_1 == 'image' -%}
+          {%- if block_index == 1 -%}
+            {{
+              block.settings.image_1
+              | image_url: width: 3840
+              | image_tag: height: height, sizes: sizes, widths: widths, loading: 'eager', class: 'slide__image'
+            }}
+          {%- else -%}
+            {{
+              block.settings.image_1
+              | image_url: width: 3840
+              | image_tag: height: height, widths: widths, loading: 'lazy', class: 'slide__image', sizes: lazy_sizes
+            }}
+          {%- endif -%}
+        {%- else -%}
+          {{
+            block.settings.video_1
+            | video_tag: image_size: '3840x', autoplay: true, loop: true, controls: false, muted: true, class: 'slide__video'
+          }}
+        {%- endif -%}
+      {%- else -%}
+        <placeholder-image data-block-id="{{ block.id }}" data-type="general"></placeholder-image>
+      {%- endif -%}
+    </div>
+    <div
+      class="spacing-style slide__content{% if block.settings.inherit_color_scheme == false %} color-{{ block.settings.color_scheme }}{% endif %}{% if preview_image or block.settings.toggle_overlay %} background-transparent{% endif %}{% if block.settings.show_floating_product and block.settings.floating_product_image %} slide-with-floating-product{% if block.settings.desktop_layout == 'two_column' %} slide-with-floating-product--two-column slide-with-floating-product--{{ block.settings.desktop_image_position }}{% endif %}{% endif %}"
+      style="{% render 'spacing-style', settings: block.settings %}"
+      {{ block.shopify_attributes }}
+    >
+      {% capture slide_content %}
+        {% content_for 'blocks' %}
+      {% endcapture %}
+
+      {% if block.settings.show_floating_product and block.settings.floating_product_image %}
+        {% if block.settings.desktop_layout == 'two_column' %}
+          <!-- Two Column Layout -->
+          <div class="slide__two-column-container">
+            <div class="slide__image-column">
+              <div class="slide__floating-product slide__floating-product--{{ block.settings.floating_animation }}">
+                {% liquid
+                  assign floating_image_alt = block.settings.floating_product_image.alt | default: 'Floating product image'
+                  assign floating_image_sizes = '(max-width: 749px) 250px, 450px'
+                  assign max_width = 900
+                %}
+                {{ block.settings.floating_product_image | image_url: width: max_width | image_tag: 
+                  alt: floating_image_alt,
+                  loading: 'lazy',
+                  sizes: floating_image_sizes,
+                  widths: '300, 400, 500, 600, 800, 900',
+                  class: 'slideshow-floating-product-image'
+                }}
+              </div>
+            </div>
+            <div class="slide__content-column">
+              <div
+                class="group-block-content
+                layout-panel-flex
+                layout-panel-flex--{{ block.settings.content_direction }}
+                {% if block.settings.vertical_on_mobile %}mobile-column{% endif %}"
+                style="{% render 'layout-panel-style', settings: block.settings %}"
+              >
+                {{ slide_content }}
+              </div>
+            </div>
+          </div>
+        {% else %}
+          <!-- Hero Overlay Layout -->
+          <div class="slide__floating-product slide__floating-product--{{ block.settings.floating_animation }}"
+              style="max-width: {{ block.settings.floating_product_size }}px; --floating-x: {{ block.settings.floating_product_position_x }}%; --floating-y: {{ block.settings.floating_product_position_y }}%;">
+            {% liquid
+              assign floating_image_alt = block.settings.floating_product_image.alt | default: 'Hero floating product'
+              assign floating_image_sizes = '(max-width: 749px) 350px, (max-width: 1200px) 500px, 600px'
+              assign max_width = 1200
+            %}
+            {{ block.settings.floating_product_image | image_url: width: max_width | image_tag: 
+              alt: floating_image_alt,
+              loading: 'eager',
+              sizes: floating_image_sizes,
+              widths: '350, 400, 500, 600, 800, 1000, 1200',
+              class: 'slideshow-floating-product-image'
+            }}
+          </div>
+          <div
+            class="group-block-content
+            layout-panel-flex
+            layout-panel-flex--{{ block.settings.content_direction }}
+            {% if block.settings.vertical_on_mobile %}mobile-column{% endif %}"
+            style="{% render 'layout-panel-style', settings: block.settings %}"
+          >
+            {{ slide_content }}
+          </div>
+        {% endif %}
+      {% else %}
+        <div
+          class="group-block-content
+          layout-panel-flex
+          layout-panel-flex--{{ block.settings.content_direction }}
+          {% if block.settings.vertical_on_mobile %}mobile-column{% endif %}"
+          style="{% render 'layout-panel-style', settings: block.settings %}"
+        >
+          {{ slide_content }}
+        </div>
+      {% endif %}
+    </div>
+  {% endcapture %}
+
+  {%- capture class -%}
+    {%- if block.settings.inherit_color_scheme == false -%}
+      color-{{ block.settings.color_scheme }}
+    {%- endif -%}
+  {%- endcapture -%}
+
+  {% render 'slideshow-slide',
+    index: block_index,
+    class: class,
+    children: children,
+    attributes: block.shopify_attributes
+  %}
+
+  {% schema %}
+  {
+    "name": "t:names.slide",
+    "tag": null,
+    "blocks": [
+      {
+        "type": "@theme"
+      },
+      {
+        "type": "@app"
+      }
+    ],
+    "settings": [
+      {
+        "type": "select",
+        "id": "media_type_1",
+        "label": "t:settings.type",
+        "options": [
+          {
+            "value": "image",
+            "label": "t:options.image"
+          },
+          {
+            "value": "video",
+            "label": "t:options.video"
+          }
+        ],
+        "default": "image"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_1",
+        "label": "t:settings.image",
+        "visible_if": "{{ block.settings.media_type_1 == 'image' }}"
+      },
+      {
+        "type": "video",
+        "id": "video_1",
+        "label": "t:settings.video",
+        "visible_if": "{{ block.settings.media_type_1 == 'video' }}"
+      },
+      {
+        "type": "header",
+        "content": "t:content.layout"
+      },
+      {
+        "type": "select",
+        "id": "content_direction",
+        "label": "t:settings.direction",
+        "options": [
+          {
+            "value": "column",
+            "label": "t:options.vertical"
+          },
+          {
+            "value": "row",
+            "label": "t:options.horizontal"
+          }
+        ],
+        "default": "column"
+      },
+      {
+        "type": "checkbox",
+        "id": "vertical_on_mobile",
+        "label": "t:settings.vertical_on_mobile",
+        "default": true,
+        "visible_if": "{{ block.settings.content_direction == 'row' }}"
+      },
+      {
+        "type": "select",
+        "id": "horizontal_alignment",
+        "label": "t:settings.alignment",
+        "options": [
+          {
+            "value": "flex-start",
+            "label": "t:options.left"
+          },
+          {
+            "value": "center",
+            "label": "t:options.center"
+          },
+          {
+            "value": "flex-end",
+            "label": "t:options.right"
+          },
+          {
+            "value": "space-between",
+            "label": "t:options.space_between"
+          }
+        ],
+        "default": "flex-start",
+        "visible_if": "{{ block.settings.content_direction == 'row' }}"
+      },
+      {
+        "type": "select",
+        "id": "vertical_alignment",
+        "label": "t:settings.position",
+        "options": [
+          {
+            "value": "flex-start",
+            "label": "t:options.top"
+          },
+          {
+            "value": "center",
+            "label": "t:options.center"
+          },
+          {
+            "value": "flex-end",
+            "label": "t:options.bottom"
+          }
+        ],
+        "default": "center",
+        "visible_if": "{{ block.settings.content_direction == 'row' }}"
+      },
+      {
+        "type": "checkbox",
+        "id": "align_baseline",
+        "label": "t:settings.align_baseline",
+        "default": false,
+        "visible_if": "{{ block.settings.vertical_alignment == 'flex-end' }}"
+      },
+      {
+        "type": "select",
+        "id": "horizontal_alignment_flex_direction_column",
+        "label": "t:settings.alignment",
+        "options": [
+          {
+            "value": "flex-start",
+            "label": "t:options.left"
+          },
+          {
+            "value": "center",
+            "label": "t:options.center"
+          },
+          {
+            "value": "flex-end",
+            "label": "t:options.right"
+          }
+        ],
+        "default": "flex-start",
+        "visible_if": "{{ block.settings.content_direction != 'row' }}"
+      },
+      {
+        "type": "select",
+        "id": "vertical_alignment_flex_direction_column",
+        "label": "t:settings.position",
+        "options": [
+          {
+            "value": "flex-start",
+            "label": "t:options.top"
+          },
+          {
+            "value": "center",
+            "label": "t:options.center"
+          },
+          {
+            "value": "flex-end",
+            "label": "t:options.bottom"
+          },
+          {
+            "value": "space-between",
+            "label": "t:options.space_between"
+          }
+        ],
+        "default": "center",
+        "visible_if": "{{ block.settings.content_direction == 'column' }}"
+      },
+      {
+        "type": "range",
+        "id": "gap",
+        "label": "t:settings.gap",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "header",
+        "content": "t:content.appearance"
+      },
+      {
+        "type": "checkbox",
+        "id": "inherit_color_scheme",
+        "label": "t:settings.inherit_color_scheme",
+        "default": true
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:settings.color_scheme",
+        "default": "scheme-1",
+        "visible_if": "{{ block.settings.inherit_color_scheme == false }}"
+      },
+      {
+        "type": "checkbox",
+        "id": "toggle_overlay",
+        "label": "t:settings.media_overlay"
+      },
+      {
+        "type": "color",
+        "id": "overlay_color",
+        "label": "t:settings.overlay_color",
+        "alpha": true,
+        "default": "#00000026",
+        "visible_if": "{{ block.settings.toggle_overlay }}"
+      },
+      {
+        "type": "select",
+        "id": "overlay_style",
+        "label": "t:settings.overlay_style",
+        "options": [
+          {
+            "value": "solid",
+            "label": "t:options.solid"
+          },
+          {
+            "value": "gradient",
+            "label": "t:options.gradient"
+          }
+        ],
+        "default": "solid",
+        "visible_if": "{{ block.settings.toggle_overlay }}"
+      },
+      {
+        "type": "select",
+        "id": "gradient_direction",
+        "label": "t:settings.gradient_direction",
+        "options": [
+          {
+            "value": "to top",
+            "label": "t:options.up"
+          },
+          {
+            "value": "to bottom",
+            "label": "t:options.down"
+          }
+        ],
+        "default": "to top",
+        "visible_if": "{{ block.settings.toggle_overlay and block.settings.overlay_style == 'gradient' }}"
+      },
+      {
+        "type": "header",
+        "content": "t:content.padding"
+      },
+      {
+        "type": "range",
+        "id": "padding-block-start",
+        "label": "t:settings.top",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "padding-block-end",
+        "label": "t:settings.bottom",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "padding-inline-start",
+        "label": "t:settings.left",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "padding-inline-end",
+        "label": "t:settings.right",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "Floating Product"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_floating_product",
+        "label": "Show floating product",
+        "default": false
+      },
+      {
+        "type": "image_picker",
+        "id": "floating_product_image",
+        "label": "Floating product image",
+        "visible_if": "{{ block.settings.show_floating_product }}"
+      },
+      {
+        "type": "range",
+        "id": "floating_product_size",
+        "label": "Product image size",
+        "min": 100,
+        "max": 600,
+        "step": 10,
+        "unit": "px",
+        "default": 300,
+        "visible_if": "{{ block.settings.show_floating_product }}"
+      },
+      {
+        "type": "range",
+        "id": "floating_product_position_x",
+        "label": "Horizontal position",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "default": 80,
+        "visible_if": "{{ block.settings.show_floating_product and block.settings.desktop_layout == 'overlay' }}"
+      },
+      {
+        "type": "range",
+        "id": "floating_product_position_y",
+        "label": "Vertical position",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "default": 50,
+        "visible_if": "{{ block.settings.show_floating_product and block.settings.desktop_layout == 'overlay' }}"
+      },
+      {
+        "type": "select",
+        "id": "floating_animation",
+        "label": "Animation style",
+        "options": [
+          {
+            "value": "float",
+            "label": "Float"
+          },
+          {
+            "value": "bounce",
+            "label": "Bounce"
+          },
+          {
+            "value": "pulse",
+            "label": "Pulse"
+          },
+          {
+            "value": "rotate",
+            "label": "Rotate"
+          },
+          {
+            "value": "swing",
+            "label": "Swing"
+          },
+          {
+            "value": "fade",
+            "label": "Fade"
+          },
+          {
+            "value": "orbit",
+            "label": "Orbit"
+          },
+          {
+            "value": "glow",
+            "label": "Glow"
+          }
+        ],
+        "default": "float",
+        "visible_if": "{{ block.settings.show_floating_product }}"
+      },
+      {
+        "type": "header",
+        "content": "Desktop Layout",
+        "visible_if": "{{ block.settings.show_floating_product }}"
+      },
+      {
+        "type": "select",
+        "id": "desktop_layout",
+        "label": "Desktop layout style",
+        "options": [
+          {
+            "value": "overlay",
+            "label": "Overlay (floating)"
+          },
+          {
+            "value": "two_column",
+            "label": "Two column"
+          }
+        ],
+        "default": "overlay",
+        "visible_if": "{{ block.settings.show_floating_product }}"
+      },
+      {
+        "type": "select",
+        "id": "desktop_image_position",
+        "label": "Image position",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left column"
+          },
+          {
+            "value": "right",
+            "label": "Right column"
+          }
+        ],
+        "default": "right",
+        "visible_if": "{{ block.settings.show_floating_product and block.settings.desktop_layout == 'two_column' }}"
+      },
+      {
+        "type": "range",
+        "id": "mobile_slide_height",
+        "label": "Mobile slide height",
+        "min": 400,
+        "max": 800,
+        "step": 20,
+        "unit": "px",
+        "default": 600,
+        "visible_if": "{{ block.settings.show_floating_product }}"
+      },
+      {
+        "type": "range",
+        "id": "floating_product_image_size_desktop",
+        "label": "Product image size (Desktop)",
+        "min": 400,
+        "max": 1000,
+        "step": 20,
+        "unit": "px",
+        "default": 600,
+        "visible_if": "{{ block.settings.show_floating_product }}"
+      },
+      {
+        "type": "range",
+        "id": "floating_product_image_size_mobile",
+        "label": "Product image size (Mobile)",
+        "min": 400,
+        "max": 1000,
+        "step": 20,
+        "unit": "px",
+        "default": 500,
+        "visible_if": "{{ block.settings.show_floating_product }}"
+      }
+    ],
+    "presets": [
+      {
+        "name": "t:names.slide",
+        "settings": {
+          "horizontal_alignment_flex_direction_column": "center",
+          "show_floating_product": true,
+          "floating_animation": "float",
+          "desktop_layout": "overlay",
+          "floating_product_size": 400,
+          "floating_product_position_x": 50,
+          "floating_product_position_y": 45
+        },
+        "blocks": {
+          "group": {
+            "type": "group",
+            "settings": {
+              "horizontal_alignment_flex_direction_column": "center",
+              "width": "custom",
+              "custom_width": 50,
+              "width_mobile": "custom",
+              "inherit_color_scheme": false,
+              "color_scheme": "scheme-6",
+              "custom_width_mobile": 85,
+              "padding-inline-start": 48,
+              "padding-inline-end": 48,
+              "padding-block-start": 48,
+              "padding-block-end": 48
+            },
+            "blocks": {
+              "heading": {
+                "type": "text",
+                "settings": {
+                  "text": "<h2>New arrivals</h2>"
+                }
+              },
+              "text": {
+                "type": "text",
+                "settings": {
+                  "text": "<p>Introducing our latest products, made especially for the season. Shop your favorites before they're gone!</p>",
+                  "padding-block-end": 20
+                }
+              },
+              "button": {
+                "type": "button",
+                "settings": {
+                  "label": "Shop now",
+                  "link": "shopify://collections/all"
+                }
+              }
+            },
+            "block_order": ["heading", "text", "button"]
+          }
+        },
+        "block_order": ["group"]
+      }
+    ]
+  }
+  {% endschema %}
