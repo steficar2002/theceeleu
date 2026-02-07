@@ -60,7 +60,7 @@ Hardcoded Serbian content in homepage section configurations:
 
 **Note:** This file is minified JSON. Format before editing, re-minify after if needed.
 
-- [ ] Translate `templates/index.json`
+- [x] Translate `templates/index.json`
 
 ---
 
@@ -77,7 +77,7 @@ Hardcoded Serbian content in homepage section configurations:
 - **Brand values/FAQ:** all values (same content as homepage, duplicated in this template)
 - **Hero text:** "Istražite naš ceo asortiman"
 
-- [ ] Translate `templates/product.json`
+- [x] Translate `templates/product.json`
 
 ---
 
@@ -92,7 +92,7 @@ Hardcoded Serbian content in homepage section configurations:
 - "Sa svakom porudžbinom, deo prihoda doniramo u humanitarne svrhe..."
 - "Istražite našu celu kolekciju"
 
-- [ ] Translate `templates/product.vitamini.json`
+- [x] Translate `templates/product.vitamini.json`
 
 ---
 
@@ -103,7 +103,7 @@ Hardcoded Serbian content in homepage section configurations:
 - Subtitle about gummy vitamins routine
 - "VitaCEEL gumene bombone za kožu"
 
-- [ ] Translate `templates/collection.vitaminske-bombone.json`
+- [x] Translate `templates/collection.vitaminske-bombone.json`
 
 ---
 
@@ -113,7 +113,7 @@ Hardcoded Serbian content in homepage section configurations:
 
 - Submit button label: "Pošalji upit"
 
-- [ ] Translate `templates/page.contact.json`
+- [x] Translate `templates/page.contact.json`
 
 ---
 
@@ -123,7 +123,7 @@ Hardcoded Serbian content in homepage section configurations:
 
 - Cart title: "Korpa"
 
-- [ ] Translate `templates/cart.json`
+- [x] Translate `templates/cart.json`
 
 ---
 
