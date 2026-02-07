@@ -35,7 +35,7 @@ This is the main Serbian locale file containing the full theme UI translation (a
 
 **Note:** This file is minified (single line). Format it for readability before editing.
 
-- [ ] Translate `locales/sr.json`
+- [x] Translate `locales/sr.json`
 
 ---
 
