@@ -230,16 +230,16 @@
             {%- comment -%} Fallback product types if no blocks are configured {%- endcomment -%}
             {%- if unique_product_types.size == 0 or unique_product_types == blank -%}
               <option value="Serum">Serum</option>
-              <option value="Krema">Krema</option>
-              <option value="Maska">Maska</option>
-              <option value="Čistač">Čistač</option>
-              <option value="Tonik">Tonik</option>
-              <option value="Ulje za kosu">Ulje za kosu</option>
-              <option value="Šampon">Šampon</option>
-              <option value="Mleko za kosu">Mleko za kosu</option>
-              <option value="Tretman za kosu">Tretman za kosu</option>
-              <option value="Pasta za zube">Pasta za zube</option>
-              <option value="Prah za zube">Prah za zube</option>
+              <option value="Cream">Cream</option>
+              <option value="Mask">Mask</option>
+              <option value="Cleanser">Cleanser</option>
+              <option value="Toner">Toner</option>
+              <option value="Hair Oil">Hair Oil</option>
+              <option value="Shampoo">Shampoo</option>
+              <option value="Hair Milk">Hair Milk</option>
+              <option value="Hair Treatment">Hair Treatment</option>
+              <option value="Toothpaste">Toothpaste</option>
+              <option value="Tooth Powder">Tooth Powder</option>
               <option value="Set">Set</option>
             {%- else -%}
               {%- for type in unique_product_types -%}
@@ -305,49 +305,49 @@
     // Fallback data if no blocks are configured
     if (Object.keys(concernsByProductType).length === 0) {
       concernsByProductType["Serum"] = [
-        "Bore i starenje",
-        "Hidratacija i suva koža", 
-        "Fleke i neujednačen ten",
-        "Podočnjaci i natečenost",
-        "Akne i upaljena koža",
-        "Oštećena koža"
+        "Wrinkles and aging",
+        "Hydration and dry skin",
+        "Dark spots and uneven skin tone",
+        "Dark circles and puffiness",
+        "Acne and inflamed skin",
+        "Damaged skin"
       ];
-      concernsByProductType["Krema"] = [
-        "Osetljiva i oštećena koža",
-        "Podočnjaci i natečenost"
+      concernsByProductType["Cream"] = [
+        "Sensitive and damaged skin",
+        "Dark circles and puffiness"
       ];
-      concernsByProductType["Maska"] = [
-        "Miteseri i proširene pore",
-        "Zatezanje i elastičnost"
+      concernsByProductType["Mask"] = [
+        "Blackheads and enlarged pores",
+        "Firming and elasticity"
       ];
-      concernsByProductType["Čistač"] = [
-        "Čišćenje lica"
+      concernsByProductType["Cleanser"] = [
+        "Facial cleansing"
       ];
-      concernsByProductType["Tonik"] = [
-        "Miteseri i proširene pore"
+      concernsByProductType["Toner"] = [
+        "Blackheads and enlarged pores"
       ];
-      concernsByProductType["Ulje za kosu"] = [
-        "Opadanje i rast kose"
+      concernsByProductType["Hair Oil"] = [
+        "Hair loss and hair growth"
       ];
-      concernsByProductType["Šampon"] = [
-        "Opadanje i rast kose"
+      concernsByProductType["Shampoo"] = [
+        "Hair loss and hair growth"
       ];
-      concernsByProductType["Mleko za kosu"] = [
-        "Oštećena i suva kosa"
+      concernsByProductType["Hair Milk"] = [
+        "Damaged and dry hair"
       ];
-      concernsByProductType["Tretman za kosu"] = [
-        "Volumen i gustina"
+      concernsByProductType["Hair Treatment"] = [
+        "Volume and thickness"
       ];
-      concernsByProductType["Pasta za zube"] = [
-        "Beljenje zuba"
+      concernsByProductType["Toothpaste"] = [
+        "Teeth whitening"
       ];
-      concernsByProductType["Prah za zube"] = [
-        "Beljenje zuba"
+      concernsByProductType["Tooth Powder"] = [
+        "Teeth whitening"
       ];
       concernsByProductType["Set"] = [
-        "Bore i starenje",
-        "Opadanje i rast kose",
-        "Podočnjaci i natečenost"
+        "Wrinkles and aging",
+        "Hair loss and hair growth",
+        "Dark circles and puffiness"
       ];
     }
     
@@ -405,100 +405,100 @@
   
   {% schema %}
   {
-    "name": "Pronađi Proizvod",
+    "name": "Find Product",
     "settings": [
       {
         "type": "header",
-        "content": "Podešavanja Teksta"
+        "content": "Text Settings"
       },
       {
         "type": "text",
         "id": "heading",
-        "label": "Naslov",
-        "default": "Pronađi Svoj Idealni Proizvod"
+        "label": "Heading",
+        "default": "Find Your Ideal Product"
       },
       {
         "type": "textarea",
         "id": "subheading",
-        "label": "Podnaslov",
-        "default": "Recite nam koji su vaši glavni problemi sa kožom. Preporučićemo vam formule koje mogu pomoći."
+        "label": "Subheading",
+        "default": "Tell us about your main skin concerns. We'll recommend formulas that can help."
       },
       {
         "type": "header",
-        "content": "Podešavanja Forme"
+        "content": "Form Settings"
       },
       {
         "type": "text",
         "id": "product_type_label",
-        "label": "Labela za tip proizvoda",
-        "default": "Tražim"
+        "label": "Product type label",
+        "default": "I'm looking for"
       },
       {
          "type": "text",
          "id": "product_type_placeholder",
-         "label": "Placeholder za tip proizvoda",
-         "default": "tip proizvoda"
+         "label": "Product type placeholder",
+         "default": "product type"
       },
       {
         "type": "text",
         "id": "concern_label",
-        "label": "Labela za problem kože",
-        "default": "da rešim"
+        "label": "Skin concern label",
+        "default": "to solve"
       },
       {
          "type": "text",
          "id": "concern_placeholder",
-         "label": "Placeholder za problem kože",
-         "default": "problem"
+         "label": "Skin concern placeholder",
+         "default": "concern"
       },
       {
         "type": "text",
         "id": "button_text",
-        "label": "Tekst na dugmetu",
-        "default": "Prikaži Moju Formulu"
+        "label": "Button text",
+        "default": "View Solution"
       },
       {
         "type": "header",
-        "content": "Podešavanja Stilova i Boja"
+        "content": "Style and Color Settings"
       },
       {
         "type": "color",
         "id": "background_color",
-        "label": "Boja pozadine",
+        "label": "Background color",
         "default": "#FFFFFF"
       },
       {
         "type": "color",
         "id": "text_color",
-        "label": "Boja teksta",
+        "label": "Text color",
         "default": "#333333"
       },
       {
         "type": "color",
         "id": "button_background_color",
-        "label": "Boja pozadine dugmeta",
+        "label": "Button background color",
         "default": "#333333"
       },
       {
         "type": "color",
         "id": "button_text_color",
-        "label": "Boja teksta na dugmetu",
+        "label": "Button text color",
         "default": "#FFFFFF"
       },
       {
         "type": "header",
-        "content": "Podešavanja Fontova"
+        "content": "Font Settings"
       },
       {
         "type": "font_picker",
         "id": "font_heading",
-        "label": "Font naslova",
+        "label": "Heading font",
         "default": "helvetica_n4"
       },
       {
         "type": "range",
         "id": "heading_font_size",
-        "label": "Veličina fonta naslova",
+        "label": "Heading font size",
         "min": 16,
         "max": 60,
         "step": 1,
@@ -508,13 +508,13 @@
       {
         "type": "font_picker",
         "id": "font_body",
-        "label": "Osnovni font (za podnaslov, formu, dugme)",
+        "label": "Body font (for subheading, form, button)",
         "default": "helvetica_n4"
       },
       {
         "type": "range",
         "id": "subheading_font_size",
-        "label": "Veličina fonta podnaslova",
+        "label": "Subheading font size",
         "min": 12,
         "max": 30,
         "step": 1,
@@ -524,7 +524,7 @@
       {
         "type": "range",
         "id": "form_label_font_size",
-        "label": "Veličina fonta u formi",
+        "label": "Form font size",
         "min": 12,
         "max": 24,
         "step": 1,
@@ -534,7 +534,7 @@
       {
         "type": "range",
         "id": "button_font_size",
-        "label": "Veličina fonta na dugmetu",
+        "label": "Button font size",
         "min": 12,
         "max": 24,
         "step": 1,
@@ -545,37 +545,37 @@
     "blocks": [
       {
         "type": "mapping",
-        "name": "Povezivanje Proizvoda",
+        "name": "Product Mapping",
         "settings": [
           {
             "type": "text",
             "id": "product_type",
-            "label": "Tip Proizvoda",
-            "info": "Npr. Serum, Krema, Maska"
+            "label": "Product Type",
+            "info": "E.g. Serum, Cream, Mask"
           },
           {
             "type": "text",
             "id": "concern",
-            "label": "Problem Kože",
-            "info": "Npr. Akne, Bore, Suva koža"
+            "label": "Skin Concern",
+            "info": "E.g. Acne, Wrinkles, Dry skin"
           },
           {
             "type": "product",
             "id": "product_link",
-            "label": "Povezani Proizvod"
+            "label": "Linked Product"
           }
         ]
       }
     ],
     "presets": [
       {
-        "name": "Pronađi Proizvod",
+        "name": "Find Product",
         "blocks": [
           {
             "type": "mapping",
             "settings": {
               "product_type": "Serum",
-              "concern": "Bore i starenje",
+              "concern": "Wrinkles and aging",
               "product_link": "retinol-serum"
             }
           },
@@ -583,7 +583,7 @@
             "type": "mapping",
             "settings": {
               "product_type": "Serum",
-              "concern": "Hidratacija i suva koža",
+              "concern": "Hydration and dry skin",
               "product_link": "hydration-serum"
             }
           },
@@ -591,7 +591,7 @@
             "type": "mapping",
             "settings": {
               "product_type": "Serum",
-              "concern": "Fleke i neujednačen ten",
+              "concern": "Dark spots and uneven skin tone",
               "product_link": "vitamin-c-serum"
             }
           },
@@ -599,7 +599,7 @@
             "type": "mapping",
             "settings": {
               "product_type": "Serum",
-              "concern": "Podočnjaci i natečenost",
+              "concern": "Dark circles and puffiness",
               "product_link": "eye-care-serum"
             }
           },
@@ -607,7 +607,7 @@
             "type": "mapping",
             "settings": {
               "product_type": "Serum",
-              "concern": "Akne i upaljena koža",
+              "concern": "Acne and inflamed skin",
               "product_link": "niacinamide-serum"
             }
           },
@@ -615,103 +615,103 @@
             "type": "mapping",
             "settings": {
               "product_type": "Serum",
-              "concern": "Oštećena koža",
+              "concern": "Damaged skin",
               "product_link": "repair-serum"
             }
           },
           {
             "type": "mapping",
             "settings": {
-              "product_type": "Krema",
-              "concern": "Osetljiva i oštećena koža",
+              "product_type": "Cream",
+              "concern": "Sensitive and damaged skin",
               "product_link": "intenzivno-regenerativna-i-hidratantna-cica-krema-sa-madecassoside-om-jaca-koznu-barijeru-50-ml"
             }
           },
           {
             "type": "mapping",
             "settings": {
-              "product_type": "Krema",
-              "concern": "Podočnjaci i natečenost",
+              "product_type": "Cream",
+              "concern": "Dark circles and puffiness",
               "product_link": "krema-za-podocnjake-i-tamne-kolutove-sa-ekstraktom-arnike"
             }
           },
           {
             "type": "mapping",
             "settings": {
-              "product_type": "Maska",
-              "concern": "Miteseri i proširene pore",
+              "product_type": "Mask",
+              "concern": "Blackheads and enlarged pores",
               "product_link": "maska-od-belanaca-sa-aloe-verom-protiv-mitisera-100-g"
             }
           },
           {
             "type": "mapping",
             "settings": {
-              "product_type": "Maska",
-              "concern": "Zatezanje i elastičnost",
+              "product_type": "Mask",
+              "concern": "Firming and elasticity",
               "product_link": "peel-off-collagen-mask"
             }
           },
           {
             "type": "mapping",
             "settings": {
-              "product_type": "Čistač",
-              "concern": "Čišćenje lica",
+              "product_type": "Cleanser",
+              "concern": "Facial cleansing",
               "product_link": "gel-za-ciscenje-lica-sa-ekstraktom-centelle-balansira-i-osvetljava-kozu-za-sve-tipove-koze-200-ml"
             }
           },
           {
             "type": "mapping",
             "settings": {
-              "product_type": "Tonik",
-              "concern": "Miteseri i proširene pore",
+              "product_type": "Toner",
+              "concern": "Blackheads and enlarged pores",
               "product_link": "tonik-sa-glikolnom-kiselinom-protiv-fleka-i-za-suzavanje-pora-sa-ekstraktom-majske-kamilice-200-ml"
             }
           },
           {
             "type": "mapping",
             "settings": {
-              "product_type": "Ulje za kosu",
-              "concern": "Opadanje i rast kose",
+              "product_type": "Hair Oil",
+              "concern": "Hair loss and hair growth",
               "product_link": "rosemary-oil"
             }
           },
           {
             "type": "mapping",
             "settings": {
-              "product_type": "Šampon",
-              "concern": "Opadanje i rast kose",
+              "product_type": "Shampoo",
+              "concern": "Hair loss and hair growth",
               "product_link": "rosemary-shampoo"
             }
           },
           {
             "type": "mapping",
             "settings": {
-              "product_type": "Mleko za kosu",
-              "concern": "Oštećena i suva kosa",
+              "product_type": "Hair Milk",
+              "concern": "Damaged and dry hair",
               "product_link": "mleko-za-kosu-sa-ruzmarinom-150-ml-regenerator-za-kontrolu-kovrdzanja-i-obnovu-vlage"
             }
           },
           {
             "type": "mapping",
             "settings": {
-              "product_type": "Tretman za kosu",
-              "concern": "Volumen i gustina",
+              "product_type": "Hair Treatment",
+              "concern": "Volume and thickness",
               "product_link": "hair-thickener"
             }
           },
           {
             "type": "mapping",
             "settings": {
-              "product_type": "Pasta za zube",
-              "concern": "Beljenje zuba",
+              "product_type": "Toothpaste",
+              "concern": "Teeth whitening",
               "product_link": "charcoal-toothpaste"
             }
           },
           {
             "type": "mapping",
             "settings": {
-              "product_type": "Prah za zube",
-              "concern": "Beljenje zuba",
+              "product_type": "Tooth Powder",
+              "concern": "Teeth whitening",
               "product_link": "charcoal-tooth-powder"
             }
           },
@@ -719,7 +719,7 @@
             "type": "mapping",
             "settings": {
               "product_type": "Set",
-              "concern": "Bore i starenje",
+              "concern": "Wrinkles and aging",
               "product_link": "anti-age-set-za-dubinsku-obnovu-i-ciscenje-lica"
             }
           },
@@ -727,7 +727,7 @@
             "type": "mapping",
             "settings": {
               "product_type": "Set",
-              "concern": "Opadanje i rast kose",
+              "concern": "Hair loss and hair growth",
               "product_link": "ruzmarin-sampon-i-ulje-za-jacanje-i-guscu-kosu"
             }
           },
@@ -735,7 +735,7 @@
             "type": "mapping",
             "settings": {
               "product_type": "Set",
-              "concern": "Podočnjaci i natečenost",
+              "concern": "Dark circles and puffiness",
               "product_link": "set-za-negu-podrucja-oko-ociju-protiv-podocnjaka-i-bora"
             }
           }

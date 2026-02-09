@@ -88,7 +88,7 @@
         <span class="svg-wrapper">
           {{- 'icon-whatsapp.svg' | inline_asset_content -}}
         </span>
-        <span>{{ block.settings.button_text | default: 'Naruči preko WhatsApp-a' }}</span>
+        <span>{{ block.settings.button_text | default: 'Order via WhatsApp' }}</span>
       </span>
     </a>
   {%- else -%}
@@ -101,7 +101,7 @@
         <span class="svg-wrapper">
           {{- 'icon-whatsapp.svg' | inline_asset_content -}}
         </span>
-        <span>{{ block.settings.button_text | default: 'Naruči preko WhatsApp-a' }}</span>
+        <span>{{ block.settings.button_text | default: 'Order via WhatsApp' }}</span>
       </span>
     </button>
   {%- endif -%}
@@ -128,8 +128,8 @@
       "type": "text",
       "id": "button_text",
       "label": "Button Text",
-      "default": "Naruči preko WhatsApp-a",
-      "info": "Text to display on the button (Serbian Latin)"
+      "default": "Order via WhatsApp",
+      "info": "Text to display on the button"
     },
     {
       "type": "header",
@@ -183,7 +183,7 @@
       "settings": {
         "product": "{{ closest.product }}",
         "whatsapp_number": "381612427171",
-        "button_text": "Naruči preko WhatsApp-a"
+        "button_text": "Order via WhatsApp"
       }
     }
   ]

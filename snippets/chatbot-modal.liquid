@@ -7,7 +7,7 @@
 
 <!-- Chatbot Toast Notification -->
 <div class="chatbot-modal__toast" id="chatbotToast">
-  <div class="chatbot-modal__toast-title">Pitajte nas bilo šta! 💬</div>
+  <div class="chatbot-modal__toast-title">Ask us anything! 💬</div>
   <div class="chatbot-modal__toast-body">
     <div class="chatbot-modal__toast-icon">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -15,9 +15,9 @@
       </svg>
     </div>
     <div class="chatbot-modal__toast-content">
-      <div class="chatbot-modal__toast-message">Pritisnite ikonicu za ćaskanje kako bi ste saznali više o proizvodu, tu smo za Vas 24/7</div>
+      <div class="chatbot-modal__toast-message">Click the chat icon to learn more about the product, we're here for you 24/7</div>
     </div>
-    <button class="chatbot-modal__toast-close" id="chatbotToastClose" aria-label="Zatvori">
+    <button class="chatbot-modal__toast-close" id="chatbotToastClose" aria-label="Close">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -28,8 +28,8 @@
 
 <div class="chatbot-modal" id="chatbotModal" aria-hidden="true" role="dialog" aria-labelledby="chatbotModalTitle">
   <div class="chatbot-modal__header">
-    <h3 id="chatbotModalTitle" class="chatbot-modal__title">Pitajte nas bilo šta o proizvodima</h3>
-    <button class="chatbot-modal__close" id="chatbotModalClose" aria-label="Zatvori">
+    <h3 id="chatbotModalTitle" class="chatbot-modal__title">Ask us anything about our products</h3>
+    <button class="chatbot-modal__close" id="chatbotModalClose" aria-label="Close">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -50,7 +50,7 @@
   </div>
   
   <a href="/checkout" class="chatbot-modal__checkout-button" id="chatbotCheckoutButton">
-    Završi kupovinu
+    Complete purchase
   </a>
   
   <div class="chatbot-modal__input-wrapper">
@@ -58,10 +58,10 @@
       type="text" 
       class="chatbot-modal__input" 
       id="chatbotInput" 
-      placeholder="Napišite pitanje..."
+      placeholder="Write a question..."
       aria-label="Chatbot input"
     >
-    <button class="chatbot-modal__send" id="chatbotSend" aria-label="Pošalji">
+    <button class="chatbot-modal__send" id="chatbotSend" aria-label="Send">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="22" y1="2" x2="11" y2="13"></line>
         <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
@@ -940,7 +940,7 @@
         // Only initialize if chatbot is empty
         if (!hasMessages && !hasQuestions) {
           // Add welcome message
-          const welcomeMessage = 'Zdravo! 👋 Tu sam da ti pomognem sa bilo kojim pitanjem o našim proizvodima. Pitaj me šta god te zanima!';
+          const welcomeMessage = 'Hello! 👋 I\'m here to help you with any questions about our products. Ask me anything you\'d like to know!';
           addChatbotMessage(welcomeMessage, false);
           
           // Load and display default questions

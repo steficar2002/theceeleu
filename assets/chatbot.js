@@ -87,12 +87,12 @@
       if (!chatbotMessages) return;
       
       const productHandle = getCurrentProductHandle();
-      let welcomeMessage = 'Zdravo! Kako mogu da vam pomognem danas?';
+      let welcomeMessage = 'Hello! How can I help you today?';
       
       if (productHandle && chatbotProductData) {
         const product = chatbotProductData.products[productHandle];
         if (product && product.title) {
-          welcomeMessage = `Zdravo! Kako mogu da vam pomognem sa ${product.title}? Možete da me pitate bilo šta o ovom proizvodu, ili šta vam odgovara za vaše potrebe u negi kože, rastu kose ili oralnom zdravlju.`;
+          welcomeMessage = `Hello! How can I help you with ${product.title}? You can ask me anything about this product, or what suits your needs for skincare, hair growth, or oral health.`;
         }
       }
       
@@ -559,7 +559,7 @@
       
       const time = document.createElement('div');
       time.className = 'chatbot-modal__message-time';
-      time.textContent = new Date().toLocaleTimeString('sr-RS', { hour: '2-digit', minute: '2-digit' });
+      time.textContent = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
       
       messageDiv.appendChild(bubble);
       messageDiv.appendChild(time);
@@ -749,12 +749,12 @@
     // Build system prompt
     function buildSystemPrompt(productHandle) {
       const instructions = chatbotProductData?.instructions;
-      let systemPrompt = instructions?.systemPrompt || `Ti si korisni asistent za ${window.Shop?.shop || 'CEEL'}. Odgovaraj na pitanja o našim proizvodima na srpskom jeziku (latinica).`;
+      let systemPrompt = instructions?.systemPrompt || `You are a helpful assistant for ${window.Shop?.shop || 'CEEL'}. Answer questions about our products in English.`;
       
       // Add rules
       const rules = getSystemInstructions();
       if (rules.length > 0) {
-        systemPrompt += '\n\n=== PRAVILA ===\n';
+        systemPrompt += '\n\n=== RULES ===\n';
         rules.forEach((rule, i) => {
           systemPrompt += `${i + 1}. ${rule}\n`;
         });
@@ -764,15 +764,15 @@
       if (productHandle) {
         const product = getCuratedProductInfo(productHandle);
         if (product) {
-          systemPrompt += '\n\n=== INFORMACIJE O PROIZVODU ===\n';
-          systemPrompt += `Naziv: ${product.title || 'N/A'}\n`;
+          systemPrompt += '\n\n=== PRODUCT INFORMATION ===\n';
+          systemPrompt += `Name: ${product.title || 'N/A'}\n`;
           
           if (product.description) {
             const description = typeof product.description === 'string' 
               ? product.description.trim() 
               : String(product.description || '').trim();
             if (description !== '') {
-              systemPrompt += `\nOpis:\n${description}\n`;
+              systemPrompt += `\nDescription:\n${description}\n`;
             }
           }
           
@@ -791,54 +791,54 @@
           const upotrebaDetaljno = safeTrim(product.upotreba_detaljno);
           
           if (sastojciDetaljno !== '') {
-            systemPrompt += `\nSastojci (detaljno):\n${sastojciDetaljno}\n`;
+            systemPrompt += `\nIngredients (detailed):\n${sastojciDetaljno}\n`;
           } else if (ingredients !== '') {
-            systemPrompt += `\nSastojci:\n${ingredients}\n`;
+            systemPrompt += `\nIngredients:\n${ingredients}\n`;
           }
-          
+
           if (activeIngredients !== '') {
-            systemPrompt += `\nAktivni sastojci:\n${activeIngredients}\n`;
+            systemPrompt += `\nActive ingredients:\n${activeIngredients}\n`;
           }
           
           // Always add note about explaining ingredients benefits
           if (ingredients !== '' || sastojciDetaljno !== '' || activeIngredients !== '') {
-            systemPrompt += `\nNAPOMENA O SASTOJCIMA: Kada korisnik pita o sastojcima, UVEK objasni zašto su ti sastojci dobri - njihove prednosti, kako pomažu koži/kosi, i zašto su važni. Koristi informacije iz gornjih sastojaka da objasniš benefite.\n`;
+            systemPrompt += `\nINGREDIENTS NOTE: When the user asks about ingredients, ALWAYS explain why those ingredients are good - their benefits, how they help the skin/hair, and why they are important. Use the information from the ingredients above to explain the benefits.\n`;
           }
           
           // Add usage information - prioritize detailed, then regular
           if (upotrebaDetaljno !== '') {
-            systemPrompt += `\nKAKO SE KORISTI (DETALJNO):\n${upotrebaDetaljno}\n`;
-            systemPrompt += `\nNAPOMENA: Kada korisnik pita "Kako se koristi?" ili "Kako da koristim ovaj proizvod?", UVEK koristi informacije iz gornjeg dela "KAKO SE KORISTI (DETALJNO)" da daš tačan i detaljan odgovor!\n`;
+            systemPrompt += `\nHOW TO USE (DETAILED):\n${upotrebaDetaljno}\n`;
+            systemPrompt += `\nNOTE: When the user asks "How to use?" or "How do I use this product?", ALWAYS use the information from the "HOW TO USE (DETAILED)" section above to give an accurate and detailed answer!\n`;
           } else if (kakoSeKoristi !== '') {
-            systemPrompt += `\nKako se koristi:\n${kakoSeKoristi}\n`;
-            systemPrompt += `\nNAPOMENA: Kada korisnik pita "Kako se koristi?" ili "Kako da koristim ovaj proizvod?", UVEK koristi informacije iz gornjeg dela "Kako se koristi" da daš tačan odgovor!\n`;
+            systemPrompt += `\nHow to use:\n${kakoSeKoristi}\n`;
+            systemPrompt += `\nNOTE: When the user asks "How to use?" or "How do I use this product?", ALWAYS use the information from the "How to use" section above to give an accurate answer!\n`;
           }
           
           if (product.tags && product.tags.length > 0) {
-            systemPrompt += `\nTagovi: ${product.tags.join(', ')}\n`;
+            systemPrompt += `\nTags: ${product.tags.join(', ')}\n`;
           }
           
           if (product.collections && product.collections.length > 0) {
-            systemPrompt += `\nKategorije: ${product.collections.join(', ')}\n`;
+            systemPrompt += `\nCategories: ${product.collections.join(', ')}\n`;
           }
           
           if (product.price) {
-            systemPrompt += `\nCena: ${(product.price / 100).toFixed(2)} RSD\n`;
+            systemPrompt += `\nPrice: ${(product.price / 100).toFixed(2)} RSD\n`;
           }
           
           // Bundle info - IMPORTANT: Always recommend sets if available
           if (product.containing_bundles && product.containing_bundles.length > 0) {
-            systemPrompt += `\nVAŽNO - DOSTUPNI SETOVI/BUNDLE-OVI:\n`;
-            systemPrompt += `Trenutni proizvod je deo sledećih setova. UVEK preporuči set umesto pojedinačnog proizvoda jer setovi nude:\n`;
-            systemPrompt += `- Bolju vrednost (obično jeftiniji)\n`;
-            systemPrompt += `- Kompletnu negu (sve što je potrebno u jednom paketu)\n`;
-            systemPrompt += `- Veću uštedu novca\n\n`;
+            systemPrompt += `\nIMPORTANT - AVAILABLE SETS/BUNDLES:\n`;
+            systemPrompt += `The current product is part of the following sets. ALWAYS recommend the set instead of the individual product because sets offer:\n`;
+            systemPrompt += `- Better value (usually cheaper)\n`;
+            systemPrompt += `- Complete care (everything needed in one package)\n`;
+            systemPrompt += `- Greater savings\n\n`;
             product.containing_bundles.forEach((bundle, i) => {
               const bundlePrice = (bundle.price / 100).toFixed(2);
               const currentPrice = (product.price / 100).toFixed(2);
-              systemPrompt += `${i + 1}. ${bundle.title} - ${bundlePrice} RSD (trenutni proizvod: ${currentPrice} RSD)\n`;
+              systemPrompt += `${i + 1}. ${bundle.title} - ${bundlePrice} RSD (current product: ${currentPrice} RSD)\n`;
             });
-            systemPrompt += `\nNAPOMENA: Kada korisnik pokazuje interes za ovaj proizvod, UVEK spomeni set i objasni zašto je set bolji izbor!\n`;
+            systemPrompt += `\nNOTE: When the user shows interest in this product, ALWAYS mention the set and explain why the set is a better choice!\n`;
           }
           
           // Check for 2+1 offers (would be in special_offers or tags)
@@ -849,11 +849,11 @@
           );
           
           if (hasSpecialOffer) {
-            systemPrompt += `\nSPECIJALNA PONUDA: Ovaj proizvod ima 2+1 gratis ponudu!\n`;
-            systemPrompt += `UVEK spomeni ovu ponudu kao bolji izbor - korisnik dobija treći proizvod besplatno, što znači značajnu uštedu.\n`;
+            systemPrompt += `\nSPECIAL OFFER: This product has a 2+1 free offer!\n`;
+            systemPrompt += `ALWAYS mention this offer as a better choice - the customer gets the third product for free, which means significant savings.\n`;
           }
           
-          systemPrompt += '\n=== KRAJ INFORMACIJA O PROIZVODU ===\n';
+          systemPrompt += '\n=== END OF PRODUCT INFORMATION ===\n';
         }
       }
       
@@ -906,7 +906,7 @@
               isMentioned = true;
             }
             // Also check if any key ingredient/concern words match set description
-            const setKeywordsInMessage = ['kolagen', 'retinol', 'vitamin', 'hijaluron', 'ružmarin', 'akne', 'suva koža', 'rast kose'];
+            const setKeywordsInMessage = ['collagen', 'retinol', 'vitamin', 'hyaluronic', 'rosemary', 'acne', 'dry skin', 'hair growth'];
             if (setKeywordsInMessage.some(kw => messageLower.includes(kw)) && mentionedWords.length >= 1) {
               isMentioned = true;
             }
@@ -962,12 +962,12 @@
       
       // Check if user is asking for recommendations
       const recommendationTriggers = [
-        'preporuči', 'preporuka', 'preporučujete', 'preporučite',
-        'koji proizvod', 'koji proizvodi', 'šta preporučujete',
-        'šta mi odgovara', 'šta bi mi odgovaralo', 'šta je najbolje',
-        'potreban', 'potrebno', 'trebam', 'tražim', 'traže',
-        'za akne', 'za suvu kožu', 'za masnu kožu', 'za rast kose',
-        'za oralno zdravlje', 'za zube', 'za kosu', 'za kožu'
+        'recommend', 'recommendation', 'suggest', 'suggestions',
+        'which product', 'which products', 'what do you recommend',
+        'what suits me', 'what would suit me', 'what is the best',
+        'need', 'needed', 'looking for', 'searching for',
+        'for acne', 'for dry skin', 'for oily skin', 'for hair growth',
+        'for oral health', 'for teeth', 'for hair', 'for skin'
       ];
       
       const isAskingForRecommendations = recommendationTriggers.some(trigger => 
@@ -981,12 +981,12 @@
       
       // Keywords for different concerns with more specific matching
       const concernKeywords = {
-        'akne': ['akne', 'pimple', 'zgaravice', 'upaljena koža', 'upala', 'crvenilo kože'],
-        'suva_koza': ['suva koža', 'dehidratisana koža', 'peckanje kože', 'isušena koža'],
-        'masna_koza': ['masna koža', 'sjaj kože', 'ulje na koži', 'masna'],
-        'osetljiva_koza': ['osetljiva koža', 'iritacija kože', 'crvenilo', 'peckanje'],
-        'rast_kose': ['rast kose', 'gubitak kose', 'ćelavost', 'kosa', 'dlake', 'opadanje kose'],
-        'oralno_zdravlje': ['zubi', 'oralno zdravlje', 'usna duplja', 'beljenje zuba', 'karijes', 'zubni kamenac', 'zubni', 'oralna higijena']
+        'acne': ['acne', 'pimple', 'breakout', 'inflamed skin', 'inflammation', 'skin redness'],
+        'dry_skin': ['dry skin', 'dehydrated skin', 'skin stinging', 'parched skin'],
+        'oily_skin': ['oily skin', 'skin shine', 'oil on skin', 'oily'],
+        'sensitive_skin': ['sensitive skin', 'skin irritation', 'redness', 'stinging'],
+        'hair_growth': ['hair growth', 'hair loss', 'baldness', 'hair', 'hair thinning', 'hair falling out'],
+        'oral_health': ['teeth', 'oral health', 'oral cavity', 'teeth whitening', 'cavities', 'tartar', 'dental', 'oral hygiene']
       };
       
       // Extract concerns from message
@@ -1169,7 +1169,7 @@
           <h4 class="chatbot-modal__recommendation-title">${product.title}${isBundle ? ' (Bundle)' : ''}</h4>
           <div class="chatbot-modal__recommendation-price">${(product.price / 100).toFixed(2)} RSD</div>
           <button class="chatbot-modal__recommendation-button" data-variant-id="${product.variants && product.variants[0] ? product.variants[0].id : ''}">
-            Dodaj u korpu
+            Add to cart
           </button>
         </div>
       `;
@@ -1209,7 +1209,7 @@
     // Add to cart
     async function addToCart(product, isBundle = false) {
       if (!product || !product.variants || product.variants.length === 0) {
-        alert('Proizvod nije dostupan.');
+        alert('Product is not available.');
         return;
       }
       
@@ -1218,7 +1218,7 @@
       
       if (button) {
         button.disabled = true;
-        button.textContent = 'Dodavanje...';
+        button.textContent = 'Adding...';
       }
       
       try {
@@ -1251,10 +1251,10 @@
         
         if (response.ok) {
           if (button) {
-            button.textContent = 'Dodato!';
+            button.textContent = 'Added!';
             setTimeout(() => {
               button.disabled = false;
-              button.textContent = 'Dodaj u korpu';
+              button.textContent = 'Add to cart';
             }, 2000);
           }
           
@@ -1274,14 +1274,14 @@
           // Dispatch cart update event
           document.dispatchEvent(new CustomEvent('cart:refresh'));
         } else {
-          throw new Error('Greška pri dodavanju u korpu');
+          throw new Error('Error adding to cart');
         }
       } catch (error) {
         console.error('Cart add error:', error);
-        alert('Greška pri dodavanju proizvoda u korpu. Pokušajte ponovo.');
+        alert('Error adding product to cart. Please try again.');
         if (button) {
           button.disabled = false;
-          button.textContent = 'Dodaj u korpu';
+          button.textContent = 'Add to cart';
         }
       }
     }
@@ -1305,7 +1305,7 @@
     // Call OpenAI API
     async function callOpenAI(userMessage) {
       if (!PROXY_URL) {
-        throw new Error('Chatbot proxy URL nije konfigurisan.');
+        throw new Error('Chatbot proxy URL is not configured.');
       }
       
       const productHandle = getCurrentProductHandle();
@@ -1353,7 +1353,7 @@
         
         // Check if response has error
         if (data.error) {
-          const errorMessage = data.error?.message || data.error || 'Greška pri komunikaciji sa AI servisom';
+          const errorMessage = data.error?.message || data.error || 'Error communicating with AI service';
           console.error('[Chatbot] API error:', errorMessage);
           throw new Error(errorMessage);
         }
@@ -1361,14 +1361,14 @@
         // Check if response has choices
         if (!data.choices || !data.choices[0] || !data.choices[0].message) {
           console.error('[Chatbot] Invalid response structure:', data);
-          throw new Error('Neočekivan odgovor od AI servisa - nema choices ili message');
+          throw new Error('Unexpected response from AI service - no choices or message');
         }
         
         const aiMessage = data.choices[0].message.content;
         
         if (!aiMessage || aiMessage.trim() === '') {
           console.error('[Chatbot] Empty AI message');
-          throw new Error('AI servis je vratio prazan odgovor');
+          throw new Error('AI service returned an empty response');
         }
         
         console.log('[Chatbot] ✅ AI response received:', aiMessage.substring(0, 100) + '...');
@@ -1451,15 +1451,15 @@
         console.error('[Chatbot] Error stack:', error.stack);
         
         // Show more specific error message
-        let errorMessage = 'Izvinite, došlo je do greške. Molimo pokušajte ponovo.';
+        let errorMessage = 'Sorry, an error occurred. Please try again.';
         
         if (error.message) {
           if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-            errorMessage = 'Problem sa internet konekcijom. Proverite konekciju i pokušajte ponovo.';
+            errorMessage = 'Internet connection problem. Check your connection and try again.';
           } else if (error.message.includes('Server error')) {
-            errorMessage = 'Problem sa serverom. Molimo pokušajte za nekoliko trenutaka.';
+            errorMessage = 'Server problem. Please try again in a few moments.';
           } else if (error.message.includes('timeout')) {
-            errorMessage = 'Zahtev je istekao. Molimo pokušajte ponovo.';
+            errorMessage = 'Request timed out. Please try again.';
           } else {
             // Don't show technical errors to user, but log them
             console.error('[Chatbot] Technical error:', error.message);
@@ -1502,7 +1502,7 @@
         await callOpenAI(message);
       } catch (error) {
         console.error('Send message error:', error);
-        addMessage('Izvinite, došlo je do greške. Molimo pokušajte ponovo.', false);
+        addMessage('Sorry, an error occurred. Please try again.', false);
       } finally {
         hideTyping();
         if (chatbotSend) {

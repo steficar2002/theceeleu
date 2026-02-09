@@ -268,7 +268,7 @@
           >
         {% else %}
           <div style="background-color: rgba(from var(--color-foreground) r g b / 10%); display: flex; align-items: center; justify-content: center; color: var(--color-foreground); opacity: 0.5;">
-            Dodaj sliku paketa
+            Add bundle image
           </div>
         {% endif %}
 
@@ -374,17 +374,17 @@
         <!-- Bundle Total -->
         <div class="bundle-total">
           <div class="bundle-total-row">
-            <span class="bundle-total-label">Ukupna cena</span>
+            <span class="bundle-total-label">Total price</span>
             <span class="bundle-total-price">{{ total_price | money }}</span>
           </div>
           {% if total_compare_price > total_price %}
             <div class="bundle-total-row">
-              <span class="bundle-total-label">Originalna cena</span>
+              <span class="bundle-total-label">Original price</span>
               <span class="bundle-product-price-original">{{ total_compare_price | money }}</span>
             </div>
             {% assign savings = total_compare_price | minus: total_price %}
             <div class="bundle-total-row">
-              <span class="bundle-savings">Ušteda {{ savings | money }}</span>
+              <span class="bundle-savings">You save {{ savings | money }}</span>
             </div>
           {% endif %}
         </div>
@@ -395,7 +395,7 @@
             class="bundle-add-to-cart"
             data-bundle-product="{{ section.settings.bundle_product.id }}"
           >
-            Dodaj set u korpu
+            Add set to cart
           </button>
         {% else %}
           <button 
@@ -403,7 +403,7 @@
             data-bundle-products="{{ bundle_products }}"
             {% unless bundle_products != blank %}disabled{% endunless %}
           >
-            Dodaj set u korpu
+            Add set to cart
           </button>
         {% endif %}
       </div>
@@ -452,7 +452,7 @@
         const bundleProducts = this.dataset.bundleProducts;
 
         this.disabled = true;
-        this.textContent = 'Dodavanje...';
+        this.textContent = 'Adding...';
 
         try {
           let items = [];
@@ -498,14 +498,14 @@
 
           if (response.ok) {
             // Show success message
-            this.textContent = 'Dodato u korpu';
+            this.textContent = 'Added to cart';
             
             // Trigger cart update event
             document.dispatchEvent(new CustomEvent('cart:updated'));
             
             // Reset button after delay
             setTimeout(() => {
-              this.textContent = 'Dodaj set u korpu';
+              this.textContent = 'Add set to cart';
               this.disabled = false;
             }, 2000);
           } else {
@@ -513,9 +513,9 @@
           }
         } catch (error) {
           console.error('Error adding bundle to cart:', error);
-          this.textContent = 'Greška prilikom dodavanja';
+          this.textContent = 'Error adding to cart';
           setTimeout(() => {
-            this.textContent = 'Dodaj set u korpu';
+            this.textContent = 'Add set to cart';
             this.disabled = false;
           }, 2000);
         }
@@ -546,13 +546,13 @@
       "type": "text",
       "id": "bundle_title",
       "label": "Bundle Title",
-      "default": "Kompletni set"
+      "default": "Complete set"
     },
     {
       "type": "textarea",
       "id": "bundle_description",
       "label": "Bundle Description",
-      "default": "Uzmite kompletni set sa posebnim cenama"
+      "default": "Get the complete set at special prices"
     },
     {
       "type": "product",
