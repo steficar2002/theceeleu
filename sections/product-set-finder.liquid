@@ -187,7 +187,7 @@
       }
       
       .bundle-section__scroll-indicator::after {
-        content: "← Povucite da vidite više →";
+        content: "← Swipe to see more →";
         display: block;
         margin-top: 5px;
       }
@@ -245,8 +245,8 @@
     <div class="bundle-section-wrapper">
       <div class="bundle-section__container">
         {% if is_a_bundle %}
-          <h2 class="bundle-section__heading">Proizvodi u ovom setu</h2>
-          <p class="bundle-section__subheading">Svi proizvodi koji su uključeni u ovaj set</p>
+          <h2 class="bundle-section__heading">Products in this set</h2>
+          <p class="bundle-section__subheading">All products included in this set</p>
         {% elsif is_part_of_bundle %}
           <h2 class="bundle-section__heading">{{ section.settings.component_view_heading | escape }}</h2>
           {% if section.settings.component_view_subheading != blank and most_expensive_bundle %}
@@ -335,92 +335,92 @@
   
   {% schema %}
   {
-    "name": "Prikaz Seta (Bundle)",
+    "name": "Set Display (Bundle)",
     "tag": "section",
     "class": "product-bundle-display",
     "settings": [
       {
         "type": "header",
-        "content": "Prikaz kad je proizvod DEO SETA"
+        "content": "Display when product is PART OF A SET"
       },
       {
         "type": "text",
         "id": "component_view_heading",
-        "label": "Glavni naslov",
-        "default": "Ovo je dostupno u setu"
+        "label": "Main heading",
+        "default": "This is available in a set"
       },
       {
         "type": "text",
         "id": "component_view_subheading",
-        "label": "Podnaslov",
-        "default": "Ovaj proizvod možete pronaći u \"[set_title]\"",
-        "info": "Koristite [set_title] da biste prikazali ime seta."
+        "label": "Subheading",
+        "default": "You can find this product in \"[set_title]\"",
+        "info": "Use [set_title] to display the set name."
       },
       {
         "type": "text",
         "id": "current_product_label",
-        "label": "Oznaka za trenutni proizvod",
-        "default": "Trenutni proizvod"
+        "label": "Current product label",
+        "default": "Current product"
       },
       {
         "type": "header",
-        "content": "Prikaz kad je proizvod SET"
+        "content": "Display when product IS A SET"
       },
       {
         "type": "text",
         "id": "bundle_view_heading",
-        "label": "Glavni naslov",
-        "default": "Ovaj set sadrži"
+        "label": "Main heading",
+        "default": "This set contains"
       },
       {
         "type": "text",
         "id": "bundle_view_subheading",
-        "label": "Podnaslov",
-        "default": "Sledeći proizvodi se nalaze u ovom setu"
+        "label": "Subheading",
+        "default": "The following products are included in this set"
       },
       {
         "type": "header",
-        "content": "Opšti stil i boje"
+        "content": "General style and colors"
       },
       {
         "type": "color",
         "id": "background_color",
-        "label": "Boja pozadine sekcije",
+        "label": "Section background color",
         "default": "#FFFFFF"
       },
       {
         "type": "color",
         "id": "heading_color",
-        "label": "Boja glavnog naslova",
+        "label": "Main heading color",
         "default": "#000000"
       },
       {
         "type": "color",
         "id": "subheading_color",
-        "label": "Boja podnaslova i ikona",
+        "label": "Subheading and icons color",
         "default": "#555555"
       },
       {
         "type": "color",
         "id": "product_card_bg",
-        "label": "Boja pozadine kartice proizvoda",
+        "label": "Product card background color",
         "default": "#FAFAFA"
       },
       {
         "type": "color",
         "id": "border_color",
-        "label": "Boja okvira kartice",
+        "label": "Card border color",
         "default": "#EEEEEE"
       },
       {
         "type": "color",
         "id": "product_title_color",
-        "label": "Boja naslova proizvoda",
+        "label": "Product title color",
         "default": "#000000"
       },
       {
         "type": "header",
-        "content": "Fontovi i veličine"
+        "content": "Fonts and sizes"
       },
       {
         "type": "range",
@@ -429,13 +429,13 @@
         "max": 50,
         "step": 1,
         "unit": "px",
-        "label": "Veličina glavnog naslova",
+        "label": "Main heading size",
         "default": 36
       },
       {
         "type": "select",
         "id": "heading_font_weight",
-        "label": "Debljina fonta glavnog naslova",
+        "label": "Main heading font weight",
         "options": [
           { "value": "400", "label": "Normal" },
           { "value": "500", "label": "Medium" },
@@ -451,7 +451,7 @@
         "max": 24,
         "step": 1,
         "unit": "px",
-        "label": "Veličina podnaslova",
+        "label": "Subheading size",
         "default": 16
       },
       {
@@ -461,12 +461,12 @@
         "max": 24,
         "step": 1,
         "unit": "px",
-        "label": "Veličina naslova proizvoda",
+        "label": "Product title size",
         "default": 14
       },
       {
         "type": "header",
-        "content": "Izgled"
+        "content": "Appearance"
       },
       {
         "type": "range",
@@ -475,7 +475,7 @@
         "max": 20,
         "step": 1,
         "unit": "px",
-        "label": "Zaobljenost ivica (Border Radius)",
+        "label": "Border radius",
         "default": 8
       },
       {
@@ -485,7 +485,7 @@
         "max": 100,
         "step": 2,
         "unit": "px",
-        "label": "Gornji razmak",
+        "label": "Top padding",
         "default": 50
       },
       {
@@ -495,13 +495,13 @@
         "max": 100,
         "step": 2,
         "unit": "px",
-        "label": "Donji razmak",
+        "label": "Bottom padding",
         "default": 50
       }
     ],
     "presets": [
       {
-        "name": "Prikaz Seta (Bundle)"
+        "name": "Set Display (Bundle)"
       }
     ]
   }

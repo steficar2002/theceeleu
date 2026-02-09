@@ -2,7 +2,7 @@
   Chatbot Product Information and Instructions
   This file contains detailed product information and system instructions
   for the AI chatbot. It's used by both mobile and desktop chatbot variants.
-  
+
   To add a new product:
   1. Product data is automatically generated from all products in the store
   2. Information is pulled from product descriptions and metafields
@@ -12,34 +12,34 @@
 <script type="application/json" id="chatbot-product-info">
 {
   "instructions": {
-    "systemPrompt": "Ti si korisni asistent i prodavac za {{ shop.name }}. Tvoj cilj je da pomogneš korisnicima da pronađu pravi proizvod za njihove potrebe u negi kože, rastu kose ili oralnom zdravlju i da ih ohrabriš da naprave kupovinu. Odgovaraj na pitanja o našim proizvodima na srpskom jeziku (latinica).",
+    "systemPrompt": "You are a helpful assistant and seller for {{ shop.name }}. Your goal is to help users find the right product for their skincare, hair growth, or oral health needs and encourage them to make a purchase. Answer questions about our products in English.",
     "rules": [
-      "KORISTI SAMO INFORMACIJE IZ GORNJEG DELA O PROIZVODU. NIKADA ne izmišljaj informacije koje nisu navedene!",
-      "Ako ne znaš odgovor na pitanje korisnika, priznaj to i preporuči da korisnik kontaktira podršku na email: help@ceel.rs",
-      "Uvek odgovaraj na srpskom jeziku (latinica)",
-      "UVEK koristi ispravan srpski pravopis (gramatiku, pisanje velikih i malih slova, interpunkciju). Proveri svaki odgovor pre slanja da li je gramatički ispravan.",
-      "Budi prijateljski, opušten i profesionalan u tonu",
-      "Budi konkretan i koristan u odgovorima, ali samo na osnovu datih informacija",
-      "Ako korisnik pita o nečemu što nije u informacijama o proizvodu, reci da nemaš tu informaciju i preporuči kontakt sa podrškom na email: help@ceel.rs",
-      "KAO PRODAVAC: Kada korisnik pokazuje interes za proizvod, prirodno spomeni prednosti, benefite i zašto je proizvod dobar izbor",
-      "KAO PRODAVAC: Spomeni aktuelne popuste, akcije ili posebne ponude kada su relevantne (ako su dostupne u informacijama o proizvodu)",
-      "KAO PRODAVAC: Kada je prirodno, preporuči pakete sa više dana upotrebe jer nude bolju vrednost i značajnu uštedu u dugom roku",
-      "KAO PRODAVAC: Budi entuzijastičan o proizvodima, ali ne budi agresivan ili previše nametljiv",
-      "KAO PRODAVAC: Fokusiraj se na korisnikove potrebe i kako proizvod može da reši njihove probleme",
-      "KAO PRODAVAC: Na kraju razgovora, ako je prirodno, ohrabri korisnika da napravi kupovinu i spomeni da su proizvodi dostupni odmah",
-      "KADA PREPORUČUJEŠ PROIZVODE: Analiziraj korisnikove probleme (akne, suva koža, rast kose, oralno zdravlje, itd.) i uporedi sa sastojcima, kategorijama i upotrebom proizvoda",
-      "KADA PREPORUČUJEŠ PROIZVODE: Ako proizvodi su dostupni u bundle-u, UVEK preporuči bundle jer je jeftiniji",
-      "KADA PREPORUČUJEŠ PROIZVODE: Preporuči 3-5 najboljih proizvoda koji odgovaraju korisnikovim potrebama",
-      "KADA PREPORUČUJEŠ PROIZVODE: Objasni zašto svaki preporučeni proizvod odgovara korisnikovim problemima",
-      "SETOVI I BUNDLE-OVI: Ako korisnik gleda proizvod koji postoji u setu (containing_bundles), UVEK preporuči set i objasni zašto je set bolji - obično je jeftiniji, daje kompletnu negu, i bolja je vrednost",
-      "SETOVI I BUNDLE-OVI: Kada preporučuješ set, naglasi konkretne prednosti: ušteda novca, kompletnija nega, sve što je potrebno u jednom paketu, bolja vrednost",
-      "SASTOJCI: Kada korisnik pita o sastojcima, NIKADA ne daj pun spisak svih sastojaka! Umesto toga, izvuci i objasni samo 3-5 NAJBITNIJIH sastojaka sa njihovim objašnjenjima i prednostima",
-      "SASTOJCI: Fokusiraj se na aktivne sastojke, ključne komponente i one koji su najvažniji za funkcionalnost proizvoda (npr. kolagen, hijaluronska kiselina, retinol, vitamin C, itd.)",
-      "SASTOJCI: Za svaki najbitniji sastojak objasni: šta je, zašto je dobar, kako pomaže koži/kosi, i zašto je važan u ovom proizvodu",
-      "SASTOJCI: Koristi informacije iz 'ingredient_benefits' ako su dostupne, ili objasni opšte poznate benefite sastojaka",
-      "SASTOJCI: Ako korisnik traži kompletan spisak sastojaka, možeš ga spomenuti, ali prvo daj objašnjenja najbitnijih",
-      "2+1 GRATIS PONUDA: Ako proizvod ima 2+1 gratis ponudu (proveri u 'special_offers'), UVEK to spomeni kao bolji izbor i objasni zašto - dobijaju treći proizvod besplatno, što znači veću uštedu",
-      "2+1 GRATIS PONUDA: Kada preporučuješ 2+1 ponudu, naglasi konkretnu uštedu i vrednost - npr. 'Umesto da kupite 3 proizvoda po punoj ceni, dobijate treći besplatno, što vam štedi X RSD'"
+      "USE ONLY INFORMATION FROM THE PRODUCT SECTION ABOVE. NEVER make up information that is not listed!",
+      "If you don't know the answer to the user's question, admit it and recommend that the user contacts support at email: help@ceel.rs",
+      "Always respond in English",
+      "ALWAYS use correct English spelling (grammar, capitalization, punctuation). Check every response before sending for grammatical correctness.",
+      "Be friendly, relaxed, and professional in tone",
+      "Be specific and helpful in your responses, but only based on the given information",
+      "If the user asks about something that is not in the product information, say that you don't have that information and recommend contacting support at email: help@ceel.rs",
+      "AS A SELLER: When the user shows interest in a product, naturally mention the advantages, benefits, and why the product is a good choice",
+      "AS A SELLER: Mention current discounts, promotions, or special offers when relevant (if available in the product information)",
+      "AS A SELLER: When natural, recommend multi-day supply packages as they offer better value and significant long-term savings",
+      "AS A SELLER: Be enthusiastic about the products, but don't be aggressive or too pushy",
+      "AS A SELLER: Focus on the user's needs and how the product can solve their problems",
+      "AS A SELLER: At the end of the conversation, if natural, encourage the user to make a purchase and mention that the products are available immediately",
+      "WHEN RECOMMENDING PRODUCTS: Analyze the user's problems (acne, dry skin, hair growth, oral health, etc.) and compare with the ingredients, categories, and usage of the products",
+      "WHEN RECOMMENDING PRODUCTS: If products are available in a bundle, ALWAYS recommend the bundle as it is cheaper",
+      "WHEN RECOMMENDING PRODUCTS: Recommend the 3-5 best products that match the user's needs",
+      "WHEN RECOMMENDING PRODUCTS: Explain why each recommended product matches the user's problems",
+      "SETS AND BUNDLES: If the user is viewing a product that exists in a set (containing_bundles), ALWAYS recommend the set and explain why the set is better - it's usually cheaper, provides complete care, and is better value",
+      "SETS AND BUNDLES: When recommending a set, highlight specific benefits: saving money, more complete care, everything needed in one package, better value",
+      "INGREDIENTS: When the user asks about ingredients, NEVER give the full list of all ingredients! Instead, extract and explain only the 3-5 MOST IMPORTANT ingredients with their explanations and benefits",
+      "INGREDIENTS: Focus on active ingredients, key components, and those most important for the product's functionality (e.g., collagen, hyaluronic acid, retinol, vitamin C, etc.)",
+      "INGREDIENTS: For each key ingredient explain: what it is, why it's good, how it helps the skin/hair, and why it's important in this product",
+      "INGREDIENTS: Use information from 'ingredient_benefits' if available, or explain generally known benefits of the ingredients",
+      "INGREDIENTS: If the user requests the complete list of ingredients, you can mention it, but first give explanations of the most important ones",
+      "2+1 FREE OFFER: If the product has a 2+1 free offer (check in 'special_offers'), ALWAYS mention it as a better choice and explain why - they get the third product for free, which means greater savings",
+      "2+1 FREE OFFER: When recommending a 2+1 offer, highlight the specific savings and value - e.g., 'Instead of buying 3 products at full price, you get the third one free, saving you X RSD'"
     ]
   },
   "products": {
@@ -116,7 +116,7 @@
           {%- assign collections_lower = collections_lower | append: collection.handle | append: ',' -%}
         {%- endfor -%}
         {%- assign collections_lower = collections_lower | downcase -%}
-        
+
         {%- comment -%} Check for hair care products {%- endcomment -%}
         {%- if title_lower contains 'ružmarin' or title_lower contains 'ruzmarin' or title_lower contains 'šampon' or title_lower contains 'sampon' or title_lower contains 'kosa' or title_lower contains 'mleko za kosu' or title_lower contains 'ulje za kosu' or title_lower contains 'voda za kosu' or title_lower contains 'rast kose' or title_lower contains 'jačanje kose' or title_lower contains 'opadanje kose' or title_lower contains 'sprej za kosu' or title_lower contains 'keratin' or title_lower contains 'vlasište' or title_lower contains 'vlasiste' or title_lower contains 'teme' or title_lower contains 'gusta kosa' or title_lower contains 'volumen' or tags_lower contains 'kosa' or tags_lower contains 'hair' or tags_lower contains 'ružmarin' or tags_lower contains 'ruzmarin' or collections_lower contains 'kosa' or collections_lower contains 'hair' -%}
           {%- assign product_category = 'hair' -%}
@@ -124,27 +124,27 @@
         {%- elsif title_lower contains 'zub' or title_lower contains 'pasta za zube' or title_lower contains 'prah za zube' or title_lower contains 'izbeljivanje zuba' or title_lower contains 'beljenje zuba' or title_lower contains 'oralno' or title_lower contains 'ljubičast' or title_lower contains 'ljubicast' or title_lower contains 'ugljem' or title_lower contains 'uglja' or title_lower contains 'charcoal' or tags_lower contains 'zub' or tags_lower contains 'dental' or tags_lower contains 'oral' or collections_lower contains 'zub' or collections_lower contains 'dental' or collections_lower contains 'oral' -%}
           {%- assign product_category = 'dental' -%}
         {%- endif -%}
-        
+
         "category": {{ product_category | json }},
         "questions": [
           {%- if product_category == 'hair' -%}
-            "Kako se koristi?",
-            "Koji sastojci su u proizvodu?",
-            "Da li odgovara mom tipu kose?",
-            "Koje su prednosti?",
-            "Da li postoji set sa ovim proizvodom?"
+            "How do I use it?",
+            "What ingredients are in the product?",
+            "Is it suitable for my hair type?",
+            "What are the benefits?",
+            "Is there a set with this product?"
           {%- elsif product_category == 'dental' -%}
-            "Kako se koristi?",
-            "Koji sastojci su u proizvodu?",
-            "Da li je bezbedan za zube?",
-            "Koliko često da koristim?",
-            "Da li postoji set sa ovim proizvodom?"
+            "How do I use it?",
+            "What ingredients are in the product?",
+            "Is it safe for teeth?",
+            "How often should I use it?",
+            "Is there a set with this product?"
           {%- else -%}
-            "Kako se koristi?",
-            "Koji sastojci su u proizvodu?",
-            "Da li odgovara mom tipu kože?",
-            "Koje su prednosti?",
-            "Da li postoji set sa ovim proizvodom?"
+            "How do I use it?",
+            "What ingredients are in the product?",
+            "Is it suitable for my skin type?",
+            "What are the benefits?",
+            "Is there a set with this product?"
           {%- endif -%}
         ]
       }
@@ -152,15 +152,15 @@
     {%- endfor -%}
   },
   "generalQuestions": [
-    "Ne znam šta da izaberem, možete li da mi pomognete?",
-    "Imam suvu kožu, šta bi mi najviše prijalo?",
-    "Kako da podstaknem rast i jačanje kose?",
-    "Šta preporučujete za belje i zdravije zube?",
-    "Kako da složim jednostavnu skincare rutinu?",
-    "Imam masnu kožu, šta bi bilo dobro za mene?",
-    "Koji proizvodi su najnežniji za osetljivu kožu?",
-    "Kako da mi kosa bude jača i zdravija?",
-    "Želim bundl ili set koji se najviše isplati, šta predlažete?"
+    "I don't know what to choose, can you help me?",
+    "I have dry skin, what would suit me best?",
+    "How can I promote hair growth and strength?",
+    "What do you recommend for whiter and healthier teeth?",
+    "How can I put together a simple skincare routine?",
+    "I have oily skin, what would be good for me?",
+    "Which products are the gentlest for sensitive skin?",
+    "How can I make my hair stronger and healthier?",
+    "I want a bundle or set that offers the best value, what do you suggest?"
   ]
 }
 </script>
@@ -172,253 +172,252 @@
 <script type="application/json" id="ceel-products-json">
 [
   {
-    "naziv": "Ruzmarin set za rast i jačanje kose – kompletna nega",
-    "cena": "4.999 RSD",
-    "prethodna_cena": "5.996 RSD",
-    "opis": "Komplet sadrži ruzmarin šampon, čistu ruzmarinovu vodu, ruzmarinovo ulje i mleko za kosu. Formulisan je da temeljno očisti teme, ojača koren i podstakne rast kose. Redovnom upotrebom kosa postaje punija, sjajnija i otpornija.",
-    "sastojci": "\n • Ruzmarin šampon: Aqua, Sodium Laureth Sulfate, Sodium Chloride, Cocamidopropyl Betaine, Polyquaternium‑7, Cocamide DEA, Dimethicone, Parfum, PVP, Propylene Glycol, Rosmarinus Officinalis Leaf Oil, Biotin, PEG‑40 Hydrogenated Castor Oil, Keratin, Hydrolyzed Collagen, PEG‑120 Methyl Glucose Dioleate, Citric Acid, Tetrasodium EDTA, Methylchloroisothiazolinone, Methylisothiazolinone, CI 42053.\n • Ruzmarinova voda: Rosmarinus officinalis leaf water (čista ruzmarinova voda).\n • Ruzmarinovo ulje: Glycine Soja Oil, PEG‑40 Castor Oil, Rosmarinus Officinalis Leaf Oil, Simmondsia Chinensis Seed Oil, Carthamus Tinctorius Seed Oil, Oenothera Biennis Oil, Vitis Vinifera Seed Oil, Tocopheryl Acetate, Glycerin, Apium Graveolens Seed Extract, Pogostemon Cablin Oil, Mentha Piperita Oil, Eucalyptus Globulus Leaf Oil, Menthol, Cocos Nucifera Oil, Equisetum Arvense Extract, Aloe Barbadensis Extract, Lavandula Angustifolia Oil, Triticum Vulgare Germ Oil, Beta Carotene, Ascorbic Acid, Melaleuca Alternifolia Leaf Oil.\n • Ruzmarin mleko za kosu: Aqua, Cyclopentasiloxane, Propylene Glycol, Polyquaternium‑6, Cocamidopropyl Betaine, Amodimethicone, Trideceth‑12, Cetrimonium Chloride, Benzophenone‑4, Parfum, Glycerin, Phenoxyethanol, Ethylhexylglycerin, Rosmarinus Officinalis Leaf Water, Hydrolyzed Corn, Wheat i Soy Proteins, fermentisani minerali (Zn, Cu, Mg, Fe, Si), Leuconostoc/Radish Root Ferment, CI 19140, CI 47005.",
-    "upotreba": "Šampon i ruzmarin voda koriste se prilikom svakog pranja kako bi očistili teme i osvežili kosu. Mleko i ulje nanose se 2–3 puta nedeljno: ulje se umasira u suvo teme, ostavi 30 minuta i ispere šamponom, dok se mleko rasporedi po dužini kose bez ispiranja."
+    "name": "Rosemary Hair Growth and Strengthening Set – Complete Care",
+    "price": "4.999 RSD",
+    "previous_price": "5.996 RSD",
+    "description": "The set contains rosemary shampoo, pure rosemary water, rosemary oil, and hair milk. It is formulated to thoroughly cleanse the scalp, strengthen the roots, and promote hair growth. With regular use, hair becomes fuller, shinier, and more resilient.",
+    "ingredients": "\n • Rosemary shampoo: Aqua, Sodium Laureth Sulfate, Sodium Chloride, Cocamidopropyl Betaine, Polyquaternium‑7, Cocamide DEA, Dimethicone, Parfum, PVP, Propylene Glycol, Rosmarinus Officinalis Leaf Oil, Biotin, PEG‑40 Hydrogenated Castor Oil, Keratin, Hydrolyzed Collagen, PEG‑120 Methyl Glucose Dioleate, Citric Acid, Tetrasodium EDTA, Methylchloroisothiazolinone, Methylisothiazolinone, CI 42053.\n • Rosemary water: Rosmarinus officinalis leaf water (pure rosemary water).\n • Rosemary oil: Glycine Soja Oil, PEG‑40 Castor Oil, Rosmarinus Officinalis Leaf Oil, Simmondsia Chinensis Seed Oil, Carthamus Tinctorius Seed Oil, Oenothera Biennis Oil, Vitis Vinifera Seed Oil, Tocopheryl Acetate, Glycerin, Apium Graveolens Seed Extract, Pogostemon Cablin Oil, Mentha Piperita Oil, Eucalyptus Globulus Leaf Oil, Menthol, Cocos Nucifera Oil, Equisetum Arvense Extract, Aloe Barbadensis Extract, Lavandula Angustifolia Oil, Triticum Vulgare Germ Oil, Beta Carotene, Ascorbic Acid, Melaleuca Alternifolia Leaf Oil.\n • Rosemary hair milk: Aqua, Cyclopentasiloxane, Propylene Glycol, Polyquaternium‑6, Cocamidopropyl Betaine, Amodimethicone, Trideceth‑12, Cetrimonium Chloride, Benzophenone‑4, Parfum, Glycerin, Phenoxyethanol, Ethylhexylglycerin, Rosmarinus Officinalis Leaf Water, Hydrolyzed Corn, Wheat and Soy Proteins, fermented minerals (Zn, Cu, Mg, Fe, Si), Leuconostoc/Radish Root Ferment, CI 19140, CI 47005.",
+    "usage": "The shampoo and rosemary water are used with every wash to cleanse the scalp and refresh the hair. The milk and oil are applied 2–3 times a week: massage the oil into the dry scalp, leave for 30 minutes, and rinse with shampoo, while the milk is distributed along the length of the hair without rinsing."
   },
   {
-    "naziv": "Set za izbeljivanje zuba – ljubičasti prah i pasta",
-    "cena": "2.399 RSD",
-    "prethodna_cena": "2.998 RSD",
-    "opis": "Dvofazni set sadrži ljubičasti prah i pastu sa aktivnim ugljem koji neutrališu žute tonove i poliraju zube, pružajući blistav osmeh bez abrazivnih sastojaka.",
-    "sastojci": "\n • Ljubičasta pasta: Aqua, Calcium Carbonate, Sorbitol, Cocamidopropyl Betaine, Hydroxyethylcellulose, Sodium Saccharin, Tetrapotassium pyrophosphate, Propolis Extract, Mica, Menthol, Aroma, Benzoic Acid, Panthenol, Carbon Black, Zinc Chloride, CI 42090, CI 17200.\n • Ljubičasti prah: Sodium Bicarbonate, Charcoal Powder, Menthol, Xylitol, Sodium Benzoate, Potassium Sorbate, Menthyl Lactate.",
-    "upotreba": "Umočite vlažnu četkicu u prah i nežno četkajte 1–2 minuta, zatim isperite. Potom nanesite malu količinu ljubičaste paste i operite zube kao običnom pastom. Koristiti do dva puta dnevno."
+    "name": "Teeth Whitening Set – Purple Powder and Toothpaste",
+    "price": "2.399 RSD",
+    "previous_price": "2.998 RSD",
+    "description": "This two-phase set contains purple powder and toothpaste with activated charcoal that neutralize yellow tones and polish teeth, providing a radiant smile without abrasive ingredients.",
+    "ingredients": "\n • Purple toothpaste: Aqua, Calcium Carbonate, Sorbitol, Cocamidopropyl Betaine, Hydroxyethylcellulose, Sodium Saccharin, Tetrapotassium pyrophosphate, Propolis Extract, Mica, Menthol, Aroma, Benzoic Acid, Panthenol, Carbon Black, Zinc Chloride, CI 42090, CI 17200.\n • Purple powder: Sodium Bicarbonate, Charcoal Powder, Menthol, Xylitol, Sodium Benzoate, Potassium Sorbate, Menthyl Lactate.",
+    "usage": "Dip a damp toothbrush into the powder and gently brush for 1–2 minutes, then rinse. Next, apply a small amount of the purple toothpaste and brush your teeth as you would with regular toothpaste. Use up to twice daily."
   },
   {
-    "naziv": "Kolagenski set – maska i serum za zatezanje i sjaj kože",
-    "cena": "2.799 RSD",
-    "prethodna_cena": "3.398 RSD",
-    "opis": "Ovaj set kombinuje Hydro Bomb peel‑off masku i kolagenski serum kako bi intenzivno očistio pore, uklonio mrtve ćelije i zategnuo kožu dok serum obnavlja kolagensku strukturu i vraća sjaj.",
-    "sastojci": "\n • Hydro Bomb peel‑off maska: Aqua, Polyvinyl Alcohol, Alcohol denat., Glycerin, Propylene Glycol, Collagen, Aloe Barbadensis Leaf Extract, Benzyl Alcohol, Panthenol, Dehydroacetic Acid, Parfum, Hyaluronic Acid, Saccharide Isomerate, Camellia Sinensis Leaf Extract, Cucumis Sativus Extract, Chamomilla Recutita Flower Extract, Calendula Officinalis Flower Extract, Allantoin, Glutathione, Lactic Acid, Tocopheryl Acetate, Ceramide NP, Geranyl Acetate, Hydroxycitronellal, Eugenol.\n • Kolagen serum: Aqua, Hydrolyzed Collagen, Sodium Hyaluronate, Niacinamide, Glycerin, Propylene Glycol, Panthenol, Polysorbate 20, Aloe Barbadensis Leaf Extract, Olea Europaea Leaf Extract, Vitis Vinifera Seed Extract, Chamomilla Recutita Flower Extract, Camellia Sinensis Leaf Extract, Cucumis Sativus Fruit Extract, Glutathione, Lactic Acid, Parfum, Phenoxyethanol, Ethylhexylglycerin, CI 42090.",
-    "upotreba": "Na čistu i suhu kožu nanesite tanki sloj Hydro Bomb maske, izbegavajući područje oko očiju. Ostavite 15–20 minuta dok se potpuno ne osuši, zatim pažljivo odlepite. Nakon toga nanesite nekoliko kapi kolagen seruma i umasirajte dok se u potpunosti ne upije."
+    "name": "Collagen Set – Mask and Serum for Firming and Radiant Skin",
+    "price": "2.799 RSD",
+    "previous_price": "3.398 RSD",
+    "description": "This set combines the Hydro Bomb peel‑off mask and collagen serum to intensively cleanse pores, remove dead cells, and firm the skin while the serum restores collagen structure and brings back radiance.",
+    "ingredients": "\n • Hydro Bomb peel‑off mask: Aqua, Polyvinyl Alcohol, Alcohol denat., Glycerin, Propylene Glycol, Collagen, Aloe Barbadensis Leaf Extract, Benzyl Alcohol, Panthenol, Dehydroacetic Acid, Parfum, Hyaluronic Acid, Saccharide Isomerate, Camellia Sinensis Leaf Extract, Cucumis Sativus Extract, Chamomilla Recutita Flower Extract, Calendula Officinalis Flower Extract, Allantoin, Glutathione, Lactic Acid, Tocopheryl Acetate, Ceramide NP, Geranyl Acetate, Hydroxycitronellal, Eugenol.\n • Collagen serum: Aqua, Hydrolyzed Collagen, Sodium Hyaluronate, Niacinamide, Glycerin, Propylene Glycol, Panthenol, Polysorbate 20, Aloe Barbadensis Leaf Extract, Olea Europaea Leaf Extract, Vitis Vinifera Seed Extract, Chamomilla Recutita Flower Extract, Camellia Sinensis Leaf Extract, Cucumis Sativus Fruit Extract, Glutathione, Lactic Acid, Parfum, Phenoxyethanol, Ethylhexylglycerin, CI 42090.",
+    "usage": "Apply a thin layer of the Hydro Bomb mask on clean, dry skin, avoiding the eye area. Leave for 15–20 minutes until completely dry, then carefully peel off. Afterward, apply a few drops of collagen serum and massage until fully absorbed."
   },
   {
-    "naziv": "Set za čišćenje i regeneraciju lica s retinolom",
-    "cena": "5.599 RSD",
-    "prethodna_cena": "6.996 RSD",
-    "opis": "Noćni set koji kombinuje gel za umivanje, tonik sa glikolnom kiselinom, regenerativnu CICA kremu i retinol serum. Pruža dubinsko čišćenje, podstiče obnavljanje ćelija i smanjuje bore, ostavljajući kožu glatkom i elastičnom.",
-    "sastojci": "\n • Retinol serum: Aqua, PEG‑40 Castor Oil, Panthenol, Glycerin, Niacinamide, Propylene Glycol, Sodium Ascorbyl Phosphate, Phenoxyethanol, Hydroxyethylcellulose, Allantoin, Parfum, Retinol, Caprylic/Capric Triglyceride, Alpha‑Arbutin, Tocopheryl Acetate, Hyaluronic Acid, Glutathione, Acetyl Hexapeptide‑8, Ethylhexylglycerin, Ceramide NP, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 42090.\n • Gel za umivanje: Aqua, Coco Glucoside, Lauryl Glucoside, Cocamidopropyl Betaine, PEG‑10 Olive Glycerides, Cocamide DEA, Tocopheryl Acetate, Avocado Oil PEG‑11 Esters, Hyaluronic Acid, Camellia Sinensis Leaf Extract, Linum Usitatissimum Seed Extract, Panax Ginseng Root Extract, Ceramide NP, Hydroxyethylcellulose, Salvia Officinalis Leaf Extract, Calendula Officinalis Flower Extract, Urtica Dioica Extract, Biotin, Sodium PCA, Juniperus Communis Fruit Extract, Fragrance, Chamomilla Recutita Flower Extract, Hamamelis Virginiana Leaf Extract, Centella Asiatica Extract, Cucurbita Pepo Seed Extract, Glycerin, Thymus Vulgaris Extract, Lactobacillus/Algae Extract Ferment, Ononis Spinosa Root Extract, Panthenol, Phenoxyethanol, Dehydroacetic Acid.\n • Tonik sa glikolnom kiselinom: Aqua, Glycerin, Niacinamide, Polysorbate 20, Salicylic Acid, Chamomilla Recutita Flower Extract, Propylene Glycol, Glycolic Acid, Phenoxyethanol, Alcohol, Ethylhexylglycerin, CI 42090.\n • CICA krema: Aqua, Cetearyl Alcohol, Dimethicone, Propylene Glycol, C12‑15 Alkyl Benzoate, Glyceryl Stearate, Butyrospermum Parkii Butter, Ceteareth‑25, Cyclopentasiloxane, Glycerin, Niacinamide, Panthenol, Zinc Oxide, Saccharide Isomerate, Centella Asiatica Extract, Phenoxyethanol, Arnica Montana Flower Extract, Hyaluronic Acid, Aloe Barbadensis Leaf Extract, Glutathione, Parfum, Allantoin, Tocopheryl Acetate, Ethylhexylglycerin, Madecassoside, Ceramide NP, Benzyl Salicylate, Hexyl Cinnamal, Terpineol.",
-    "upotreba": "U večernjoj rutini očistite lice gelom, nanesite tonik sa glikolnom kiselinom, potom nekoliko kapi retinol seruma i završite CICA kremom. Tokom dana uvek koristite kremu sa zaštitnim faktorom zbog povećane osetljivosti na sunce."
+    "name": "Facial Cleansing and Regeneration Set with Retinol",
+    "price": "5.599 RSD",
+    "previous_price": "6.996 RSD",
+    "description": "A nighttime set that combines a face wash gel, glycolic acid toner, regenerative CICA cream, and retinol serum. It provides deep cleansing, promotes cell renewal, and reduces wrinkles, leaving skin smooth and elastic.",
+    "ingredients": "\n • Retinol serum: Aqua, PEG‑40 Castor Oil, Panthenol, Glycerin, Niacinamide, Propylene Glycol, Sodium Ascorbyl Phosphate, Phenoxyethanol, Hydroxyethylcellulose, Allantoin, Parfum, Retinol, Caprylic/Capric Triglyceride, Alpha‑Arbutin, Tocopheryl Acetate, Hyaluronic Acid, Glutathione, Acetyl Hexapeptide‑8, Ethylhexylglycerin, Ceramide NP, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 42090.\n • Face wash gel: Aqua, Coco Glucoside, Lauryl Glucoside, Cocamidopropyl Betaine, PEG‑10 Olive Glycerides, Cocamide DEA, Tocopheryl Acetate, Avocado Oil PEG‑11 Esters, Hyaluronic Acid, Camellia Sinensis Leaf Extract, Linum Usitatissimum Seed Extract, Panax Ginseng Root Extract, Ceramide NP, Hydroxyethylcellulose, Salvia Officinalis Leaf Extract, Calendula Officinalis Flower Extract, Urtica Dioica Extract, Biotin, Sodium PCA, Juniperus Communis Fruit Extract, Fragrance, Chamomilla Recutita Flower Extract, Hamamelis Virginiana Leaf Extract, Centella Asiatica Extract, Cucurbita Pepo Seed Extract, Glycerin, Thymus Vulgaris Extract, Lactobacillus/Algae Extract Ferment, Ononis Spinosa Root Extract, Panthenol, Phenoxyethanol, Dehydroacetic Acid.\n • Glycolic acid toner: Aqua, Glycerin, Niacinamide, Polysorbate 20, Salicylic Acid, Chamomilla Recutita Flower Extract, Propylene Glycol, Glycolic Acid, Phenoxyethanol, Alcohol, Ethylhexylglycerin, CI 42090.\n • CICA cream: Aqua, Cetearyl Alcohol, Dimethicone, Propylene Glycol, C12‑15 Alkyl Benzoate, Glyceryl Stearate, Butyrospermum Parkii Butter, Ceteareth‑25, Cyclopentasiloxane, Glycerin, Niacinamide, Panthenol, Zinc Oxide, Saccharide Isomerate, Centella Asiatica Extract, Phenoxyethanol, Arnica Montana Flower Extract, Hyaluronic Acid, Aloe Barbadensis Leaf Extract, Glutathione, Parfum, Allantoin, Tocopheryl Acetate, Ethylhexylglycerin, Madecassoside, Ceramide NP, Benzyl Salicylate, Hexyl Cinnamal, Terpineol.",
+    "usage": "In your evening routine, cleanse your face with the gel, apply the glycolic acid toner, then a few drops of retinol serum, and finish with the CICA cream. During the day, always use a cream with sun protection factor due to increased sun sensitivity."
   },
   {
-    "naziv": "Set za negu područja oko očiju – protiv podočnjaka i bora",
-    "cena": "3.199 RSD",
-    "prethodna_cena": "3.898 RSD",
-    "opis": "Set kombinuje osvežavajući serum za područje ispod očiju i hidratantnu kremu sa metalnim valjkom. Formulisan s kofeinom, kolagenom i botaničkim ekstraktima za vidljivo smanjenje tamnih kolutova, natečenosti i finih linija.",
-    "sastojci": "\n • Serum za područje oko očiju: Aqua, Glycerin, Hyaluronic Acid, Panthenol, Allantoin, Niacinamide, Acetyl Hexapeptide‑8, Vitis Vinifera Seed Extract, Hydroxyethylcellulose, Ceramide NP, Dunaliella Salina Extract, Glutathione, Caffeine, Parfum, Palmitoyl Tripeptide‑1, Benzyl Alcohol, Dehydroacetic Acid, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 77266.\n • Krema sa metalnim valjkom: Aqua, Glyceryl Stearate SE, Ceteareth‑20, Cyclopentasiloxane, Glycerin, Dimethicone, Propanediol, Phenoxyethanol, Cetearyl Alcohol, Dicaprylyl Ether, Hydroxyethyl Acrylate/Sodium Acryloyldimethyl Taurate Copolymer, Xanthan Gum, Isohexadecane, Helianthus Annuus Seed Cera, Hydrogenated Castor Oil, Oryza Sativa Bran Cera, Rhus Succedanea Fruit Cera, Ethylhexylglycerin, Arnica Montana Flower Extract, Polysorbate 60, Butylene Glycol, Helianthus Annuus Seed Oil, Steareth‑20, Citric Acid, Carbomer, Chlorhexidine Digluconate, Sodium Lactate, Polysorbate 20, Tocopherol, N‑Hydroxysuccinimide, Sodium Citrate, Palmitoyl Tripeptide‑1, Chrysin, Palmitoyl Tetrapeptide‑7, Potassium Sorbate, Biotin.",
-    "upotreba": "Ujutru i uveče nanesite malu količinu seruma na čistu kožu oko očiju i nežno tapkajte. Zatim koristite kremu sa metalnim valjkom kako biste poboljšali mikrocirkulaciju i smanjili natečenost. Za dodatni efekat čuvati kremu u frižideru."
+    "name": "Eye Area Care Set – Against Dark Circles and Wrinkles",
+    "price": "3.199 RSD",
+    "previous_price": "3.898 RSD",
+    "description": "The set combines a refreshing under-eye serum and a hydrating cream with a metal roller. Formulated with caffeine, collagen, and botanical extracts for visibly reducing dark circles, puffiness, and fine lines.",
+    "ingredients": "\n • Eye area serum: Aqua, Glycerin, Hyaluronic Acid, Panthenol, Allantoin, Niacinamide, Acetyl Hexapeptide‑8, Vitis Vinifera Seed Extract, Hydroxyethylcellulose, Ceramide NP, Dunaliella Salina Extract, Glutathione, Caffeine, Parfum, Palmitoyl Tripeptide‑1, Benzyl Alcohol, Dehydroacetic Acid, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 77266.\n • Metal roller cream: Aqua, Glyceryl Stearate SE, Ceteareth‑20, Cyclopentasiloxane, Glycerin, Dimethicone, Propanediol, Phenoxyethanol, Cetearyl Alcohol, Dicaprylyl Ether, Hydroxyethyl Acrylate/Sodium Acryloyldimethyl Taurate Copolymer, Xanthan Gum, Isohexadecane, Helianthus Annuus Seed Cera, Hydrogenated Castor Oil, Oryza Sativa Bran Cera, Rhus Succedanea Fruit Cera, Ethylhexylglycerin, Arnica Montana Flower Extract, Polysorbate 60, Butylene Glycol, Helianthus Annuus Seed Oil, Steareth‑20, Citric Acid, Carbomer, Chlorhexidine Digluconate, Sodium Lactate, Polysorbate 20, Tocopherol, N‑Hydroxysuccinimide, Sodium Citrate, Palmitoyl Tripeptide‑1, Chrysin, Palmitoyl Tetrapeptide‑7, Potassium Sorbate, Biotin.",
+    "usage": "In the morning and evening, apply a small amount of serum to clean skin around the eyes and gently tap. Then use the cream with the metal roller to improve microcirculation and reduce puffiness. For an extra cooling effect, store the cream in the refrigerator."
   },
   {
-    "naziv": "Set za blistav i hidriran ten – Vitamin C, hijaluron i maska",
-    "cena": "4.399 RSD",
-    "prethodna_cena": "5.397 RSD",
-    "opis": "Tročlani set sadrži serum sa vitaminom C, hijaluronski serum i masku s belancetom. Kombinacija intenzivno hidrira, ujednačava ten, smanjuje pore i vraća elasticitet koži.",
-    "sastojci": "\n • Vitamin C serum: Aqua, Sodium Ascorbyl Phosphate, PEG‑40 Castor Oil, Panthenol, Polysorbate 20, Glycerin, Benzyl Alcohol, Dehydroacetic Acid, Niacinamide, Hydroxyethylcellulose, Glutathione, Parfum, Alpha‑Arbutin, Ferulic Acid, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 15985.\n • Hijaluronski serum: Aqua, Sodium PCA, Propylene Glycol, Panthenol, Hydroxyethylcellulose, Parfum, Centella Asiatica Extract, Hyaluronic Acid, Benzyl Alcohol, Dehydroacetic Acid, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 42090.\n • Maska s belancetom: Aqua, PEG‑100 Stearate, Stearic Acid, Caprylic/Capric Triglyceride, Glycerin, Albumen extract, Cetearyl Alcohol, Kaolin, Bentonite, Glyceryl Stearate, Alcohol, Titanium Dioxide, Urea, Malic Acid, Potassium Hydroxide, Silica, Polyvinyl Alcohol, Niacinamide, Butylene Glycol, Parfum, Aloe Barbadensis Leaf Extract, Sucrose, Glyceryl Stearate SE, Sodium Citrate, Chamomilla Recutita Flower Extract, Benzyl Alcohol, Dehydroacetic Acid, Tocopheryl Acetate, Disodium EDTA, Olea Europaea Fruit Oil, Panthenol, Tartaric Acid, Glycolic Acid, Sodium Lactate, Chlorphenesin.",
-    "upotreba": "Koristite masku 2–3 puta nedeljno: nanesite je na čistu kožu, ostavite dok se ne osuši i isperite. Vitamin C serum nanosite svako jutro, a hijaluronski serum uveče; nekoliko kapi umasirati na lice i vrat."
+    "name": "Radiant and Hydrated Complexion Set – Vitamin C, Hyaluronic Acid and Mask",
+    "price": "4.399 RSD",
+    "previous_price": "5.397 RSD",
+    "description": "This three-piece set contains a Vitamin C serum, hyaluronic serum, and an egg white mask. The combination intensively hydrates, evens out the complexion, minimizes pores, and restores skin elasticity.",
+    "ingredients": "\n • Vitamin C serum: Aqua, Sodium Ascorbyl Phosphate, PEG‑40 Castor Oil, Panthenol, Polysorbate 20, Glycerin, Benzyl Alcohol, Dehydroacetic Acid, Niacinamide, Hydroxyethylcellulose, Glutathione, Parfum, Alpha‑Arbutin, Ferulic Acid, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 15985.\n • Hyaluronic serum: Aqua, Sodium PCA, Propylene Glycol, Panthenol, Hydroxyethylcellulose, Parfum, Centella Asiatica Extract, Hyaluronic Acid, Benzyl Alcohol, Dehydroacetic Acid, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 42090.\n • Egg white mask: Aqua, PEG‑100 Stearate, Stearic Acid, Caprylic/Capric Triglyceride, Glycerin, Albumen extract, Cetearyl Alcohol, Kaolin, Bentonite, Glyceryl Stearate, Alcohol, Titanium Dioxide, Urea, Malic Acid, Potassium Hydroxide, Silica, Polyvinyl Alcohol, Niacinamide, Butylene Glycol, Parfum, Aloe Barbadensis Leaf Extract, Sucrose, Glyceryl Stearate SE, Sodium Citrate, Chamomilla Recutita Flower Extract, Benzyl Alcohol, Dehydroacetic Acid, Tocopheryl Acetate, Disodium EDTA, Olea Europaea Fruit Oil, Panthenol, Tartaric Acid, Glycolic Acid, Sodium Lactate, Chlorphenesin.",
+    "usage": "Use the mask 2–3 times a week: apply it to clean skin, leave until dry, and rinse off. Apply the Vitamin C serum every morning and the hyaluronic serum in the evening; massage a few drops onto the face and neck."
   },
   {
-    "naziv": "Anti‑age set za dubinsku obnovu i čišćenje lica",
-    "cena": "4.299 RSD",
-    "prethodna_cena": "5.397 RSD",
-    "opis": "Ovaj set se fokusira na večernju negu. Sastoji se od gela za umivanje, retinol seruma i regenerativne CICA kreme. Dubinski čisti, ubrzava obnovu ćelija i poboljšava elastičnost kože smanjujući bore.",
-    "sastojci": "\n • Retinol serum: Aqua, PEG‑40 Castor Oil, Panthenol, Glycerin, Niacinamide, Propylene Glycol, Sodium Ascorbyl Phosphate, Phenoxyethanol, Hydroxyethylcellulose, Allantoin, Parfum, Retinol, Caprylic/Capric Triglyceride, Alpha‑Arbutin, Tocopheryl Acetate, Hyaluronic Acid, Glutathione, Acetyl Hexapeptide‑8, Ethylhexylglycerin, Ceramide NP, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 42090.\n • Gel za umivanje: Aqua, Coco Glucoside, Lauryl Glucoside, Cocamidopropyl Betaine, PEG‑10 Olive Glycerides, Cocamide DEA, Tocopheryl Acetate, Avocado Oil PEG‑11 Esters, Hyaluronic Acid, Camellia Sinensis Leaf Extract, Linum Usitatissimum Seed Extract, Panax Ginseng Root Extract, Ceramide NP, Hydroxyethylcellulose, Salvia Officinalis Leaf Extract, Calendula Officinalis Flower Extract, Urtica Dioica Extract, Biotin, Sodium PCA, Juniperus Communis Fruit Extract, Fragrance, Chamomilla Recutita Flower Extract, Hamamelis Virginiana Leaf Extract, Centella Asiatica Extract, Cucurbita Pepo Seed Extract, Glycerin, Thymus Vulgaris Extract, Lactobacillus/Algae Extract Ferment, Ononis Spinosa Root Extract, Panthenol, Phenoxyethanol, Dehydroacetic Acid.\n • CICA krema: Aqua, Cetearyl Alcohol, Dimethicone, Propylene Glycol, C12‑15 Alkyl Benzoate, Glyceryl Stearate, Butyrospermum Parkii Butter, Ceteareth‑25, Cyclopentasiloxane, Glycerin, Niacinamide, Panthenol, Zinc Oxide, Saccharide Isomerate, Centella Asiatica Extract, Phenoxyethanol, Arnica Montana Flower Extract, Hyaluronic Acid, Aloe Barbadensis Leaf Extract, Glutathione, Parfum, Allantoin, Tocopheryl Acetate, Ethylhexylglycerin, Madecassoside, Ceramide NP, Benzyl Salicylate, Hexyl Cinnamal, Terpineol.",
-    "upotreba": "Namenjen za večernju upotrebu: posle čišćenja gelom, naneti retinol serum i završiti CICA kremom. Tokom dana koristiti kremu sa zaštitnim faktorom."
+    "name": "Anti‑Age Set for Deep Renewal and Facial Cleansing",
+    "price": "4.299 RSD",
+    "previous_price": "5.397 RSD",
+    "description": "This set focuses on evening care. It consists of a face wash gel, retinol serum, and regenerative CICA cream. It deeply cleanses, accelerates cell renewal, and improves skin elasticity while reducing wrinkles.",
+    "ingredients": "\n • Retinol serum: Aqua, PEG‑40 Castor Oil, Panthenol, Glycerin, Niacinamide, Propylene Glycol, Sodium Ascorbyl Phosphate, Phenoxyethanol, Hydroxyethylcellulose, Allantoin, Parfum, Retinol, Caprylic/Capric Triglyceride, Alpha‑Arbutin, Tocopheryl Acetate, Hyaluronic Acid, Glutathione, Acetyl Hexapeptide‑8, Ethylhexylglycerin, Ceramide NP, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 42090.\n • Face wash gel: Aqua, Coco Glucoside, Lauryl Glucoside, Cocamidopropyl Betaine, PEG‑10 Olive Glycerides, Cocamide DEA, Tocopheryl Acetate, Avocado Oil PEG‑11 Esters, Hyaluronic Acid, Camellia Sinensis Leaf Extract, Linum Usitatissimum Seed Extract, Panax Ginseng Root Extract, Ceramide NP, Hydroxyethylcellulose, Salvia Officinalis Leaf Extract, Calendula Officinalis Flower Extract, Urtica Dioica Extract, Biotin, Sodium PCA, Juniperus Communis Fruit Extract, Fragrance, Chamomilla Recutita Flower Extract, Hamamelis Virginiana Leaf Extract, Centella Asiatica Extract, Cucurbita Pepo Seed Extract, Glycerin, Thymus Vulgaris Extract, Lactobacillus/Algae Extract Ferment, Ononis Spinosa Root Extract, Panthenol, Phenoxyethanol, Dehydroacetic Acid.\n • CICA cream: Aqua, Cetearyl Alcohol, Dimethicone, Propylene Glycol, C12‑15 Alkyl Benzoate, Glyceryl Stearate, Butyrospermum Parkii Butter, Ceteareth‑25, Cyclopentasiloxane, Glycerin, Niacinamide, Panthenol, Zinc Oxide, Saccharide Isomerate, Centella Asiatica Extract, Phenoxyethanol, Arnica Montana Flower Extract, Hyaluronic Acid, Aloe Barbadensis Leaf Extract, Glutathione, Parfum, Allantoin, Tocopheryl Acetate, Ethylhexylglycerin, Madecassoside, Ceramide NP, Benzyl Salicylate, Hexyl Cinnamal, Terpineol.",
+    "usage": "Intended for evening use: after cleansing with the gel, apply retinol serum and finish with CICA cream. During the day, use a cream with sun protection factor."
   },
   {
-    "naziv": "Set za svakodnevno čišćenje i hidrataciju kože",
-    "cena": "3.999 RSD",
-    "prethodna_cena": "4.997 RSD",
-    "opis": "Idealna kombinacija za jutarnju i večernju rutinu. Set uključuje gel za umivanje, tonik sa glikolnom kiselinom i CICA kremu. Pruža blago ali dubinsko čišćenje, hidrira i umiruje kožu bez osećaja zatezanja.",
-    "sastojci": "\n • Gel za umivanje: Aqua, Coco Glucoside, Lauryl Glucoside, Cocamidopropyl Betaine, PEG‑10 Olive Glycerides, Cocamide DEA, Tocopheryl Acetate, Avocado Oil PEG‑11 Esters, Hyaluronic Acid, Camellia Sinensis Leaf Extract, Linum Usitatissimum Seed Extract, Panax Ginseng Root Extract, Ceramide NP, Hydroxyethylcellulose, Salvia Officinalis Leaf Extract, Calendula Officinalis Flower Extract, Urtica Dioica Extract, Biotin, Sodium PCA, Juniperus Communis Fruit Extract, Fragrance, Chamomilla Recutita Flower Extract, Hamamelis Virginiana Leaf Extract, Centella Asiatica Extract, Cucurbita Pepo Seed Extract, Glycerin, Thymus Vulgaris Extract, Lactobacillus/Algae Extract Ferment, Ononis Spinosa Root Extract, Panthenol, Phenoxyethanol, Dehydroacetic Acid.\n • Tonik sa glikolnom kiselinom: Aqua, Glycerin, Niacinamide, Polysorbate 20, Salicylic Acid, Chamomilla Recutita Flower Extract, Propylene Glycol, Glycolic Acid, Phenoxyethanol, Alcohol, Ethylhexylglycerin, CI 42090.\n • CICA krema: Aqua, Cetearyl Alcohol, Dimethicone, Propylene Glycol, C12‑15 Alkyl Benzoate, Glyceryl Stearate, Butyrospermum Parkii Butter, Ceteareth‑25, Cyclopentasiloxane, Glycerin, Niacinamide, Panthenol, Zinc Oxide, Saccharide Isomerate, Centella Asiatica Extract, Phenoxyethanol, Arnica Montana Flower Extract, Hyaluronic Acid, Aloe Barbadensis Leaf Extract, Glutathione, Parfum, Allantoin, Tocopheryl Acetate, Ethylhexylglycerin, Madecassoside, Ceramide NP, Benzyl Salicylate, Hexyl Cinnamal, Terpineol.",
-    "upotreba": "Koristiti gel i tonik ujutru i uveče. Nakon čišćenja i toniranja, nanesite CICA kremu na lice i nežno umasirajte dok se ne upije."
+    "name": "Daily Cleansing and Skin Hydration Set",
+    "price": "3.999 RSD",
+    "previous_price": "4.997 RSD",
+    "description": "An ideal combination for morning and evening routines. The set includes a face wash gel, glycolic acid toner, and CICA cream. It provides gentle yet deep cleansing, hydrates, and soothes the skin without a feeling of tightness.",
+    "ingredients": "\n • Face wash gel: Aqua, Coco Glucoside, Lauryl Glucoside, Cocamidopropyl Betaine, PEG‑10 Olive Glycerides, Cocamide DEA, Tocopheryl Acetate, Avocado Oil PEG‑11 Esters, Hyaluronic Acid, Camellia Sinensis Leaf Extract, Linum Usitatissimum Seed Extract, Panax Ginseng Root Extract, Ceramide NP, Hydroxyethylcellulose, Salvia Officinalis Leaf Extract, Calendula Officinalis Flower Extract, Urtica Dioica Extract, Biotin, Sodium PCA, Juniperus Communis Fruit Extract, Fragrance, Chamomilla Recutita Flower Extract, Hamamelis Virginiana Leaf Extract, Centella Asiatica Extract, Cucurbita Pepo Seed Extract, Glycerin, Thymus Vulgaris Extract, Lactobacillus/Algae Extract Ferment, Ononis Spinosa Root Extract, Panthenol, Phenoxyethanol, Dehydroacetic Acid.\n • Glycolic acid toner: Aqua, Glycerin, Niacinamide, Polysorbate 20, Salicylic Acid, Chamomilla Recutita Flower Extract, Propylene Glycol, Glycolic Acid, Phenoxyethanol, Alcohol, Ethylhexylglycerin, CI 42090.\n • CICA cream: Aqua, Cetearyl Alcohol, Dimethicone, Propylene Glycol, C12‑15 Alkyl Benzoate, Glyceryl Stearate, Butyrospermum Parkii Butter, Ceteareth‑25, Cyclopentasiloxane, Glycerin, Niacinamide, Panthenol, Zinc Oxide, Saccharide Isomerate, Centella Asiatica Extract, Phenoxyethanol, Arnica Montana Flower Extract, Hyaluronic Acid, Aloe Barbadensis Leaf Extract, Glutathione, Parfum, Allantoin, Tocopheryl Acetate, Ethylhexylglycerin, Madecassoside, Ceramide NP, Benzyl Salicylate, Hexyl Cinnamal, Terpineol.",
+    "usage": "Use the gel and toner in the morning and evening. After cleansing and toning, apply CICA cream to the face and gently massage until absorbed."
   },
   {
-    "naziv": "Set za negu i omekšavanje kose s ruzmarinom",
-    "cena": "2.699 RSD",
-    "prethodna_cena": "3.398 RSD",
-    "opis": "Set kombinuje ruzmarin šampon i ruzmarinovo mleko za kosu. Namenjen je svakodnevnoj nezi suve i oštećene kose, nežno čisti teme, hidrira i omekšava vlasi, vraćajući prirodni sjaj.",
-    "sastojci": "\n • Ruzmarin šampon: Aqua, Sodium Laureth Sulfate, Sodium Chloride, Cocamidopropyl Betaine, Polyquaternium‑7, Cocamide DEA, Dimethicone, Parfum, PVP, Propylene Glycol, Rosmarinus Officinalis Leaf Oil, Biotin, PEG‑40 Hydrogenated Castor Oil, Keratin, Hydrolyzed Collagen, PEG‑120 Methyl Glucose Dioleate, Citric Acid, Tetrasodium EDTA, Methylchloroisothiazolinone, Methylisothiazolinone, CI 42053.\n • Ruzmarinovo mleko: Aqua, Cyclopentasiloxane, Propylene Glycol, Polyquaternium‑6, Cocamidopropyl Betaine, Amodimethicone, Trideceth‑12, Cetrimonium Chloride, Benzophenone‑4, Parfum, Glycerin, Phenoxyethanol, Ethylhexylglycerin, Rosmarinus Officinalis Leaf Water, Hydrolyzed Corn Protein, Hydrolyzed Wheat Protein, Hydrolyzed Soy Protein, Saccharomyces/Zinc Ferment, Saccharomyces/Copper Ferment, Saccharomyces/Magnesium Ferment, Saccharomyces/Iron Ferment, Saccharomyces/Silicon Ferment, Leuconostoc/Radish Root Ferment Filtrate, CI 19140, CI 47005.",
-    "upotreba": "Šampon nanesite na mokru kosu, dobro umasirajte i isperite. Nakon pranja rasporedite mleko ravnomerno po dužini kose i ne ispirajte. Rezultat je mekša i sjajnija kosa."
+    "name": "Rosemary Hair Care and Softening Set",
+    "price": "2.699 RSD",
+    "previous_price": "3.398 RSD",
+    "description": "The set combines rosemary shampoo and rosemary hair milk. It is designed for daily care of dry and damaged hair, gently cleanses the scalp, hydrates and softens strands, restoring natural shine.",
+    "ingredients": "\n • Rosemary shampoo: Aqua, Sodium Laureth Sulfate, Sodium Chloride, Cocamidopropyl Betaine, Polyquaternium‑7, Cocamide DEA, Dimethicone, Parfum, PVP, Propylene Glycol, Rosmarinus Officinalis Leaf Oil, Biotin, PEG‑40 Hydrogenated Castor Oil, Keratin, Hydrolyzed Collagen, PEG‑120 Methyl Glucose Dioleate, Citric Acid, Tetrasodium EDTA, Methylchloroisothiazolinone, Methylisothiazolinone, CI 42053.\n • Rosemary milk: Aqua, Cyclopentasiloxane, Propylene Glycol, Polyquaternium‑6, Cocamidopropyl Betaine, Amodimethicone, Trideceth‑12, Cetrimonium Chloride, Benzophenone‑4, Parfum, Glycerin, Phenoxyethanol, Ethylhexylglycerin, Rosmarinus Officinalis Leaf Water, Hydrolyzed Corn Protein, Hydrolyzed Wheat Protein, Hydrolyzed Soy Protein, Saccharomyces/Zinc Ferment, Saccharomyces/Copper Ferment, Saccharomyces/Magnesium Ferment, Saccharomyces/Iron Ferment, Saccharomyces/Silicon Ferment, Leuconostoc/Radish Root Ferment Filtrate, CI 19140, CI 47005.",
+    "usage": "Apply the shampoo to wet hair, massage well, and rinse. After washing, distribute the milk evenly along the length of the hair and do not rinse. The result is softer and shinier hair."
   },
   {
-    "naziv": "Ruzmarin šampon i ulje za jačanje i gušću kosu",
-    "cena": "2.499 RSD",
-    "prethodna_cena": "3.098 RSD",
-    "opis": "Set spaja ruzmarin šampon i ruzmarinovo ulje kako bi ojačao koren i ubrzao rast kose. Šampon nežno čisti teme bez isušivanja, dok ulje prodire duboko u vlas, jača strukturu i smanjuje lomljenje. Redovnom upotrebom kosa postaje punija i sjajnija.",
-    "sastojci": "\n • Ruzmarin šampon: Aqua, Sodium Laureth Sulfate, Sodium Chloride, Cocamidopropyl Betaine, Polyquaternium‑7, Cocamide DEA, Dimethicone, Parfum, PVP, Propylene Glycol, Rosmarinus Officinalis Leaf Oil, Biotin, PEG‑40 Hydrogenated Castor Oil, Keratin, Hydrolyzed Collagen, PEG‑120 Methyl Glucose Dioleate, Citric Acid, Tetrasodium EDTA, Methylchloroisothiazolinone, Methylisothiazolinone, CI 42053.\n • Ruzmarinovo ulje: Glycine Soja Oil, PEG‑40 Castor Oil, Rosmarinus Officinalis Leaf Oil, Simmondsia Chinensis Seed Oil, Carthamus Tinctorius Seed Oil, Oenothera Biennis Oil, Vitis Vinifera Seed Oil, Tocopheryl Acetate, Glycerin, Apium Graveolens Seed Extract, Pogostemon Cablin Oil, Mentha Piperita Oil, Eucalyptus Globulus Leaf Oil, Menthol, Cocos Nucifera Oil, Equisetum Arvense Extract, Aloe Barbadensis Extract, Lavandula Angustifolia Oil, Triticum Vulgare Germ Oil, Biotin, Ascorbic Acid, Melaleuca Alternifolia Leaf Oil.",
-    "upotreba": "Ulje nanesite na suvo teme i dužinu kose pre pranja, ostavite oko 30 minuta, zatim operite ruzmarin šamponom. Ponavljajte 2–3 puta nedeljno za optimalne rezultate."
+    "name": "Rosemary Shampoo and Oil for Strengthening and Thicker Hair",
+    "price": "2.499 RSD",
+    "previous_price": "3.098 RSD",
+    "description": "The set combines rosemary shampoo and rosemary oil to strengthen roots and accelerate hair growth. The shampoo gently cleanses the scalp without drying, while the oil penetrates deep into the hair shaft, strengthens structure, and reduces breakage. With regular use, hair becomes fuller and shinier.",
+    "ingredients": "\n • Rosemary shampoo: Aqua, Sodium Laureth Sulfate, Sodium Chloride, Cocamidopropyl Betaine, Polyquaternium‑7, Cocamide DEA, Dimethicone, Parfum, PVP, Propylene Glycol, Rosmarinus Officinalis Leaf Oil, Biotin, PEG‑40 Hydrogenated Castor Oil, Keratin, Hydrolyzed Collagen, PEG‑120 Methyl Glucose Dioleate, Citric Acid, Tetrasodium EDTA, Methylchloroisothiazolinone, Methylisothiazolinone, CI 42053.\n • Rosemary oil: Glycine Soja Oil, PEG‑40 Castor Oil, Rosmarinus Officinalis Leaf Oil, Simmondsia Chinensis Seed Oil, Carthamus Tinctorius Seed Oil, Oenothera Biennis Oil, Vitis Vinifera Seed Oil, Tocopheryl Acetate, Glycerin, Apium Graveolens Seed Extract, Pogostemon Cablin Oil, Mentha Piperita Oil, Eucalyptus Globulus Leaf Oil, Menthol, Cocos Nucifera Oil, Equisetum Arvense Extract, Aloe Barbadensis Extract, Lavandula Angustifolia Oil, Triticum Vulgare Germ Oil, Biotin, Ascorbic Acid, Melaleuca Alternifolia Leaf Oil.",
+    "usage": "Apply the oil to the dry scalp and hair length before washing, leave for about 30 minutes, then wash with the rosemary shampoo. Repeat 2–3 times a week for optimal results."
   },
   {
-    "naziv": "Serum za lice s kolagenom – obnavlja i zateže kožu, protiv bora",
-    "cena": "2.199 RSD",
-    "prethodna_cena": "",
-    "opis": "Lagan ali koncentrisan serum sa hidrolizovanim kolagenom, hijaluronskom kiselinom i glutationom obnavlja strukturu kože, poboljšava elastičnost i smanjuje sitne bore, ostavljajući ten zategnutim i blistavim.",
-    "sastojci": "Aqua, Hydrolyzed Collagen, Sodium Hyaluronate, Niacinamide, Glycerin, Propylene Glycol, Panthenol, Polysorbate 20, Aloe Barbadensis Leaf Extract, Olea Europaea Leaf Extract, Vitis Vinifera Seed Extract, Chamomilla Recutita Flower Extract, Camellia Sinensis Leaf Extract, Cucumis Sativus Fruit Extract, Glutathione, Lactic Acid, Parfum, Phenoxyethanol, Ethylhexylglycerin, CI 42090.",
-    "upotreba": "Nanesite nekoliko kapi na čistu kožu lica i vrata ujutru i/ili uveče. Blago umasirajte dok se potpuno ne upije i nastavite sa kremom."
+    "name": "Collagen Face Serum – Restores and Firms Skin, Anti-Wrinkle",
+    "price": "2.199 RSD",
+    "previous_price": "",
+    "description": "A lightweight yet concentrated serum with hydrolyzed collagen, hyaluronic acid, and glutathione that restores skin structure, improves elasticity, and reduces fine wrinkles, leaving the complexion firm and radiant.",
+    "ingredients": "Aqua, Hydrolyzed Collagen, Sodium Hyaluronate, Niacinamide, Glycerin, Propylene Glycol, Panthenol, Polysorbate 20, Aloe Barbadensis Leaf Extract, Olea Europaea Leaf Extract, Vitis Vinifera Seed Extract, Chamomilla Recutita Flower Extract, Camellia Sinensis Leaf Extract, Cucumis Sativus Fruit Extract, Glutathione, Lactic Acid, Parfum, Phenoxyethanol, Ethylhexylglycerin, CI 42090.",
+    "usage": "Apply a few drops to clean skin on the face and neck in the morning and/or evening. Gently massage until fully absorbed and follow with a cream."
   },
   {
-    "naziv": "Hijaluronski serum za duboku hidrataciju i elastičnost kože",
-    "cena": "2.199 RSD",
-    "prethodna_cena": "",
-    "opis": "Serum obogaćen hijaluronskom kiselinom i biljnim ekstraktima pruža intenzivnu hidrataciju, poboljšava elastičnost kože i smanjuje osećaj zatezanja. Posebno pogodan za dehidriranu ili osetljivu kožu.",
-    "sastojci": "Aqua, Sodium PCA, Propylene Glycol, Panthenol, Hydroxyethylcellulose, Parfum, Centella Asiatica Extract, Hyaluronic Acid, Benzyl Alcohol, Dehydroacetic Acid, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 42090.",
-    "upotreba": "Naneti 2–3 kapi na čistu kožu lica pre kreme, ujutru i/ili uveče. Blago umasirati dok se potpuno ne upije."
+    "name": "Hyaluronic Serum for Deep Hydration and Skin Elasticity",
+    "price": "2.199 RSD",
+    "previous_price": "",
+    "description": "A serum enriched with hyaluronic acid and botanical extracts provides intensive hydration, improves skin elasticity, and reduces the feeling of tightness. Especially suitable for dehydrated or sensitive skin.",
+    "ingredients": "Aqua, Sodium PCA, Propylene Glycol, Panthenol, Hydroxyethylcellulose, Parfum, Centella Asiatica Extract, Hyaluronic Acid, Benzyl Alcohol, Dehydroacetic Acid, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 42090.",
+    "usage": "Apply 2–3 drops to clean facial skin before cream, in the morning and/or evening. Gently massage until fully absorbed."
   },
   {
-    "naziv": "Krema za podočnjake s metalnim valjkom – hladi i smanjuje natečenost",
-    "cena": "1.999 RSD",
-    "prethodna_cena": "",
-    "opis": "Hidratantna krema sa metalnim aplikatorom kombinuje ekstrakt arnike, peptide i chrysin kako bi smanjila podočnjake i natečenost. Metalni valjak pruža prijatan efekat hlađenja i poboljšava cirkulaciju.",
-    "sastojci": "Aqua, Glyceryl Stearate SE, Ceteareth‑20, Cyclopentasiloxane, Glycerin, Dimethicone, Propanediol, Phenoxyethanol, Cetearyl Alcohol, Dicaprylyl Ether, Hydroxyethyl Acrylate/Sodium Acryloyldimethyl Taurate Copolymer, Xanthan Gum, Isohexadecane, Helianthus Annuus Seed Cera, Hydrogenated Castor Oil, Oryza Sativa Bran Cera, Rhus Succedanea Fruit Cera, Ethylhexylglycerin, Arnica Montana Flower Extract, Polysorbate 60, Butylene Glycol, Helianthus Annuus Seed Oil, Steareth‑20, Citric Acid, Carbomer, Chlorhexidine Digluconate, Sodium Lactate, Polysorbate 20, Tocopherol, N‑Hydroxysuccinimide, Sodium Citrate, Palmitoyl Tripeptide‑1, Chrysin, Palmitoyl Tetrapeptide‑7, Potassium Sorbate, Biotin.",
-    "upotreba": "Uz pomoć metalnog valjka nanesite kremu na čistu kožu ispod očiju ujutru i uveče. Lagano masirajte kako biste poboljšali mikrocirkulaciju. Za dodatni efekat hlađenja čuvati u frižideru."
+    "name": "Under-Eye Cream with Metal Roller – Cools and Reduces Puffiness",
+    "price": "1.999 RSD",
+    "previous_price": "",
+    "description": "A hydrating cream with a metal applicator that combines arnica extract, peptides, and chrysin to reduce dark circles and puffiness. The metal roller provides a pleasant cooling effect and improves circulation.",
+    "ingredients": "Aqua, Glyceryl Stearate SE, Ceteareth‑20, Cyclopentasiloxane, Glycerin, Dimethicone, Propanediol, Phenoxyethanol, Cetearyl Alcohol, Dicaprylyl Ether, Hydroxyethyl Acrylate/Sodium Acryloyldimethyl Taurate Copolymer, Xanthan Gum, Isohexadecane, Helianthus Annuus Seed Cera, Hydrogenated Castor Oil, Oryza Sativa Bran Cera, Rhus Succedanea Fruit Cera, Ethylhexylglycerin, Arnica Montana Flower Extract, Polysorbate 60, Butylene Glycol, Helianthus Annuus Seed Oil, Steareth‑20, Citric Acid, Carbomer, Chlorhexidine Digluconate, Sodium Lactate, Polysorbate 20, Tocopherol, N‑Hydroxysuccinimide, Sodium Citrate, Palmitoyl Tripeptide‑1, Chrysin, Palmitoyl Tetrapeptide‑7, Potassium Sorbate, Biotin.",
+    "usage": "Using the metal roller, apply the cream to clean skin under the eyes in the morning and evening. Gently massage to improve microcirculation. For an extra cooling effect, store in the refrigerator."
   },
   {
-    "naziv": "Retinol serum protiv bora i starenja",
-    "cena": "1.999 RSD",
-    "prethodna_cena": "",
-    "opis": "Serum baziran na retinolu koji podstiče obnavljanje ćelija, smanjuje fine linije i bore i vraća koži mladalačku elastičnost. Idealan je za noćnu rutinu.",
-    "sastojci": "Aqua, PEG‑40 Castor Oil, Panthenol, Glycerin, Niacinamide, Propylene Glycol, Sodium Ascorbyl Phosphate, Phenoxyethanol, Hydroxyethylcellulose, Allantoin, Parfum, Retinol, Caprylic/Capric Triglyceride, Alpha‑Arbutin, Tocopheryl Acetate, Hyaluronic Acid, Glutathione, Acetyl Hexapeptide‑8, Ethylhexylglycerin, Ceramide NP, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 42090.",
-    "upotreba": "Naveče, nakon čišćenja, nanesite nekoliko kapi seruma na lice i vrat i lagano umasirajte. Završite hidratantnom kremom. Tokom dana koristite SPF zaštitu jer retinol povećava osetljivost na sunce."
+    "name": "Retinol Serum Against Wrinkles and Aging",
+    "price": "1.999 RSD",
+    "previous_price": "",
+    "description": "A retinol-based serum that promotes cell renewal, reduces fine lines and wrinkles, and restores youthful skin elasticity. Ideal for a nighttime routine.",
+    "ingredients": "Aqua, PEG‑40 Castor Oil, Panthenol, Glycerin, Niacinamide, Propylene Glycol, Sodium Ascorbyl Phosphate, Phenoxyethanol, Hydroxyethylcellulose, Allantoin, Parfum, Retinol, Caprylic/Capric Triglyceride, Alpha‑Arbutin, Tocopheryl Acetate, Hyaluronic Acid, Glutathione, Acetyl Hexapeptide‑8, Ethylhexylglycerin, Ceramide NP, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 42090.",
+    "usage": "In the evening, after cleansing, apply a few drops of serum to the face and neck and gently massage. Finish with a moisturizing cream. During the day, use SPF protection as retinol increases sun sensitivity."
   },
   {
-    "naziv": "Gel za učvršćivanje tela – zateže i oblikuje kožu",
-    "cena": "1.999 RSD",
-    "prethodna_cena": "",
-    "opis": "Specijalizovani gel za telo koji učvršćuje i tonira kožu na kritičnim zonama kao što su stomak, butine, ruke i zadnjica. Povećava elastičnost, hidrira i poboljšava izgled kože već nakon nekoliko nedelja redovne upotrebe.",
-    "sastojci": "Aqua, Glycerin, Carbomer, Vitis Vinifera Seed Oil, Caffeine, Persea Gratissima Oil, Corylus Avellana Seed Oil, Phenoxyethanol, Fragrance, Capsicum Frutescens Fruit Extract, Potassium Hydroxide, Ethylhexylglycerin, Alcohol.",
-    "upotreba": "Nanesite tanak sloj gela na čistu i suvu kožu, fokusirajući se na stomak, butine, bokove i nadlaktice. Masirajte kružnim pokretima dok se gel potpuno ne upije. Koristite ujutru i uveče za optimalne rezultate."
+    "name": "Body Firming Gel – Tightens and Shapes Skin",
+    "price": "1.999 RSD",
+    "previous_price": "",
+    "description": "A specialized body gel that firms and tones skin in critical areas such as the abdomen, thighs, arms, and buttocks. It increases elasticity, hydrates, and improves skin appearance after just a few weeks of regular use.",
+    "ingredients": "Aqua, Glycerin, Carbomer, Vitis Vinifera Seed Oil, Caffeine, Persea Gratissima Oil, Corylus Avellana Seed Oil, Phenoxyethanol, Fragrance, Capsicum Frutescens Fruit Extract, Potassium Hydroxide, Ethylhexylglycerin, Alcohol.",
+    "usage": "Apply a thin layer of gel to clean, dry skin, focusing on the abdomen, thighs, hips, and upper arms. Massage in circular motions until the gel is fully absorbed. Use in the morning and evening for optimal results."
   },
   {
-    "naziv": "Serum za predeo oko očiju – protiv tamnih kolutova i bora",
-    "cena": "1.899 RSD",
-    "prethodna_cena": "",
-    "opis": "Lagani serum sa kofeinom, niacinamidom i peptidima smanjuje tamne kolutove, natečenost i fine bore u predelu oko očiju. Hidrira i osvežava osetljivu kožu.",
-    "sastojci": "Aqua, Glycerin, Hyaluronic Acid, Panthenol, Allantoin, Niacinamide, Acetyl Hexapeptide‑8, Vitis Vinifera Seed Extract, Hydroxyethylcellulose, Ceramide NP, Dunaliella Salina Extract, Glutathione, Caffeine, Parfum, Palmitoyl Tripeptide‑1, Benzyl Alcohol, Dehydroacetic Acid, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 77266.",
-    "upotreba": "Dva puta dnevno nanesite malu količinu seruma na čistu kožu ispod očiju i nežno utapkajte vrhovima prstiju dok se ne upije."
+    "name": "Eye Area Serum – Against Dark Circles and Wrinkles",
+    "price": "1.899 RSD",
+    "previous_price": "",
+    "description": "A lightweight serum with caffeine, niacinamide, and peptides that reduces dark circles, puffiness, and fine wrinkles in the eye area. Hydrates and refreshes sensitive skin.",
+    "ingredients": "Aqua, Glycerin, Hyaluronic Acid, Panthenol, Allantoin, Niacinamide, Acetyl Hexapeptide‑8, Vitis Vinifera Seed Extract, Hydroxyethylcellulose, Ceramide NP, Dunaliella Salina Extract, Glutathione, Caffeine, Parfum, Palmitoyl Tripeptide‑1, Benzyl Alcohol, Dehydroacetic Acid, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 77266.",
+    "usage": "Twice daily, apply a small amount of serum to clean skin under the eyes and gently pat with fingertips until absorbed."
   },
   {
-    "naziv": "CICA krema za osetljivu i oštećenu kožu",
-    "cena": "1.799 RSD",
-    "prethodna_cena": "",
-    "opis": "Regenerativna krema obogaćena Madecassoside‑om (ekstrakt centelle) i arnikom intenzivno hidrira i obnavlja oštećenu kožu. Idealna za lice, ruke, laktove i ispucalu kožu.",
-    "sastojci": "Aqua, Cetearyl Alcohol, Dimethicone, Propylene Glycol, C12‑15 Alkyl Benzoate, Glyceryl Stearate, Butyrospermum Parkii Butter, Ceteareth‑25, Cyclopentasiloxane, Glycerin, Niacinamide, Panthenol, Zinc Oxide, Saccharide Isomerate, Centella Asiatica Extract, Phenoxyethanol, Arnica Montana Flower Extract, Hyaluronic Acid, Aloe Barbadensis Leaf Extract, Glutathione, Parfum, Allantoin, Tocopheryl Acetate, Ethylhexylglycerin, Madecassoside, Ceramide NP, Benzyl Salicylate, Hexyl Cinnamal, Terpineol.",
-    "upotreba": "Nanesite malu količinu kreme na čistu i suvu kožu 1–2 puta dnevno. Može se koristiti na licu i telu za regeneraciju, umirenje i zaštitu oštećene kože."
+    "name": "CICA Cream for Sensitive and Damaged Skin",
+    "price": "1.799 RSD",
+    "previous_price": "",
+    "description": "A regenerative cream enriched with Madecassoside (centella extract) and arnica that intensively hydrates and restores damaged skin. Ideal for the face, hands, elbows, and cracked skin.",
+    "ingredients": "Aqua, Cetearyl Alcohol, Dimethicone, Propylene Glycol, C12‑15 Alkyl Benzoate, Glyceryl Stearate, Butyrospermum Parkii Butter, Ceteareth‑25, Cyclopentasiloxane, Glycerin, Niacinamide, Panthenol, Zinc Oxide, Saccharide Isomerate, Centella Asiatica Extract, Phenoxyethanol, Arnica Montana Flower Extract, Hyaluronic Acid, Aloe Barbadensis Leaf Extract, Glutathione, Parfum, Allantoin, Tocopheryl Acetate, Ethylhexylglycerin, Madecassoside, Ceramide NP, Benzyl Salicylate, Hexyl Cinnamal, Terpineol.",
+    "usage": "Apply a small amount of cream to clean, dry skin 1–2 times daily. Can be used on the face and body for regeneration, soothing, and protection of damaged skin."
   },
   {
-    "naziv": "Mleko za kosu s ruzmarinom – hrani, omekšava i daje sjaj",
-    "cena": "1.799 RSD",
-    "prethodna_cena": "",
-    "opis": "Nakon pranja kose, ovo mleko na bazi ruzmarinove vode i proteina žitarica omekšava, hidrira i olakšava raščešljavanje. Posebno pogodno za suvu i oštećenu kosu.",
-    "sastojci": "Aqua, Cyclopentasiloxane, Propylene Glycol, Polyquaternium‑6, Cocamidopropyl Betaine, Amodimethicone, Trideceth‑12, Cetrimonium Chloride, Benzophenone‑4, Parfum, Glycerin, Phenoxyethanol, Ethylhexylglycerin, Rosmarinus Officinalis Leaf Water, Hydrolyzed Corn Protein, Hydrolyzed Wheat Protein, Hydrolyzed Soy Protein, Saccharomyces/Zinc Ferment, Saccharomyces/Copper Ferment, Saccharomyces/Magnesium Ferment, Saccharomyces/Iron Ferment, Saccharomyces/Silicon Ferment, Leuconostoc/Radish Root Ferment Filtrate, CI 19140, CI 47005.",
-    "upotreba": "Nakon pranja, na vlažnu kosu nanesite 3–4 pritiska pumpice i ravnomerno rasporedite, bez ispiranja. Mleko se preporučuje 2–3 puta nedeljno za meku i sjajnu kosu."
+    "name": "Rosemary Hair Milk – Nourishes, Softens, and Adds Shine",
+    "price": "1.799 RSD",
+    "previous_price": "",
+    "description": "After washing hair, this milk based on rosemary water and grain proteins softens, hydrates, and makes detangling easier. Especially suitable for dry and damaged hair.",
+    "ingredients": "Aqua, Cyclopentasiloxane, Propylene Glycol, Polyquaternium‑6, Cocamidopropyl Betaine, Amodimethicone, Trideceth‑12, Cetrimonium Chloride, Benzophenone‑4, Parfum, Glycerin, Phenoxyethanol, Ethylhexylglycerin, Rosmarinus Officinalis Leaf Water, Hydrolyzed Corn Protein, Hydrolyzed Wheat Protein, Hydrolyzed Soy Protein, Saccharomyces/Zinc Ferment, Saccharomyces/Copper Ferment, Saccharomyces/Magnesium Ferment, Saccharomyces/Iron Ferment, Saccharomyces/Silicon Ferment, Leuconostoc/Radish Root Ferment Filtrate, CI 19140, CI 47005.",
+    "usage": "After washing, apply 3–4 pumps to damp hair and distribute evenly, without rinsing. The milk is recommended 2–3 times a week for soft and shiny hair."
   },
   {
-    "naziv": "Vitamin C serum za lice – posvetljuje ten i uklanja fleke",
-    "cena": "1.799 RSD",
-    "prethodna_cena": "",
-    "opis": "Serum sa stabilnim oblikom vitamina C, feruličnom kiselinom i glutationom posvetljuje ten, smanjuje hiperpigmentacije i štiti kožu od oksidativnog stresa.",
-    "sastojci": "Aqua, Sodium Ascorbyl Phosphate, PEG‑40 Castor Oil, Panthenol, Polysorbate 20, Glycerin, Benzyl Alcohol, Dehydroacetic Acid, Niacinamide, Hydroxyethylcellulose, Glutathione, Parfum, Alpha‑Arbutin, Ferulic Acid, Benzyl Salicylate, Hexyl Cinnamal, Terpineol.",
-    "upotreba": "Naneti nekoliko kapi seruma na lice i vrat svako jutro pre kreme sa zaštitnim faktorom ili uveče pre hidratantne kreme."
+    "name": "Vitamin C Face Serum – Brightens Complexion and Removes Dark Spots",
+    "price": "1.799 RSD",
+    "previous_price": "",
+    "description": "A serum with a stable form of Vitamin C, ferulic acid, and glutathione that brightens the complexion, reduces hyperpigmentation, and protects skin from oxidative stress.",
+    "ingredients": "Aqua, Sodium Ascorbyl Phosphate, PEG‑40 Castor Oil, Panthenol, Polysorbate 20, Glycerin, Benzyl Alcohol, Dehydroacetic Acid, Niacinamide, Hydroxyethylcellulose, Glutathione, Parfum, Alpha‑Arbutin, Ferulic Acid, Benzyl Salicylate, Hexyl Cinnamal, Terpineol.",
+    "usage": "Apply a few drops of serum to the face and neck every morning before sunscreen cream or in the evening before moisturizing cream."
   },
   {
-    "naziv": "Gel za umivanje lica – dubinsko čišćenje i svežina",
-    "cena": "1.599 RSD",
-    "prethodna_cena": "",
-    "opis": "Blagi gel sa probioticima, hijaluronskom kiselinom i ceramidima uklanja višak sebuma i nečistoće bez isušivanja. Obezbeđuje svežinu i nežnu hidrataciju kože.",
-    "sastojci": "Aqua, Coco Glucoside, Lauryl Glucoside, Cocamidopropyl Betaine, PEG‑10 Olive Glycerides, Cocamide DEA, Tocopheryl Acetate, Avocado Oil PEG‑11 Esters, Hyaluronic Acid, Camellia Sinensis Leaf Extract, Linum Usitatissimum Seed Extract, Panax Ginseng Root Extract, Ceramide NP, Hydroxyethylcellulose, Salvia Officinalis Leaf Extract, Calendula Officinalis Flower Extract, Urtica Dioica Extract, Biotin, Sodium PCA, Juniperus Communis Fruit Extract, Fragrance, Chamomilla Recutita Flower Extract, Hamamelis Virginiana Leaf Extract, Centella Asiatica Extract, Cucurbita Pepo Seed Extract, Glycerin, Thymus Vulgaris Extract, Lactobacillus/Algae Extract Ferment, Ononis Spinosa Root Extract, Panthenol, Phenoxyethanol, Dehydroacetic Acid.",
-    "upotreba": "Umasirati na mokru kožu do blagog penušanja, zatim temeljno isprati toplom vodom. Koristiti ujutru i uveče."
+    "name": "Face Wash Gel – Deep Cleansing and Freshness",
+    "price": "1.599 RSD",
+    "previous_price": "",
+    "description": "A gentle gel with probiotics, hyaluronic acid, and ceramides that removes excess sebum and impurities without drying. Provides freshness and gentle hydration for the skin.",
+    "ingredients": "Aqua, Coco Glucoside, Lauryl Glucoside, Cocamidopropyl Betaine, PEG‑10 Olive Glycerides, Cocamide DEA, Tocopheryl Acetate, Avocado Oil PEG‑11 Esters, Hyaluronic Acid, Camellia Sinensis Leaf Extract, Linum Usitatissimum Seed Extract, Panax Ginseng Root Extract, Ceramide NP, Hydroxyethylcellulose, Salvia Officinalis Leaf Extract, Calendula Officinalis Flower Extract, Urtica Dioica Extract, Biotin, Sodium PCA, Juniperus Communis Fruit Extract, Fragrance, Chamomilla Recutita Flower Extract, Hamamelis Virginiana Leaf Extract, Centella Asiatica Extract, Cucurbita Pepo Seed Extract, Glycerin, Thymus Vulgaris Extract, Lactobacillus/Algae Extract Ferment, Ononis Spinosa Root Extract, Panthenol, Phenoxyethanol, Dehydroacetic Acid.",
+    "usage": "Massage onto wet skin until a light lather forms, then rinse thoroughly with warm water. Use in the morning and evening."
   },
   {
-    "naziv": "Tonik sa glikolnom kiselinom za čišćenje kože",
-    "cena": "1.599 RSD",
-    "prethodna_cena": "",
-    "opis": "Tonik sa glikolnom i salicilnom kiselinom dubinski čisti pore, smanjuje višak sebuma i osvežava ten. Niacinamid i biljni ekstrakti umiruju i hidrira kožu.",
-    "sastojci": "Aqua, Glycerin, Niacinamide, Polysorbate 20, Salicylic Acid, Chamomilla Recutita Flower Extract, Propylene Glycol, Glycolic Acid, Phenoxyethanol, Alcohol, Ethylhexylglycerin, CI 42090.",
-    "upotreba": "Naneti nekoliko kapi tonika na tufer i nežno preći preko lica i vrata 2–3 puta nedeljno, izbegavajući područje oko očiju."
+    "name": "Glycolic Acid Toner for Skin Cleansing",
+    "price": "1.599 RSD",
+    "previous_price": "",
+    "description": "A toner with glycolic and salicylic acid that deeply cleanses pores, reduces excess sebum, and refreshes the complexion. Niacinamide and botanical extracts soothe and hydrate the skin.",
+    "ingredients": "Aqua, Glycerin, Niacinamide, Polysorbate 20, Salicylic Acid, Chamomilla Recutita Flower Extract, Propylene Glycol, Glycolic Acid, Phenoxyethanol, Alcohol, Ethylhexylglycerin, CI 42090.",
+    "usage": "Apply a few drops of toner to a cotton pad and gently sweep across the face and neck 2–3 times a week, avoiding the eye area."
   },
   {
-    "naziv": "Ruzmarin šampon protiv opadanja kose i za jači koren",
-    "cena": "1.599 RSD",
-    "prethodna_cena": "",
-    "opis": "Šampon sa keratinom, biotinom i kolagenom jača koren kose, smanjuje opadanje i stimuliše rast. Temeljno čisti teme bez isušivanja i vraća kosi sjaj.",
-    "sastojci": "Aqua, Sodium Laureth Sulfate, Sodium Chloride, Cocamidopropyl Betaine, Polyquaternium‑7, Cocamide DEA, Dimethicone, PVP, Propylene Glycol, Rosmarinus Officinalis Leaf Oil, Biotin, PEG‑40 Hydrogenated Castor Oil, Keratin, Hydrolyzed Collagen, PEG‑120 Methyl Glucose Dioleate, Citric Acid, Tetrasodium EDTA, Methylchloroisothiazolinone, Methylisothiazolinone, CI 42053.",
-    "upotreba": "Na mokru kosu naneti šampon, umasirati u teme dok se ne zapeni i potom isprati. Ponoviti po potrebi, a zatim nežno osušiti kosu."
+    "name": "Rosemary Shampoo Against Hair Loss and for Stronger Roots",
+    "price": "1.599 RSD",
+    "previous_price": "",
+    "description": "A shampoo with keratin, biotin, and collagen that strengthens hair roots, reduces hair loss, and stimulates growth. Thoroughly cleanses the scalp without drying and restores hair shine.",
+    "ingredients": "Aqua, Sodium Laureth Sulfate, Sodium Chloride, Cocamidopropyl Betaine, Polyquaternium‑7, Cocamide DEA, Dimethicone, PVP, Propylene Glycol, Rosmarinus Officinalis Leaf Oil, Biotin, PEG‑40 Hydrogenated Castor Oil, Keratin, Hydrolyzed Collagen, PEG‑120 Methyl Glucose Dioleate, Citric Acid, Tetrasodium EDTA, Methylchloroisothiazolinone, Methylisothiazolinone, CI 42053.",
+    "usage": "Apply shampoo to wet hair, massage into the scalp until it lathers, and then rinse. Repeat if needed, then gently dry the hair."
   },
   {
-    "naziv": "Piling gel za lice sa ekstraktom beluga kavijara i koenzimom Q10",
-    "cena": "1.599 RSD",
-    "prethodna_cena": "",
-    "opis": "Ovaj piling gel sa ekstraktom beluga kavijara, koenzimom Q10 i biljnim ekstraktima uklanja mrtve ćelije, pročišćava pore i vraća koži blistavost.",
-    "sastojci": "Aqua, Citric Acid, Panax Ginseng Root Extract, Centella Asiatica Leaf Extract, Propylene Glycol, Phenoxyethanol, Ethylhexylglycerin, Arnica Montana Flower Extract, Hydroxyethylcellulose, Ascorbic Acid, Ubiquinone (CoQ10), Caviar Extract, Aloe Barbadensis Extract, Cucumis Sativus Fruit Extract, Hyaluronic Acid, Camellia Sinensis Leaf Extract.",
-    "upotreba": "Na čistu i suvu kožu lica naneti tanak sloj gela i ostaviti 5–10 minuta. Zatim lagano masirati vlažnim prstima i isprati mlakom vodom. Koristiti 1–2 puta nedeljno."
+    "name": "Facial Peeling Gel with Beluga Caviar Extract and Coenzyme Q10",
+    "price": "1.599 RSD",
+    "previous_price": "",
+    "description": "This peeling gel with beluga caviar extract, coenzyme Q10, and botanical extracts removes dead cells, purifies pores, and restores skin radiance.",
+    "ingredients": "Aqua, Citric Acid, Panax Ginseng Root Extract, Centella Asiatica Leaf Extract, Propylene Glycol, Phenoxyethanol, Ethylhexylglycerin, Arnica Montana Flower Extract, Hydroxyethylcellulose, Ascorbic Acid, Ubiquinone (CoQ10), Caviar Extract, Aloe Barbadensis Extract, Cucumis Sativus Fruit Extract, Hyaluronic Acid, Camellia Sinensis Leaf Extract.",
+    "usage": "Apply a thin layer of gel to clean, dry facial skin and leave for 5–10 minutes. Then gently massage with damp fingers and rinse with lukewarm water. Use 1–2 times a week."
   },
   {
-    "naziv": "Ruzmarinska voda za lice i kosu",
-    "cena": "1.099 RSD",
-    "prethodna_cena": "",
-    "opis": "100 % čista ruzmarinova voda osvežava kožu i tonira vlasište. Smanjuje opadanje kose, stimuliše rast i balansira sebum.",
-    "sastojci": "Rosmarinus Officinalis Leaf Water (čista ruzmarinova voda).",
-    "upotreba": "Za kosu: raspršiti od korena ka krajevima i ne ispirati. Za kožu: naneti na čistu kožu pomoću tupfera kao tonik."
+    "name": "Rosemary Water for Face and Hair",
+    "price": "1.099 RSD",
+    "previous_price": "",
+    "description": "100% pure rosemary water refreshes the skin and tones the scalp. It reduces hair loss, stimulates growth, and balances sebum.",
+    "ingredients": "Rosmarinus Officinalis Leaf Water (pure rosemary water).",
+    "usage": "For hair: spray from roots to ends and do not rinse. For skin: apply to clean skin using a cotton pad as a toner."
   },
   {
-    "naziv": "Prirodno ruzmarinovo ulje za rast i jačanje kose",
-    "cena": "1.499 RSD",
-    "prethodna_cena": "",
-    "opis": "Prirodna mešavina biljnih ulja obogaćena ruzmarinom stimuliše rast kose, jača folikule i hrani vlasi, a može se koristiti i za obrve i trepavice.",
-    "sastojci": "Glycine Soja Oil, PEG‑40 Castor Oil, Rosmarinus Officinalis Leaf Oil, Simmondsia Chinensis Seed Oil, Carthamus Tinctorius Seed Oil, Oenothera Biennis Oil, Vitis Vinifera Seed Oil, Tocopheryl Acetate, Glycerin, Apium Graveolens Seed Extract, Pogostemon Cablin Oil, Mentha Piperita Oil, Eucalyptus Globulus Leaf Oil, Menthol, Cocos Nucifera Oil, Equisetum Arvense Extract, Aloe Barbadensis Extract, Lavandula Angustifolia Oil, Triticum Vulgare Germ Oil, Biotin, Ascorbic Acid, Melaleuca Alternifolia Leaf Oil.",
-    "upotreba": "Naneti nekoliko kapi ulja na teme i nežno umasirati 1–2 minuta; ostaviti da deluje minimum sat vremena pre pranja. Uz pomoć integrisane četkice može se naneti i na obrve ili trepavice za njihov rast."
+    "name": "Natural Rosemary Oil for Hair Growth and Strengthening",
+    "price": "1.499 RSD",
+    "previous_price": "",
+    "description": "A natural blend of botanical oils enriched with rosemary that stimulates hair growth, strengthens follicles, and nourishes strands. Can also be used for eyebrows and eyelashes.",
+    "ingredients": "Glycine Soja Oil, PEG‑40 Castor Oil, Rosmarinus Officinalis Leaf Oil, Simmondsia Chinensis Seed Oil, Carthamus Tinctorius Seed Oil, Oenothera Biennis Oil, Vitis Vinifera Seed Oil, Tocopheryl Acetate, Glycerin, Apium Graveolens Seed Extract, Pogostemon Cablin Oil, Mentha Piperita Oil, Eucalyptus Globulus Leaf Oil, Menthol, Cocos Nucifera Oil, Equisetum Arvense Extract, Aloe Barbadensis Extract, Lavandula Angustifolia Oil, Triticum Vulgare Germ Oil, Biotin, Ascorbic Acid, Melaleuca Alternifolia Leaf Oil.",
+    "usage": "Apply a few drops of oil to the scalp and gently massage for 1–2 minutes; leave to work for at least one hour before washing. Using the integrated brush, it can also be applied to eyebrows or eyelashes to promote their growth."
   },
   {
-    "naziv": "Maska s belancetom za čišćenje pora i zatezanje kože",
-    "cena": "1.399 RSD",
-    "prethodna_cena": "",
-    "opis": "Maska na bazi albumina, gline i biljnih ekstrakata dubinski čisti pore, sužava ih i zateže kožu lica. Idealan tretman za masnu i kombinovanu kožu.",
-    "sastojci": "Aqua, PEG‑100 Stearate, Stearic Acid, Caprylic/Capric Triglyceride, Glycerin, Albumen extract, Cetearyl Alcohol, Kaolin, Bentonite, Glyceryl Stearate, Alcohol, Titanium Dioxide, Urea, Malic Acid, Potassium Hydroxide, Silica, Polyvinyl Alcohol, Niacinamide, Butylene Glycol, Parfum, Aloe Barbadensis Leaf Extract, Sucrose, Glyceryl Stearate SE, Sodium Citrate, Chamomilla Recutita Flower Extract, Benzyl Alcohol, Dehydroacetic Acid, Tocopheryl Acetate, Disodium EDTA, Olea Europaea Fruit Oil, Panthenol, Tartaric Acid, Glycolic Acid, Sodium Lactate, Chlorphenesin.",
-    "upotreba": "Naneti ravnomeran sloj maske na čisto lice, izbegavajući oči i usta. Ostaviti da se osuši 10–15 minuta, zatim isprati toplom vodom. Koristiti 1–2 puta nedeljno."
+    "name": "Egg White Mask for Pore Cleansing and Skin Firming",
+    "price": "1.399 RSD",
+    "previous_price": "",
+    "description": "A mask based on albumin, clay, and botanical extracts that deeply cleanses pores, minimizes them, and firms facial skin. An ideal treatment for oily and combination skin.",
+    "ingredients": "Aqua, PEG‑100 Stearate, Stearic Acid, Caprylic/Capric Triglyceride, Glycerin, Albumen extract, Cetearyl Alcohol, Kaolin, Bentonite, Glyceryl Stearate, Alcohol, Titanium Dioxide, Urea, Malic Acid, Potassium Hydroxide, Silica, Polyvinyl Alcohol, Niacinamide, Butylene Glycol, Parfum, Aloe Barbadensis Leaf Extract, Sucrose, Glyceryl Stearate SE, Sodium Citrate, Chamomilla Recutita Flower Extract, Benzyl Alcohol, Dehydroacetic Acid, Tocopheryl Acetate, Disodium EDTA, Olea Europaea Fruit Oil, Panthenol, Tartaric Acid, Glycolic Acid, Sodium Lactate, Chlorphenesin.",
+    "usage": "Apply an even layer of mask to a clean face, avoiding the eyes and mouth. Leave to dry for 10–15 minutes, then rinse with warm water. Use 1–2 times a week."
   },
   {
-    "naziv": "Prah za beljenje zuba sa aktivnim ljubičastim ugljem",
-    "cena": "1.799 RSD",
-    "prethodna_cena": "",
-    "opis": "Prah sa aktivnim ljubičastim ugljem i mentolom neutrališe žute tonove, osvežava dah i blago polira zubnu gleđ bez abrazije.",
-    "sastojci": "Sodium Bicarbonate, Charcoal Powder, Menthol, Xylitol, Sodium Benzoate, Potassium Sorbate, Menthyl Lactate.",
-    "upotreba": "Navlaženu četkicu uroniti u prah i nežno trljati zube 1–2 minuta. Potom isprati i koristiti redovnu pastu. Koristiti nekoliko puta nedeljno."
+    "name": "Purple Activated Charcoal Tooth Whitening Powder",
+    "price": "1.799 RSD",
+    "previous_price": "",
+    "description": "A powder with activated purple charcoal and menthol that neutralizes yellow tones, freshens breath, and gently polishes tooth enamel without abrasion.",
+    "ingredients": "Sodium Bicarbonate, Charcoal Powder, Menthol, Xylitol, Sodium Benzoate, Potassium Sorbate, Menthyl Lactate.",
+    "usage": "Dip a dampened toothbrush into the powder and gently rub on teeth for 1–2 minutes. Then rinse and use regular toothpaste. Use several times a week."
   },
   {
-    "naziv": "Pasta za zube sa aktivnim ljubičastim ugljem",
-    "cena": "1.199 RSD",
-    "prethodna_cena": "",
-    "opis": "Ljubičasta pasta za zube formulisana sa aktivnim ugljem i prirodnim ekstraktima neutralizuje žute tonove, osvežava dah i neguje desni.",
-    "sastojci": "Aqua, Calcium Carbonate, Sorbitol, Cocamidopropyl Betaine, Hydroxyethylcellulose, Sodium Saccharin, Tetrapotassium pyrophosphate, Propolis Extract, Mica, Menthol, Aroma, Benzoic Acid, Panthenol, Carbon Black, Zinc Chloride, CI 42090, CI 17200.",
-    "upotreba": "Koristiti kao uobičajenu pastu: naneti na četkicu i prati zube 2 puta dnevno po 2 minuta. Za najbolje rezultate koristiti zajedno sa ljubičastim prahom."
+    "name": "Purple Activated Charcoal Toothpaste",
+    "price": "1.199 RSD",
+    "previous_price": "",
+    "description": "A purple toothpaste formulated with activated charcoal and natural extracts that neutralizes yellow tones, freshens breath, and cares for gums.",
+    "ingredients": "Aqua, Calcium Carbonate, Sorbitol, Cocamidopropyl Betaine, Hydroxyethylcellulose, Sodium Saccharin, Tetrapotassium pyrophosphate, Propolis Extract, Mica, Menthol, Aroma, Benzoic Acid, Panthenol, Carbon Black, Zinc Chloride, CI 42090, CI 17200.",
+    "usage": "Use as a regular toothpaste: apply to the toothbrush and brush teeth twice daily for 2 minutes. For best results, use together with the purple powder."
   },
   {
-    "naziv": "Kolagen Hydro Bomb Peel‑Off maska – dubinska obnova i zatezanje kože",
-    "cena": "1.399 RSD",
-    "prethodna_cena": "",
-    "opis": "Peel‑off maska sa kolagenom, hijaluronskom kiselinom i glutationom dubinski čisti pore, povećava elastičnost i vraća blistavost koži.",
-    "sastojci": "Aqua, Polyvinyl Alcohol, Alcohol denat., Glycerin, Propylene Glycol, Collagen, Aloe Barbadensis Leaf Extract, Benzyl Alcohol, Panthenol, Dehydroacetic Acid, Parfum, Hyaluronic Acid, Saccharide Isomerate, Camellia Sinensis Leaf Extract, Cucumis Sativus Extract, Chamomilla Recutita Flower Extract, Calendula Officinalis Flower Extract, Allantoin, Glutathione, Lactic Acid, Tocopheryl Acetate, Ceramide NP, Geranyl Acetate, Hydroxycitronellal, Eugenol.",
-    "upotreba": "Naneti tanak sloj maske na čisto i suvo lice, izbegavajući oči, obrve i usne. Ostaviti 15–20 minuta dok se potpuno ne osuši, zatim nežno odlepiti počevši od ivica i isprati preostale tragove vodom."
+    "name": "Collagen Hydro Bomb Peel‑Off Mask – Deep Renewal and Skin Firming",
+    "price": "1.399 RSD",
+    "previous_price": "",
+    "description": "A peel‑off mask with collagen, hyaluronic acid, and glutathione that deeply cleanses pores, increases elasticity, and restores skin radiance.",
+    "ingredients": "Aqua, Polyvinyl Alcohol, Alcohol denat., Glycerin, Propylene Glycol, Collagen, Aloe Barbadensis Leaf Extract, Benzyl Alcohol, Panthenol, Dehydroacetic Acid, Parfum, Hyaluronic Acid, Saccharide Isomerate, Camellia Sinensis Leaf Extract, Cucumis Sativus Extract, Chamomilla Recutita Flower Extract, Calendula Officinalis Flower Extract, Allantoin, Glutathione, Lactic Acid, Tocopheryl Acetate, Ceramide NP, Geranyl Acetate, Hydroxycitronellal, Eugenol.",
+    "usage": "Apply a thin layer of mask to a clean, dry face, avoiding the eyes, eyebrows, and lips. Leave for 15–20 minutes until completely dry, then gently peel off starting from the edges and rinse any remaining residue with water."
   },
   {
-    "naziv": "Ceelini sprej za gustu kosu sa keratinskim vlaknima – prirodan volumen i pun izgled za 15 sekundi (100 ml)",
-    "cena": "2.499 RSD",
-    "prethodna_cena": "",
-    "opis": "Sprej sa keratinskim vlaknima pruža trenutno zgušnjavanje i volumen kose u roku od 15 sekundi. Rezultati izgledaju prirodno i postojano, idealno za svakodnevnu upotrebu ili posebne prilike.",
-    "sastojci": "Butane, Disiloxane, Propane, Isobutane, Aluminum Starch Octenylsuccinate, Cyclopentasiloxane, Polymethylsilsesquioxane, Isododecane, Quaternium‑90 Sepiolite, Parfum, Quaternium‑90 Montmorillonite, Triethoxycaprylylsilane, Panax Ginseng Root Extract, Panthenol, Limonene, CI 7499.",
-    "upotreba": "Dobro protresti bočicu pre upotrebe. Na suvu kosu raspršiti sprej sa udaljenosti od 15–20 cm, zatim lagano tapkati ili raščešljati da se vlakna rasporede. Za veći volumen ponoviti postupak."
+    "name": "CEEL Keratin Fiber Spray for Thick Hair – Natural Volume and Full Look in 15 Seconds (100 ml)",
+    "price": "2.499 RSD",
+    "previous_price": "",
+    "description": "A spray with keratin fibers that provides instant thickening and hair volume within 15 seconds. Results look natural and long-lasting, ideal for everyday use or special occasions.",
+    "ingredients": "Butane, Disiloxane, Propane, Isobutane, Aluminum Starch Octenylsuccinate, Cyclopentasiloxane, Polymethylsilsesquioxane, Isododecane, Quaternium‑90 Sepiolite, Parfum, Quaternium‑90 Montmorillonite, Triethoxycaprylylsilane, Panax Ginseng Root Extract, Panthenol, Limonene, CI 7499.",
+    "usage": "Shake the bottle well before use. Spray onto dry hair from a distance of 15–20 cm, then gently pat or comb to distribute the fibers. For more volume, repeat the process."
   },
   {
-    "naziv": "CEEL Day & Night Serum Set",
-    "cena": "3.799 RSD",
-    "prethodna_cena": "6.000 RSD",
-    "opis": "Day & Night Serum Set je tročlana rutina za celodnevnu negu kože. Kombinuje Vitamin C, Hijaluronski serum i Retinol serum, sa jasnim rasporedom: Vitamin C se koristi ujutru, Retinol uveče, a Hijaluron i ujutru i uveče. Set je napravljen da koži obezbedi posvetljivanje, hidrataciju, obnovu i anti-age dejstvo kroz 24 sata. Glavne koristi seta uključuju posvetljivanje i ujednačavanje tena, intenzivnu hidrataciju, smanjenje tamnih fleka i post-akni, ublažavanje bora i finih linija, podsticanje proizvodnje kolagena, poboljšanje teksture i elastičnosti kože, te obnavljanje kože tokom noći i zaštitu tokom dana.",
-    "sastojci": "\n • Vitamin C serum: Aqua, Sodium Ascorbyl Phosphate, PEG‑40 Castor Oil, Panthenol, Polysorbate 20, Glycerin, Benzyl Alcohol, Dehydroacetic Acid, Niacinamide, Hydroxyethylcellulose, Glutathione, Parfum, Alpha‑Arbutin, Ferulic Acid, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 15985.\n • Hijaluronski serum: Aqua, Sodium PCA, Propylene Glycol, Panthenol, Hydroxyethylcellulose, Parfum, Centella Asiatica Extract, Hyaluronic Acid, Benzyl Alcohol, Dehydroacetic Acid, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 42090.\n • Retinol serum: Aqua, PEG‑40 Castor Oil, Panthenol, Glycerin, Niacinamide, Propylene Glycol, Sodium Ascorbyl Phosphate, Phenoxyethanol, Hydroxyethylcellulose, Allantoin, Parfum, Retinol, Caprylic/Capric Triglyceride, Alpha‑Arbutin, Tocopheryl Acetate, Hyaluronic Acid, Glutathione, Acetyl Hexapeptide‑8, Ethylhexylglycerin, Ceramide NP, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 42090.",
-    "upotreba": "Jutarnja rutina: Očistiti lice gelom za umivanje (nije deo seta). Nanesiti Vitamin C serum (par kapi, umasirati). Nanesiti Hijaluronski serum preko vitamina C. Zatim staviti hidratantnu kremu. Obavezno završiti sa SPF zaštitom. Večernja rutina: Očistiti lice gelom za umivanje. Nanesiti Hijaluronski serum. Kada se upije, naneti Retinol serum. Po potrebi dodati CICA kremu za smirivanje i hidrataciju. VAŽNO: Retinol se koristi samo uveče. Tokom korišćenja retinola mora se koristiti SPF tokom dana. Ne kombinovati retinol i tonike sa kiselinama u istoj rutini. Ako je koža osetljiva, retinol koristiti svaki drugi dan i povećavati postepeno. Vitamin C i retinol se ne koriste zajedno u istoj rutini. Hijaluronski serum se može koristiti i pre i posle drugih seruma jer je kompatibilan sa svim sastojcima."
+    "name": "CEEL Day & Night Serum Set",
+    "price": "3.799 RSD",
+    "previous_price": "6.000 RSD",
+    "description": "The Day & Night Serum Set is a three-piece routine for all-day skin care. It combines Vitamin C, Hyaluronic Serum, and Retinol Serum, with a clear schedule: Vitamin C is used in the morning, Retinol in the evening, and Hyaluronic both morning and evening. The set is designed to provide brightening, hydration, renewal, and anti-aging action for the skin over 24 hours. Key benefits of the set include brightening and evening out the complexion, intensive hydration, reducing dark spots and post-acne marks, smoothing wrinkles and fine lines, boosting collagen production, improving skin texture and elasticity, as well as skin renewal during the night and protection during the day.",
+    "ingredients": "\n • Vitamin C serum: Aqua, Sodium Ascorbyl Phosphate, PEG‑40 Castor Oil, Panthenol, Polysorbate 20, Glycerin, Benzyl Alcohol, Dehydroacetic Acid, Niacinamide, Hydroxyethylcellulose, Glutathione, Parfum, Alpha‑Arbutin, Ferulic Acid, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 15985.\n • Hyaluronic serum: Aqua, Sodium PCA, Propylene Glycol, Panthenol, Hydroxyethylcellulose, Parfum, Centella Asiatica Extract, Hyaluronic Acid, Benzyl Alcohol, Dehydroacetic Acid, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 42090.\n • Retinol serum: Aqua, PEG‑40 Castor Oil, Panthenol, Glycerin, Niacinamide, Propylene Glycol, Sodium Ascorbyl Phosphate, Phenoxyethanol, Hydroxyethylcellulose, Allantoin, Parfum, Retinol, Caprylic/Capric Triglyceride, Alpha‑Arbutin, Tocopheryl Acetate, Hyaluronic Acid, Glutathione, Acetyl Hexapeptide‑8, Ethylhexylglycerin, Ceramide NP, Benzyl Salicylate, Hexyl Cinnamal, Terpineol, CI 42090.",
+    "usage": "Morning routine: Cleanse the face with a face wash gel (not included in the set). Apply Vitamin C serum (a few drops, massage in). Apply Hyaluronic serum over the Vitamin C. Then apply a moisturizing cream. Always finish with SPF protection. Evening routine: Cleanse the face with a face wash gel. Apply Hyaluronic serum. Once absorbed, apply Retinol serum. If needed, add CICA cream for soothing and hydration. IMPORTANT: Retinol is used only in the evening. While using retinol, SPF must be used during the day. Do not combine retinol and acid toners in the same routine. If skin is sensitive, use retinol every other day and increase gradually. Vitamin C and retinol are not used together in the same routine. Hyaluronic serum can be used both before and after other serums as it is compatible with all ingredients."
   }
 ]
 </script>
-

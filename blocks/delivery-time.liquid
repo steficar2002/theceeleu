@@ -1,5 +1,5 @@
 {% doc %}
-  Delivery Time Block - Shows estimated delivery time with Serbian date formatting
+  Delivery Time Block - Shows estimated delivery time with English date formatting
   Calculates 2-3 working days from current day, considering 12pm cutoff
 {% enddoc %}
 
@@ -12,9 +12,9 @@
   {% assign is_after_12pm = true %}
 {% endif %}
 
-{% comment %} Serbian day names {% endcomment %}
-{% assign serbian_days = 'nedelja,ponedeljak,utorak,sreda,četvrtak,petak,subota' | split: ',' %}
-{% assign serbian_months = 'jan,feb,mar,apr,maj,jun,jul,avg,sep,okt,nov,dec' | split: ',' %}
+{% comment %} English day names {% endcomment %}
+{% assign english_days = 'Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday' | split: ',' %}
+{% assign english_months = 'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec' | split: ',' %}
 
 {% comment %} Calculate delivery date (2-3 working days) {% endcomment %}
 {% assign delivery_days = 2 %}
@@ -42,8 +42,8 @@
 {% assign delivery_day_of_week = delivery_date | date: '%w' | plus: 0 %}
 {% assign delivery_month = delivery_date | date: '%m' | plus: 0 | minus: 1 %}
 {% assign delivery_day = delivery_date | date: '%d' | plus: 0 %}
-{% assign delivery_month_name = serbian_months[delivery_month] %}
-{% assign delivery_day_name = serbian_days[delivery_day_of_week] %}
+{% assign delivery_month_name = english_months[delivery_month] %}
+{% assign delivery_day_name = english_days[delivery_day_of_week] %}
 
 {% comment %} Format current time {% endcomment %}
 {% assign current_hour = 'now' | date: '%H' %}

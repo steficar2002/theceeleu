@@ -138,7 +138,7 @@ All hardcoded Serbian strings in the chatbot logic:
 - **System prompt instructions:** AI persona description, rules (=== PRAVILA ===), product info sections, ingredient notes, usage notes, bundle/set recommendations, special offers
 - **Keyword arrays:** ~40+ Serbian keywords for skin concerns, product types, recommendation triggers (kolagen, retinol, suva koža, masna koža, etc.)
 
-- [ ] Translate `assets/chatbot.js`
+- [x] Translate `assets/chatbot.js`
 
 ---
 
@@ -154,7 +154,7 @@ All hardcoded Serbian strings in the chatbot logic:
 - Send button aria-label: "Pošalji"
 - JS welcome message: "Zdravo! 👋 Tu sam da ti pomognem..."
 
-- [ ] Translate `snippets/chatbot-modal.liquid`
+- [x] Translate `snippets/chatbot-modal.liquid`
 
 ---
 
@@ -166,7 +166,7 @@ All hardcoded Serbian strings in the chatbot logic:
 - All AI instruction rules in Serbian (use only product info, admit unknowns, correct spelling, friendly tone, seller behavior, bundle recommendations, etc.)
 - Email reference: help@ceel.rs (keep as-is, just translate surrounding text)
 
-- [ ] Translate `snippets/chatbot-product-info.liquid`
+- [x] Translate `snippets/chatbot-product-info.liquid`
 
 ---
 
@@ -176,7 +176,7 @@ All hardcoded Serbian strings in the chatbot logic:
 
 - Line 541: "Dodato u korpu. Pritisnite dugme za korpu da završite kupovinu"
 
-- [ ] Translate `snippets/header-actions.liquid`
+- [x] Translate `snippets/header-actions.liquid`
 
 ---
 
@@ -189,7 +189,7 @@ All hardcoded Serbian strings in the chatbot logic:
 - "Dodaj set u korpu" (line 398)
 - JS error: "Greška prilikom dodavanja" (line 516)
 
-- [ ] Translate `sections/product-bundle.liquid`
+- [x] Translate `sections/product-bundle.liquid`
 
 ---
 
@@ -201,7 +201,7 @@ All hardcoded Serbian strings in the chatbot logic:
 - Subheading: "Svi proizvodi koji su uključeni u ovaj set" (line 249)
 - Schema defaults: "Ovaj proizvod možete pronaći u...", "Ovaj set sadrži", "Sledeći proizvodi se nalaze u ovom setu"
 
-- [ ] Translate `sections/product-set-finder.liquid`
+- [x] Translate `sections/product-set-finder.liquid`
 
 ---
 
@@ -214,7 +214,7 @@ All hardcoded Serbian strings in the chatbot logic:
 - Schema default: "Bez veštačkih mirisa" (line 1417)
 - Schema default: "Ruzmarin, kofein i pantenol — jačaju koren..." (line 1532)
 
-- [ ] Translate `sections/hero-product.liquid`
+- [x] Translate `sections/hero-product.liquid`
 
 ---
 
@@ -228,7 +228,7 @@ All hardcoded Serbian strings in the chatbot logic:
 - Value description default
 - All preset values: "Čista Brend", "Mali ali Sažet Sadržaj", "Stručnjak za Negu Kože" + their descriptions
 
-- [ ] Translate `sections/brand-values-faq.liquid`
+- [x] Translate `sections/brand-values-faq.liquid`
 
 ---
 
@@ -242,7 +242,7 @@ All hardcoded Serbian strings in the chatbot logic:
 - Section name: "Pronađi Proizvod"
 - Schema defaults: heading, subheading, labels
 
-- [ ] Translate `sections/find-product.liquid`
+- [x] Translate `sections/find-product.liquid`
 
 ---
 
@@ -252,7 +252,7 @@ All hardcoded Serbian strings in the chatbot logic:
 
 - Schema content: "Konfigurišite ikone za support bar na mobilnim uređajima" (line 1184)
 
-- [ ] Translate `sections/header.liquid`
+- [x] Translate `sections/header.liquid`
 
 ---
 
@@ -263,7 +263,7 @@ All hardcoded Serbian strings in the chatbot logic:
 - Serbian day names array: nedelja, ponedeljak, utorak, sreda, četvrtak, petak, subota (line 16)
 - Serbian month abbreviations array: jan, feb, mar, apr, maj, jun, jul, avg, sep, okt, nov, dec (line 17)
 
-- [ ] Translate `blocks/delivery-time.liquid`
+- [x] Translate `blocks/delivery-time.liquid`
 
 ---
 
@@ -273,7 +273,7 @@ All hardcoded Serbian strings in the chatbot logic:
 
 - "Naruči preko WhatsApp-a" appears as default text in 4 places (lines 91, 104, 131, 186)
 
-- [ ] Translate `blocks/whatsapp-order-button.liquid`
+- [x] Translate `blocks/whatsapp-order-button.liquid`
 
 ---
 
@@ -283,7 +283,7 @@ All hardcoded Serbian strings in the chatbot logic:
 
 - Comment contains "PRAZNIČNI POPUST" (line 21) — translate to English for code consistency
 
-- [ ] Translate `snippets/price.liquid`
+- [x] Translate `snippets/price.liquid`
 
 ---
 
