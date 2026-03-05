@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "blocks": {
     "load_video": "Video laden: {{ description }}",
@@ -239,7 +248,8 @@
     "inventory_low_stock_show_count": {
       "one": "{{ count }} übrig",
       "other": "{{ count }} übrig"
-    }
+    },
+    "shipping_discount_error": "Popusti na dostavu se prikazuju prilikom plaćanja nakon adrese"
   },
   "gift_cards": {
     "issued": {
@@ -292,6 +302,13 @@
       "post": "Kommentar posten",
       "success_moderated": "Kommentar gepostet, Moderation ausstehend",
       "success": "Kommentar gepostet"
+    }
+  },
+  "shopify": {
+    "checkout": {
+      "address_management": {
+        "confirm_address_deletion": "Was bedeutet, dass Sie die Adresse {{address}} erhalten haben?"
+      }
     }
   }
 }
